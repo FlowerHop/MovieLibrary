@@ -1,7 +1,7 @@
 package com.flowerhop.movielibrary.network
 
-import com.flowerhop.movielibrary.network.entity.Movie
-import com.flowerhop.movielibrary.network.entity.NowPlayingPage
+import com.flowerhop.movielibrary.network.entity.MovieDetail
+import com.flowerhop.movielibrary.network.entity.MoviePage
 import okhttp3.Call
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
@@ -31,11 +31,15 @@ class APIClient() {
         movieAPI = retrofit.create(MovieApi::class.java)
     }
 
-    suspend fun getMovie(id: Int): Movie {
+    suspend fun getMovie(id: Int): MovieDetail {
         return movieAPI.getMovie(id, API_KEY).body()!!
     }
 
-    suspend fun getNowPlaying(pageIndex: Int = 1): NowPlayingPage {
+    suspend fun getNowPlaying(pageIndex: Int = 1): MoviePage {
         return movieAPI.getNowPlaying(API_KEY, pageIndex).body()!!
+    }
+
+    suspend fun getPopular(pageIndex: Int = 1): MoviePage {
+        return movieAPI.getPopular(API_KEY, pageIndex).body()!!
     }
 }
