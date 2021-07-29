@@ -43,4 +43,14 @@ class APIClientTest {
 
         Assert.assertEquals(expected, moviePage.page)
     }
+
+    @Test
+    fun `Get top rated movies at page 1, should get page = 1`() {
+        val expected = 1
+        val moviePage: MoviePage = runBlocking {
+            api.getTopRated(1)
+        }
+
+        Assert.assertEquals(expected, moviePage.page)
+    }
 }

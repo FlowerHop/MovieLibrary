@@ -1,5 +1,6 @@
 package com.flowerhop.movielibrary.network
 
+import android.util.Log
 import com.flowerhop.movielibrary.network.entity.MovieDetail
 import com.flowerhop.movielibrary.network.entity.MoviePage
 import okhttp3.Call
@@ -32,14 +33,58 @@ class APIClient() {
     }
 
     suspend fun getMovie(id: Int): MovieDetail {
-        return movieAPI.getMovie(id, API_KEY).body()!!
+        val response = movieAPI.getMovie(id, API_KEY)
+
+        try {
+            if (response.isSuccessful)
+                return response.body()!!
+            else
+                TODO("Throw exception")
+        } catch (e: Exception) {
+            Log.e(TAG, "getMovie: failed $e" )
+            throw e
+        }
     }
 
     suspend fun getNowPlaying(pageIndex: Int = 1): MoviePage {
-        return movieAPI.getNowPlaying(API_KEY, pageIndex).body()!!
+        val response = movieAPI.getNowPlaying(API_KEY, pageIndex)
+
+        try {
+            if (response.isSuccessful)
+                return response.body()!!
+            else
+                TODO("Throw exception")
+        } catch (e: Exception) {
+            Log.e(TAG, "getNowPlaying: failed $e")
+            throw e
+        }
     }
 
     suspend fun getPopular(pageIndex: Int = 1): MoviePage {
-        return movieAPI.getPopular(API_KEY, pageIndex).body()!!
+        val response = movieAPI.getPopular(API_KEY, pageIndex)
+
+        try {
+            if (response.isSuccessful)
+                return response.body()!!
+            else
+                TODO("Throw exception")
+        } catch (e: Exception) {
+            Log.e(TAG, "getPopular: failed $e")
+            throw e
+        }
+    }
+
+    suspend fun getTopRated(pageIndex: Int = 1): MoviePage {
+        val response = movieAPI.getTopRated(API_KEY, pageIndex)
+
+        try {
+            if (response.isSuccessful)
+                return response.body()!!
+            else
+                TODO("Throw exception")
+        } catch (e: Exception) {
+            Log.e(TAG, "getTopRated: failed $e")
+            throw e
+        }
     }
 }
