@@ -1,8 +1,10 @@
 package com.flowerhop.movielibrary
 
 import android.app.Dialog
-import android.content.Context
+import android.content.res.Configuration
+import android.os.Build
 import android.os.Bundle
+import android.os.LocaleList
 import android.view.LayoutInflater
 import androidx.fragment.app.FragmentManager
 import com.bumptech.glide.Glide
@@ -22,9 +24,9 @@ class MovieBottomSheetDialog(private val movie: Movie): BottomSheetDialogFragmen
             }
         }
 
-        private fun toReleaseYear(dateStr: String): Int {
+        private fun toReleaseYear(dateStr: String, locale: Locale): Int {
             val calendar = Calendar.getInstance()
-            calendar.setTime(SimpleDateFormat("yyyy").parse(dateStr))
+            calendar.time = SimpleDateFormat("yyyy", locale).parse(dateStr)
             return calendar.get(Calendar.YEAR)
         }
     }
@@ -41,9 +43,14 @@ class MovieBottomSheetDialog(private val movie: Movie): BottomSheetDialogFragmen
 
             Glide.with(binding.root).load("${APIClient.IMAGE_BASE_URL}${movie.posterPath}").into(binding.thumbnail)
             binding.title.text = movie.title
-            binding.releaseDate.text = toReleaseYear(movie.releaseDate).toString()
+            binding.releaseDate.text = toReleaseYear(movie.releaseDate, getCurrentLocale(resources.configuration)).toString()
             binding.overview.text = movie.overview
             binding.cancel.setOnClickListener { dismiss() }
         }
+    }
+
+    private fun getCurrentLocale(configuration: Configuration): Locale {
+        return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N)
+            configuration.locales[0] else configuration.locale
     }
 }
