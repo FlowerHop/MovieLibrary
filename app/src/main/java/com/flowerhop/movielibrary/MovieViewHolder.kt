@@ -2,7 +2,7 @@ package com.flowerhop.movielibrary
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import android.widget.Toast
+import androidx.fragment.app.FragmentActivity
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.flowerhop.movielibrary.network.APIClient
@@ -17,7 +17,7 @@ class MovieViewHolder(parent: ViewGroup): RecyclerView.ViewHolder(
         itemView.overview.text = movie.overview
         Glide.with(this.itemView).load("${APIClient.IMAGE_BASE_URL}${movie.posterPath}").into(itemView.thumbnail)
         itemView.setOnClickListener {
-            Toast.makeText(itemView.context, movie.title, Toast.LENGTH_LONG).show()
+            MovieBottomSheetDialog.show((itemView.context as FragmentActivity).supportFragmentManager, movie)
         }
     }
 }
