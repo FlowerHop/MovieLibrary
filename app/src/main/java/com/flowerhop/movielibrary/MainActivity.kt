@@ -2,6 +2,7 @@ package com.flowerhop.movielibrary
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -31,8 +32,11 @@ class MainActivity : AppCompatActivity() {
 
         val adapter = MoviesAdapter()
         val nowPlayingViewModel = ViewModelProvider(this, movieViewModelFactory).get(MoviesViewModel::class.java)
+        val refreshLayout = binding.refreshLayout
+        refreshLayout.setOnRefreshListener { nowPlayingViewModel.refresh() }
         nowPlayingViewModel.nowPlayings.observe(this, {
             adapter.submit(it)
+            refreshLayout.isRefreshing = false
         })
 
         nowPlayingList.layoutManager = LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false)

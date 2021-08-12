@@ -11,4 +11,12 @@ class MoviesViewModel(val repo: MovieRepository): ViewModel() {
             postValue(repo.getNowPlaying(1).movies)
         }
     }
+
+    fun refresh() {
+        nowPlayings.postValue(listOf())
+
+        viewModelScope.launch(Dispatchers.IO) {
+            nowPlayings.postValue(repo.getNowPlaying(1).movies)
+        }
+    }
 }
