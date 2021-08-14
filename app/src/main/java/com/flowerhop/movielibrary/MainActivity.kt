@@ -2,22 +2,12 @@ package com.flowerhop.movielibrary
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
-import android.widget.Toast
-import androidx.lifecycle.Observer
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
-import com.bumptech.glide.Glide
 import com.flowerhop.movielibrary.databinding.ActivityMainBinding
-import com.flowerhop.movielibrary.network.APIClient
-import com.flowerhop.movielibrary.network.entity.Movie
-import com.flowerhop.movielibrary.network.entity.MoviePage
 import kotlinx.android.synthetic.main.activity_main.*
-import kotlinx.android.synthetic.main.item_movie.view.*
 
 class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
@@ -30,16 +20,68 @@ class MainActivity : AppCompatActivity() {
             MoviesViewModel(MovieRepository())
         }
 
-        val adapter = MoviesAdapter()
-        val nowPlayingViewModel = ViewModelProvider(this, movieViewModelFactory).get(MoviesViewModel::class.java)
+        val nowPlayingAdapter = MoviesAdapter()
+        val popularAdapter = MoviesAdapter()
+        val topRatedAdapter = MoviesAdapter()
+        val movieViewModel = ViewModelProvider(this, movieViewModelFactory).get(MoviesViewModel::class.java)
         val refreshLayout = binding.refreshLayout
-        refreshLayout.setOnRefreshListener { nowPlayingViewModel.refresh() }
-        nowPlayingViewModel.nowPlayings.observe(this, {
-            adapter.submit(it)
-            refreshLayout.isRefreshing = false
+
+        val isNowPlayingRefreshingLiveData: MutableLiveData<Boolean> = MutableLiveData(false)
+        val isPopularRefreshingLiveData: MutableLiveData<Boolean> = MutableLiveData(false)
+        val isTopRatedRefreshingLiveData: MutableLiveData<Boolean> = MutableLiveData(false)
+
+        isNowPlayingRefreshingLiveData.apply {
+            observe(this@MainActivity, {
+                nowPlayingTitle.visibility = if (it) View.GONE else View.VISIBLE
+                refreshLayout.isRefreshing = it || isPopularRefreshingLiveData.value!! || isTopRatedRefreshingLiveData.value!!
+            })
+        }
+        isPopularRefreshingLiveData.apply {
+            observe(this@MainActivity, {
+                popularTitle.visibility = if (it) View.GONE else View.VISIBLE
+                refreshLayout.isRefreshing = it || isNowPlayingRefreshingLiveData.value!! || isTopRatedRefreshingLiveData.value!!
+            })
+        }
+        isTopRatedRefreshingLiveData.apply {
+            observe(this@MainActivity, {
+                topRatedTitle.visibility = if (it) View.GONE else View.VISIBLE
+                refreshLayout.isRefreshing = it || isNowPlayingRefreshingLiveData.value!! || isPopularRefreshingLiveData.value!!
+            })
+        }
+
+        refreshLayout.setOnRefreshListener {
+            nowPlayingTitle.visibility = View.GONE
+            popularTitle.visibility = View.GONE
+            topRatedTitle.visibility = View.GONE
+
+            isNowPlayingRefreshingLiveData.postValue(true)
+            isPopularRefreshingLiveData.postValue(true)
+            isTopRatedRefreshingLiveData.postValue(true)
+            movieViewModel.refresh()
+        }
+        movieViewModel.nowPlayings.observe(this, {
+            nowPlayingAdapter.submit(it)
+            nowPlayingTitle.visibility = View.VISIBLE
+            isNowPlayingRefreshingLiveData.postValue(false)
+        })
+        movieViewModel.populars.observe(this, {
+            popularAdapter.submit(it)
+            popularTitle.visibility = View.VISIBLE
+            isPopularRefreshingLiveData.postValue(false)
+        })
+        movieViewModel.topRatedList.observe(this, {
+            topRatedAdapter.submit(it)
+            topRatedTitle.visibility = View.VISIBLE
+            isTopRatedRefreshingLiveData.postValue(false)
         })
 
         nowPlayingList.layoutManager = LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false)
-        nowPlayingList.adapter = adapter
+        nowPlayingList.adapter = nowPlayingAdapter
+
+        popularList.layoutManager = LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false)
+        popularList.adapter = popularAdapter
+
+        topRatedList.layoutManager = LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false)
+        topRatedList.adapter = topRatedAdapter
     }
 }

@@ -4,7 +4,6 @@ import android.app.Dialog
 import android.content.res.Configuration
 import android.os.Build
 import android.os.Bundle
-import android.os.LocaleList
 import android.view.LayoutInflater
 import androidx.fragment.app.FragmentManager
 import com.bumptech.glide.Glide
