@@ -58,7 +58,7 @@ class MovieDetailFragment : Fragment(R.layout.fragment_movie_detail) {
         super.onDestroyView()
     }
 
-    fun enableBackOnActionBar(enable: Boolean) {
+    private fun enableBackOnActionBar(enable: Boolean) {
         (requireActivity() as AppCompatActivity).supportActionBar?.apply {
             setDisplayHomeAsUpEnabled(enable)
             setDisplayShowHomeEnabled(enable)
