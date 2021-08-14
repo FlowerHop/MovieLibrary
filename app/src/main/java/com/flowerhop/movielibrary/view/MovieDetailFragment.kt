@@ -40,8 +40,6 @@ class MovieDetailFragment : Fragment(R.layout.fragment_movie_detail) {
             movieID = it.getInt(KEY_ID)
         }
 
-        btnBack.setOnClickListener { requireActivity().supportFragmentManager.popBackStackImmediate() }
-
         val detailMovieViewModelFactory = AnyViewModelFactory {
             MovieDetailViewModel(movieID, MovieRepository())
         }
