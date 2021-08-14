@@ -1,6 +1,7 @@
-package com.flowerhop.movielibrary
+package com.flowerhop.movielibrary.viewmodel
 
 import androidx.lifecycle.*
+import com.flowerhop.movielibrary.repository.MovieRepository
 import com.flowerhop.movielibrary.network.entity.Movie
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch

@@ -1,4 +1,4 @@
-package com.flowerhop.movielibrary
+package com.flowerhop.movielibrary.view
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -8,6 +8,9 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.flowerhop.movielibrary.AnyViewModelFactory
+import com.flowerhop.movielibrary.repository.MovieRepository
+import com.flowerhop.movielibrary.viewmodel.MoviesViewModel
 import com.flowerhop.movielibrary.databinding.FragmentHomeBinding
 import kotlinx.android.synthetic.main.fragment_home.*
 

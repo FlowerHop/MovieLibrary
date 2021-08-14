@@ -1,7 +1,8 @@
-package com.flowerhop.movielibrary
+package com.flowerhop.movielibrary.view
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import com.flowerhop.movielibrary.R
 import com.flowerhop.movielibrary.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity() {

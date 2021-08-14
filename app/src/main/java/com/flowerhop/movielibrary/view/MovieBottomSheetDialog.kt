@@ -1,4 +1,4 @@
-package com.flowerhop.movielibrary
+package com.flowerhop.movielibrary.view
 
 import android.app.Dialog
 import android.content.res.Configuration
@@ -7,6 +7,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import androidx.fragment.app.FragmentManager
 import com.bumptech.glide.Glide
+import com.flowerhop.movielibrary.R
 import com.flowerhop.movielibrary.databinding.MovieBottomSheetBinding
 import com.flowerhop.movielibrary.network.APIClient
 import com.flowerhop.movielibrary.network.entity.Movie

@@ -1,4 +1,4 @@
-package com.flowerhop.movielibrary
+package com.flowerhop.movielibrary.repository
 
 import android.util.Log
 import com.flowerhop.movielibrary.network.APIClient

@@ -1,4 +1,4 @@
-package com.flowerhop.movielibrary
+package com.flowerhop.movielibrary.view
 
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView

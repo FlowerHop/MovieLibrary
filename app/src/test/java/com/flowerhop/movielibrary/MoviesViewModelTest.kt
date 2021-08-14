@@ -4,6 +4,8 @@ import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.lifecycle.Observer
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import com.flowerhop.movielibrary.network.entity.Movie
+import com.flowerhop.movielibrary.repository.MovieRepository
+import com.flowerhop.movielibrary.viewmodel.MoviesViewModel
 import org.junit.Assert
 import org.junit.Rule
 import org.junit.Test

@@ -1,10 +1,11 @@
-package com.flowerhop.movielibrary
+package com.flowerhop.movielibrary.view
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.fragment.app.FragmentActivity
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import com.flowerhop.movielibrary.R
 import com.flowerhop.movielibrary.network.APIClient
 import com.flowerhop.movielibrary.network.entity.Movie
 import kotlinx.android.synthetic.main.item_movie.view.*
