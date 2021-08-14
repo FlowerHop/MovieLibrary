@@ -11,10 +11,14 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
-
         supportFragmentManager.beginTransaction().apply {
             add(R.id.fragmentContainer, HomeFragment::class.java, null, HomeFragment.TAG)
             commit()
         }
+    }
+
+    override fun onSupportNavigateUp(): Boolean {
+        onBackPressed()
+        return true
     }
 }

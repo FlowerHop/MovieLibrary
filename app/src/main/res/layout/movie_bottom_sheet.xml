@@ -62,4 +62,16 @@
         android:textColor="@color/white"
         tools:text="This is a movie."/>
 
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/btnDetail"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/thumbnail"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:textColor="@color/black"
+        android:textSize="20dp"
+        android:textStyle="bold"
+        android:text="Detail"/>
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -9,23 +9,15 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.flowerhop.movielibrary.AnyViewModelFactory
+import com.flowerhop.movielibrary.R
 import com.flowerhop.movielibrary.repository.MovieRepository
 import com.flowerhop.movielibrary.viewmodel.MoviesViewModel
 import com.flowerhop.movielibrary.databinding.FragmentHomeBinding
 import kotlinx.android.synthetic.main.fragment_home.*
 
-class HomeFragment: Fragment() {
+class HomeFragment: Fragment(R.layout.fragment_home) {
     companion object {
         const val TAG = "HomeFragment"
-    }
-    private lateinit var binding: FragmentHomeBinding
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View {
-        binding = FragmentHomeBinding.inflate(inflater, container, false)
-        return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -39,7 +31,6 @@ class HomeFragment: Fragment() {
         val popularAdapter = MoviesAdapter()
         val topRatedAdapter = MoviesAdapter()
         val movieViewModel = ViewModelProvider(this, movieViewModelFactory).get(MoviesViewModel::class.java)
-        val refreshLayout = binding.refreshLayout
 
         val isNowPlayingRefreshingLiveData: MutableLiveData<Boolean> = MutableLiveData(false)
         val isPopularRefreshingLiveData: MutableLiveData<Boolean> = MutableLiveData(false)

@@ -5,6 +5,7 @@ import android.content.res.Configuration
 import android.os.Build
 import android.os.Bundle
 import android.view.LayoutInflater
+import androidx.core.os.bundleOf
 import androidx.fragment.app.FragmentManager
 import com.bumptech.glide.Glide
 import com.flowerhop.movielibrary.R
@@ -24,10 +25,15 @@ class MovieBottomSheetDialog(private val movie: Movie): BottomSheetDialogFragmen
             }
         }
 
-        private fun toReleaseYear(dateStr: String, locale: Locale): Int {
+        fun toReleaseYear(dateStr: String, locale: Locale): Int {
             val calendar = Calendar.getInstance()
             calendar.time = SimpleDateFormat("yyyy", locale).parse(dateStr)
             return calendar.get(Calendar.YEAR)
+        }
+
+        fun getCurrentLocale(configuration: Configuration): Locale {
+            return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N)
+                configuration.locales[0] else configuration.locale
         }
     }
 
@@ -46,11 +52,20 @@ class MovieBottomSheetDialog(private val movie: Movie): BottomSheetDialogFragmen
             binding.releaseDate.text = toReleaseYear(movie.releaseDate, getCurrentLocale(resources.configuration)).toString()
             binding.overview.text = movie.overview
             binding.cancel.setOnClickListener { dismiss() }
+            binding.btnDetail.setOnClickListener {
+                gotoMovieDetail(movie.id)
+            }
         }
     }
 
-    private fun getCurrentLocale(configuration: Configuration): Locale {
-        return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N)
-            configuration.locales[0] else configuration.locale
+    private fun gotoMovieDetail(id: Int) {
+        requireActivity().supportFragmentManager.beginTransaction().apply {
+            replace(R.id.fragmentContainer, MovieDetailFragment::class.java,
+                bundleOf(MovieDetailFragment.KEY_ID to id),
+                MovieDetailFragment.TAG)
+            addToBackStack(null)
+            commit()
+        }
+        dismissAllowingStateLoss()
     }
 }
