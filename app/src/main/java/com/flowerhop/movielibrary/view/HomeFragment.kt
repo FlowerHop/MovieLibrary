@@ -1,10 +1,12 @@
 package com.flowerhop.movielibrary.view
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentActivity
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -89,5 +91,13 @@ class HomeFragment: Fragment(R.layout.fragment_home) {
 
         topRatedList.layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
         topRatedList.adapter = topRatedAdapter
+
+        nowPlayingMore.setOnClickListener {
+            requireActivity().supportFragmentManager.beginTransaction().apply {
+                add(R.id.fragmentContainer, MoviePageFragment::class.java, null, TAG)
+                addToBackStack(null)
+                commit()
+            }
+        }
     }
 }

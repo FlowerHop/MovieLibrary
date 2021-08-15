@@ -25,6 +25,17 @@
                 android:textStyle="bold"
                 android:text="Now Playing ..."/>
 
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/nowPlayingMore"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                app:layout_constraintEnd_toEndOf="@id/rightGuideline"
+                app:layout_constraintTop_toTopOf="parent"
+                android:textSize="20dp"
+                android:textColor="@color/white"
+                android:textStyle="bold"
+                android:text="More"/>
+
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/nowPlayingList"
                 android:layout_width="0dp"

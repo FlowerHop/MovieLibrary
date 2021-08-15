@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.recyclerview.widget.RecyclerView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/movieList"
+    android:name="com.flowerhop.movielibrary.view.MoviePageFragment"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingHorizontal="16dp"
+    android:background="@color/black"
+    app:layoutManager="LinearLayoutManager"
+    tools:context=".view.MoviePageFragment"
+    tools:listitem="@layout/movie_item_in_page" />
