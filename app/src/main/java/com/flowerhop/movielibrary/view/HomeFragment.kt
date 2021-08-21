@@ -1,12 +1,8 @@
 package com.flowerhop.movielibrary.view
 
 import android.os.Bundle
-import android.util.Log
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.FragmentActivity
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -14,13 +10,17 @@ import com.flowerhop.movielibrary.AnyViewModelFactory
 import com.flowerhop.movielibrary.R
 import com.flowerhop.movielibrary.repository.MovieRepository
 import com.flowerhop.movielibrary.viewmodel.MoviesViewModel
-import com.flowerhop.movielibrary.databinding.FragmentHomeBinding
 import kotlinx.android.synthetic.main.fragment_home.*
 
 class HomeFragment: Fragment(R.layout.fragment_home) {
     companion object {
         const val TAG = "HomeFragment"
     }
+
+    private lateinit var moviesViewModel: MoviesViewModel
+    private val isNowPlayingRefreshingLiveData: MutableLiveData<Boolean> = MutableLiveData(false)
+    private val isPopularRefreshingLiveData: MutableLiveData<Boolean> = MutableLiveData(false)
+    private val isTopRatedRefreshingLiveData: MutableLiveData<Boolean> = MutableLiveData(false)
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -29,33 +29,7 @@ class HomeFragment: Fragment(R.layout.fragment_home) {
             MoviesViewModel(MovieRepository())
         }
 
-        val nowPlayingAdapter = MoviesAdapter()
-        val popularAdapter = MoviesAdapter()
-        val topRatedAdapter = MoviesAdapter()
-        val movieViewModel = ViewModelProvider(this, movieViewModelFactory).get(MoviesViewModel::class.java)
-
-        val isNowPlayingRefreshingLiveData: MutableLiveData<Boolean> = MutableLiveData(false)
-        val isPopularRefreshingLiveData: MutableLiveData<Boolean> = MutableLiveData(false)
-        val isTopRatedRefreshingLiveData: MutableLiveData<Boolean> = MutableLiveData(false)
-
-        isNowPlayingRefreshingLiveData.apply {
-            observe(viewLifecycleOwner, {
-                nowPlayingTitle.visibility = if (it) View.GONE else View.VISIBLE
-                refreshLayout.isRefreshing = it || isPopularRefreshingLiveData.value!! || isTopRatedRefreshingLiveData.value!!
-            })
-        }
-        isPopularRefreshingLiveData.apply {
-            observe(viewLifecycleOwner, {
-                popularTitle.visibility = if (it) View.GONE else View.VISIBLE
-                refreshLayout.isRefreshing = it || isNowPlayingRefreshingLiveData.value!! || isTopRatedRefreshingLiveData.value!!
-            })
-        }
-        isTopRatedRefreshingLiveData.apply {
-            observe(viewLifecycleOwner, {
-                topRatedTitle.visibility = if (it) View.GONE else View.VISIBLE
-                refreshLayout.isRefreshing = it || isNowPlayingRefreshingLiveData.value!! || isPopularRefreshingLiveData.value!!
-            })
-        }
+        moviesViewModel = ViewModelProvider(this, movieViewModelFactory).get(MoviesViewModel::class.java)
 
         refreshLayout.setOnRefreshListener {
             nowPlayingTitle.visibility = View.GONE
@@ -65,32 +39,12 @@ class HomeFragment: Fragment(R.layout.fragment_home) {
             isNowPlayingRefreshingLiveData.postValue(true)
             isPopularRefreshingLiveData.postValue(true)
             isTopRatedRefreshingLiveData.postValue(true)
-            movieViewModel.refresh()
+            moviesViewModel.refresh()
         }
-        movieViewModel.nowPlayings.observe(viewLifecycleOwner, {
-            nowPlayingAdapter.submit(it)
-            nowPlayingTitle.visibility = View.VISIBLE
-            isNowPlayingRefreshingLiveData.postValue(false)
-        })
-        movieViewModel.populars.observe(viewLifecycleOwner, {
-            popularAdapter.submit(it)
-            popularTitle.visibility = View.VISIBLE
-            isPopularRefreshingLiveData.postValue(false)
-        })
-        movieViewModel.topRatedList.observe(viewLifecycleOwner, {
-            topRatedAdapter.submit(it)
-            topRatedTitle.visibility = View.VISIBLE
-            isTopRatedRefreshingLiveData.postValue(false)
-        })
 
-        nowPlayingList.layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
-        nowPlayingList.adapter = nowPlayingAdapter
-
-        popularList.layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
-        popularList.adapter = popularAdapter
-
-        topRatedList.layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
-        topRatedList.adapter = topRatedAdapter
+        initNowPlaying()
+        initPopular()
+        initTopRated()
 
         nowPlayingMore.setOnClickListener {
             requireActivity().supportFragmentManager.beginTransaction().apply {
@@ -99,5 +53,64 @@ class HomeFragment: Fragment(R.layout.fragment_home) {
                 commit()
             }
         }
+    }
+
+    private fun initNowPlaying() {
+        val nowPlayingAdapter = MoviesAdapter()
+        isNowPlayingRefreshingLiveData.apply {
+            observe(viewLifecycleOwner, {
+                nowPlayingTitle.visibility = if (it) View.GONE else View.VISIBLE
+                refreshLayout.isRefreshing = it || isPopularRefreshingLiveData.value!! || isTopRatedRefreshingLiveData.value!!
+            })
+        }
+
+        moviesViewModel.nowPlayings.observe(viewLifecycleOwner, {
+            nowPlayingAdapter.submit(it)
+            nowPlayingTitle.visibility = View.VISIBLE
+            isNowPlayingRefreshingLiveData.postValue(false)
+        })
+
+        nowPlayingList.layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
+        nowPlayingList.adapter = nowPlayingAdapter
+    }
+
+    private fun initPopular() {
+        val popularAdapter = MoviesAdapter()
+
+        isPopularRefreshingLiveData.apply {
+            observe(viewLifecycleOwner, {
+                popularTitle.visibility = if (it) View.GONE else View.VISIBLE
+                refreshLayout.isRefreshing = it || isNowPlayingRefreshingLiveData.value!! || isTopRatedRefreshingLiveData.value!!
+            })
+        }
+
+        moviesViewModel.populars.observe(viewLifecycleOwner, {
+            popularAdapter.submit(it)
+            popularTitle.visibility = View.VISIBLE
+            isPopularRefreshingLiveData.postValue(false)
+        })
+
+        popularList.layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
+        popularList.adapter = popularAdapter
+    }
+
+    private fun initTopRated() {
+        val topRatedAdapter = MoviesAdapter()
+
+        isTopRatedRefreshingLiveData.apply {
+            observe(viewLifecycleOwner, {
+                topRatedTitle.visibility = if (it) View.GONE else View.VISIBLE
+                refreshLayout.isRefreshing = it || isNowPlayingRefreshingLiveData.value!! || isPopularRefreshingLiveData.value!!
+            })
+        }
+
+        moviesViewModel.topRatedList.observe(viewLifecycleOwner, {
+            topRatedAdapter.submit(it)
+            topRatedTitle.visibility = View.VISIBLE
+            isTopRatedRefreshingLiveData.postValue(false)
+        })
+
+        topRatedList.layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
+        topRatedList.adapter = topRatedAdapter
     }
 }
