@@ -3,6 +3,7 @@ package com.flowerhop.movielibrary.network
 import android.util.Log
 import com.flowerhop.movielibrary.network.entity.MovieDetail
 import com.flowerhop.movielibrary.network.entity.MoviePage
+import com.flowerhop.movielibrary.view.MovieCategory
 import okhttp3.Call
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
@@ -85,6 +86,20 @@ class APIClient() {
                 TODO("Throw exception")
         } catch (e: Exception) {
             Log.e(TAG, "getTopRated: failed $e")
+            throw e
+        }
+    }
+
+    suspend fun getList(category: MovieCategory, pageIndex: Int = 1): MoviePage {
+        val response = movieAPI.getList(category.path, API_KEY, pageIndex)
+
+        try {
+            if (response.isSuccessful)
+                return response.body()!!
+            else
+                TODO("Throw exception")
+        } catch (e: Exception) {
+            Log.e(TAG, "getList of $category: failed $e")
             throw e
         }
     }

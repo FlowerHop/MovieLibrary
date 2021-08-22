@@ -42,6 +42,7 @@ class HomeFragment: Fragment(R.layout.fragment_home) {
             moviesViewModel.refresh()
         }
 
+        moviesViewModel.refresh()
         initNowPlaying()
         initPopular()
         initTopRated()
@@ -64,7 +65,7 @@ class HomeFragment: Fragment(R.layout.fragment_home) {
             })
         }
 
-        moviesViewModel.nowPlayings.observe(viewLifecycleOwner, {
+        moviesViewModel.getList(MovieCategory.NowPlaying).observe(viewLifecycleOwner, {
             nowPlayingAdapter.submit(it)
             nowPlayingTitle.visibility = View.VISIBLE
             isNowPlayingRefreshingLiveData.postValue(false)
@@ -84,7 +85,7 @@ class HomeFragment: Fragment(R.layout.fragment_home) {
             })
         }
 
-        moviesViewModel.populars.observe(viewLifecycleOwner, {
+        moviesViewModel.getList(MovieCategory.Popular).observe(viewLifecycleOwner, {
             popularAdapter.submit(it)
             popularTitle.visibility = View.VISIBLE
             isPopularRefreshingLiveData.postValue(false)
@@ -104,7 +105,7 @@ class HomeFragment: Fragment(R.layout.fragment_home) {
             })
         }
 
-        moviesViewModel.topRatedList.observe(viewLifecycleOwner, {
+        moviesViewModel.getList(MovieCategory.TopRated).observe(viewLifecycleOwner, {
             topRatedAdapter.submit(it)
             topRatedTitle.visibility = View.VISIBLE
             isTopRatedRefreshingLiveData.postValue(false)

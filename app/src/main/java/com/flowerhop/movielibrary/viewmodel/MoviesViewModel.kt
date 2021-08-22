@@ -3,37 +3,40 @@ package com.flowerhop.movielibrary.viewmodel
 import androidx.lifecycle.*
 import com.flowerhop.movielibrary.repository.MovieRepository
 import com.flowerhop.movielibrary.network.entity.Movie
+import com.flowerhop.movielibrary.view.MovieCategory
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 class MoviesViewModel(val repo: MovieRepository): ViewModel() {
-    var nowPlayings = MutableLiveData<List<Movie>>().apply {
-        viewModelScope.launch(Dispatchers.IO) {
-            postValue(repo.getNowPlaying(1).movies)
-        }
-    }
-
-    var populars = MutableLiveData<List<Movie>>().apply {
-        viewModelScope.launch(Dispatchers.IO) {
-            postValue(repo.getPopular(1).movies)
-        }
-    }
-
-    var topRatedList = MutableLiveData<List<Movie>>().apply {
-        viewModelScope.launch(Dispatchers.IO) {
-            postValue(repo.getTopRated(1).movies)
-        }
-    }
+    private val listMap: MutableMap<MovieCategory, MutableLiveData<List<Movie>>> = mutableMapOf(
+        MovieCategory.NowPlaying to MutableLiveData(listOf<Movie>()),
+        MovieCategory.TopRated to MutableLiveData(listOf<Movie>()),
+        MovieCategory.Popular to MutableLiveData(listOf<Movie>()),
+    )
 
     fun refresh() {
-        nowPlayings.postValue(listOf())
-        populars.postValue(listOf())
-        topRatedList.postValue(listOf())
+        listMap.forEach { (key, liveData) -> liveData.postValue(listOf())}
 
         viewModelScope.launch(Dispatchers.IO) {
-            nowPlayings.postValue(repo.getNowPlaying(1).movies)
-            populars.postValue(repo.getPopular(1).movies)
-            topRatedList.postValue(repo.getTopRated(1).movies)
+            listMap.forEach{(key, liveData) ->
+                viewModelScope.launch(Dispatchers.IO) {
+                    val list = repo.getList(key, 1).movies
+
+                    withContext(Dispatchers.Main) {
+                        liveData.postValue(list)
+                    }
+                }
+            }
         }
+    }
+
+    fun getList(category: MovieCategory): MutableLiveData<List<Movie>> {
+        val list: MutableLiveData<List<Movie>> = listMap[category] ?: MutableLiveData(listOf())
+        if (listMap[category] == null) {
+            listMap[category] = list
+        }
+
+        return list
     }
 }
