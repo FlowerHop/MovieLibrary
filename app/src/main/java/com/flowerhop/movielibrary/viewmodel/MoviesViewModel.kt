@@ -2,41 +2,41 @@ package com.flowerhop.movielibrary.viewmodel
 
 import androidx.lifecycle.*
 import com.flowerhop.movielibrary.repository.MovieRepository
-import com.flowerhop.movielibrary.network.entity.Movie
 import com.flowerhop.movielibrary.view.MovieCategory
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 
-class MoviesViewModel(val repo: MovieRepository): ViewModel() {
-    private val listMap: MutableMap<MovieCategory, MutableLiveData<List<Movie>>> = mutableMapOf(
-        MovieCategory.NowPlaying to MutableLiveData(listOf<Movie>()),
-        MovieCategory.TopRated to MutableLiveData(listOf<Movie>()),
-        MovieCategory.Popular to MutableLiveData(listOf<Movie>()),
-    )
+class MoviesViewModel(private val repo: MovieRepository): ViewModel() {
+    private val listMap: MutableMap<MovieCategory, MovieList> = mutableMapOf()
+    val refreshing = MediatorLiveData<Boolean>()
+
+    init {
+        val observer = Observer<Boolean> {
+            listMap.toList().map {
+                return@map it.second.refreshing.value
+            }.reduce { acc, b -> acc!! && b!! }
+        }
+        MovieCategory.values().forEach {
+            val movieList = MovieList()
+            listMap[it] = movieList
+            refreshing.addSource(movieList.refreshing, observer)
+        }
+    }
 
     fun refresh() {
-        listMap.forEach { (key, liveData) -> liveData.postValue(listOf())}
-
-        viewModelScope.launch(Dispatchers.IO) {
-            listMap.forEach{(key, liveData) ->
-                viewModelScope.launch(Dispatchers.IO) {
-                    val list = repo.getList(key, 1).movies
-
-                    withContext(Dispatchers.Main) {
-                        liveData.postValue(list)
-                    }
-                }
+        refreshing.postValue(false)
+        listMap.forEach { (key, movieList) ->
+            movieList.refreshing.postValue(true)
+            movieList.movies.postValue(listOf())
+            viewModelScope.launch(Dispatchers.IO) {
+                val moviePage = repo.getList(key, 1)
+                movieList.movies.postValue(moviePage.movies)
+                movieList.refreshing.postValue(false)
             }
         }
     }
 
-    fun getList(category: MovieCategory): MutableLiveData<List<Movie>> {
-        val list: MutableLiveData<List<Movie>> = listMap[category] ?: MutableLiveData(listOf())
-        if (listMap[category] == null) {
-            listMap[category] = list
-        }
-
-        return list
+    fun getList(category: MovieCategory): MovieList {
+        return listMap[category]!!
     }
 }

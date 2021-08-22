@@ -48,47 +48,6 @@ class APIClient() {
         }
     }
 
-    suspend fun getNowPlaying(pageIndex: Int = 1): MoviePage {
-        val response = movieAPI.getNowPlaying(API_KEY, pageIndex)
-
-        try {
-            if (response.isSuccessful)
-                return response.body()!!
-            else
-                TODO("Throw exception")
-        } catch (e: Exception) {
-            Log.e(TAG, "getNowPlaying: failed $e")
-            throw e
-        }
-    }
-
-    suspend fun getPopular(pageIndex: Int = 1): MoviePage {
-        val response = movieAPI.getPopular(API_KEY, pageIndex)
-
-        try {
-            if (response.isSuccessful)
-                return response.body()!!
-            else
-                TODO("Throw exception")
-        } catch (e: Exception) {
-            Log.e(TAG, "getPopular: failed $e")
-            throw e
-        }
-    }
-
-    suspend fun getTopRated(pageIndex: Int = 1): MoviePage {
-        val response = movieAPI.getTopRated(API_KEY, pageIndex)
-
-        try {
-            if (response.isSuccessful)
-                return response.body()!!
-            else
-                TODO("Throw exception")
-        } catch (e: Exception) {
-            Log.e(TAG, "getTopRated: failed $e")
-            throw e
-        }
-    }
 
     suspend fun getList(category: MovieCategory, pageIndex: Int = 1): MoviePage {
         val response = movieAPI.getList(category.path, API_KEY, pageIndex)
