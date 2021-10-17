@@ -6,4 +6,19 @@
     <style name="bottomSheetStyleWrapper" parent="Widget.Design.BottomSheet.Modal">
         <item name="android:background">@android:color/transparent</item>
     </style>
+
+    <style name="ShapeAppearanceOverlay.App.CornerSize4Percent" parent="">
+        <item name="cornerSize">4%</item>
+    </style>
+
+    <style name="roundedCorner">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSize">4dp</item>
+    </style>
+
+    <style name="topRoundedCorner">
+        <item name="cornerFamilyTopLeft">rounded</item>
+        <item name="cornerFamilyTopRight">rounded</item>
+        <item name="cornerSize">10dp</item>
+    </style>
 </resources>

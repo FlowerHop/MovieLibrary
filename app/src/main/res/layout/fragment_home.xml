@@ -13,28 +13,24 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:paddingTop="20dp">
-            <androidx.appcompat.widget.AppCompatTextView
+            <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/nowPlayingTitle"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 app:layout_constraintStart_toStartOf="@id/leftGuideline"
                 app:layout_constraintEnd_toEndOf="@id/rightGuideline"
                 app:layout_constraintTop_toTopOf="parent"
-                android:textSize="20dp"
-                android:textColor="@color/white"
-                android:textStyle="bold"
-                android:text="Now Playing ..."/>
+                android:textAppearance="?attr/textAppearanceSubtitle1"
+                android:text="Now Playing"/>
 
-            <androidx.appcompat.widget.AppCompatTextView
+            <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/nowPlayingMore"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 app:layout_constraintEnd_toEndOf="@id/rightGuideline"
                 app:layout_constraintTop_toTopOf="parent"
-                android:textSize="20dp"
-                android:textColor="@color/white"
-                android:textStyle="bold"
-                android:text="More"/>
+                android:textAppearance="?attr/textAppearanceButton"
+                android:text="View All"/>
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/nowPlayingList"
@@ -45,7 +41,7 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/nowPlayingTitle" />
 
-            <androidx.appcompat.widget.AppCompatTextView
+            <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/popularTitle"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
@@ -53,9 +49,7 @@
                 app:layout_constraintStart_toStartOf="@id/leftGuideline"
                 app:layout_constraintEnd_toEndOf="@id/rightGuideline"
                 app:layout_constraintTop_toBottomOf="@id/nowPlayingList"
-                android:textSize="20dp"
-                android:textColor="@color/white"
-                android:textStyle="bold"
+                android:textAppearance="?attr/textAppearanceSubtitle1"
                 android:text="Popular"/>
 
             <androidx.recyclerview.widget.RecyclerView
@@ -67,7 +61,7 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/popularTitle" />
 
-            <androidx.appcompat.widget.AppCompatTextView
+            <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/topRatedTitle"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
@@ -75,9 +69,7 @@
                 app:layout_constraintStart_toStartOf="@id/leftGuideline"
                 app:layout_constraintEnd_toEndOf="@id/rightGuideline"
                 app:layout_constraintTop_toBottomOf="@id/popularList"
-                android:textSize="20dp"
-                android:textColor="@color/white"
-                android:textStyle="bold"
+                android:textAppearance="?attr/textAppearanceSubtitle1"
                 android:text="Top Rated"/>
 
             <androidx.recyclerview.widget.RecyclerView

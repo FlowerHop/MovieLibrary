@@ -2,18 +2,23 @@
     <!-- Base application theme. -->
     <style name="Theme.MovieLibrary" parent="Theme.MaterialComponents.DayNight.DarkActionBar">
         <!-- Primary brand color. -->
-        <item name="colorPrimary">@color/purple_200</item>
-        <item name="colorPrimaryVariant">@color/purple_700</item>
+        <item name="colorPrimary">@color/primary</item>
+        <item name="colorPrimaryVariant">@color/primary_dark</item>
         <item name="colorOnPrimary">@color/black</item>
         <!-- Secondary brand color. -->
-        <item name="colorSecondary">@color/teal_200</item>
-        <item name="colorSecondaryVariant">@color/teal_200</item>
+        <item name="colorSecondary">@color/secondary</item>
+        <item name="colorSecondaryVariant">@color/secondary_dark</item>
         <item name="colorOnSecondary">@color/black</item>
+
+        <item name="colorError">@color/error</item>
+        <item name="colorOnError">@color/black</item>
+        <item name="colorSurface">@color/on_surface</item>
+        <item name="colorOnSurface">@color/surface</item>
+
         <!-- Status bar color. -->
         <item name="android:statusBarColor" tools:targetApi="l">?attr/colorPrimaryVariant</item>
-        <!-- Customize your theme here. -->
-
-        <item name="android:textColorPrimary">#DE8A02</item>
-        <item name="android:windowBackground">@color/black</item>
+    </style>
+    <style name="MovieBottomSheetDialog" parent="Theme.MovieLibrary">
+        <item name="android:background">?attr/colorSurface</item>
     </style>
 </resources>
