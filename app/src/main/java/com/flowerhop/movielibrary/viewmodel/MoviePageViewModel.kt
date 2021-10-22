@@ -9,7 +9,8 @@ import com.flowerhop.movielibrary.view.MovieCategory
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
-class MoviePageViewModel(private val repo: MovieRepository): ViewModel() {
+class MoviePageViewModel(
+    private val repo: MovieRepository): ViewModel() {
     private var loadedPage = 1
 
     var pageList = MutableLiveData<MutableList<MoviePage>>(mutableListOf()).apply {

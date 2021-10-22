@@ -1,9 +1,9 @@
-package com.flowerhop.movielibrary.view
+package com.flowerhop.movielibrary
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import com.flowerhop.movielibrary.R
 import com.flowerhop.movielibrary.databinding.ActivityMainBinding
+import com.flowerhop.movielibrary.view.HomeFragment
 
 class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding

@@ -5,6 +5,7 @@ import com.flowerhop.movielibrary.network.entity.MovieDetail
 import com.flowerhop.movielibrary.network.entity.MoviePage
 import com.flowerhop.movielibrary.view.MovieCategory
 
+@Deprecated("Unused")
 class MovieRepository {
     private val apiClient = APIClient()
 

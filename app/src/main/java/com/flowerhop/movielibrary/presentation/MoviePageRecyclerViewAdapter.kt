@@ -1,4 +1,4 @@
-package com.flowerhop.movielibrary.view
+package com.flowerhop.movielibrary.presentation
 
 import androidx.recyclerview.widget.RecyclerView
 import android.view.LayoutInflater
@@ -9,12 +9,12 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import com.bumptech.glide.Glide
 import com.flowerhop.movielibrary.databinding.MovieItemInPageBinding
+import com.flowerhop.movielibrary.domain.model.Movie
 import com.flowerhop.movielibrary.network.APIClient
-import com.flowerhop.movielibrary.network.entity.Movie
 
 class MoviePageRecyclerViewAdapter: ListAdapter<Movie, MoviePageRecyclerViewAdapter.ViewHolder>(object : DiffUtil.ItemCallback<Movie>() {
     override fun areItemsTheSame(oldItem: Movie, newItem: Movie): Boolean {
-        return true
+        return oldItem.id == newItem.id
     }
 
     override fun areContentsTheSame(oldItem: Movie, newItem: Movie): Boolean {
