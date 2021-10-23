@@ -3,9 +3,10 @@ package com.flowerhop.movielibrary
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.lifecycle.Observer
 import androidx.test.ext.junit.runners.AndroidJUnit4
-import com.flowerhop.movielibrary.network.entity.Movie
-import com.flowerhop.movielibrary.repository.MovieRepository
-import com.flowerhop.movielibrary.viewmodel.MoviesViewModel
+import com.flowerhop.movielibrary.di.Providers
+import com.flowerhop.movielibrary.domain.model.Movie
+import com.flowerhop.movielibrary.presentation.MoviesViewModel
+import com.flowerhop.movielibrary.presentation.StatefulData
 import org.junit.Assert
 import org.junit.Rule
 import org.junit.Test
@@ -19,15 +20,26 @@ class MoviesViewModelTest {
     @Test
     fun `Can notify movie list change`() {
         // Arrange
-        var called = false
-        val moviesViewModel = MoviesViewModel(MovieRepository())
-        val observer = Observer<List<Movie>>() {
-            called = true
+        var changed = false
+        var firstObserve = true
+        val tmdbApi = Providers.provideTMDBApi()
+        val tmdbRepository = Providers.provideTMDBRepository(tmdbApi)
+        val useCase = Providers.provideGetCategoryListUseCase(tmdbRepository)
+        val moviesViewModel = MoviesViewModel(useCase)
+        val observer = Observer<StatefulData<MutableList<Movie>>> {
+            if (firstObserve) {
+                firstObserve = false
+                return@Observer
+            }
+
+            changed = true
         }
+
         // Act
-        moviesViewModel.nowPlayings.observeForever(observer)
+        moviesViewModel.refresh()
+        moviesViewModel.nowPlayingList.observeForever(observer)
         Thread.sleep(2000)
-        Assert.assertTrue(called)
-        moviesViewModel.nowPlayings.removeObserver(observer)
+        Assert.assertTrue(changed)
+        moviesViewModel.nowPlayingList.removeObserver(observer)
     }
 }
