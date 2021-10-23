@@ -1,5 +1,6 @@
 package com.flowerhop.movielibrary.presentation.categorylist
 
+import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -18,25 +19,34 @@ class MovieCategoryViewModel(
         loadPage(1)
     }
 
-    fun loadNewPage() {
-        loadPage(loadedPage++)
-    }
-
     fun loadMoreIfNeed(position: Int) {
         movies.value?.let {
             if (position < it.size - 15) return
-            loadNewPage()
+            loadPage(loadedPage + 1)
         }
     }
 
     private fun loadPage(pageIndex: Int) {
-        if (pageIndex == loadedPage) return
+        logMsg("loadPage", "pageIndex = $pageIndex")
+        if (pageIndex <= loadedPage) return
+        loadedPage++
         viewModelScope.launch {
-            val list = useCase(
+            useCase(
                 pageIndex = pageIndex,
-                category = category)
-            movies.value?.addAll(list.results)
-            movies.postValue(movies.value)
+                category = category
+            )?.apply {
+                movies.value?.addAll(results)
+                movies.postValue(movies.value)
+            }
+        }
+    }
+
+    companion object {
+        private const val DEBUG = true
+        private const val TAG = "MovieCategoryVM"
+        private fun logMsg(scope: String, msg: String) {
+            if (!DEBUG) return
+            Log.d(TAG, "[$scope] - $msg")
         }
     }
 }

@@ -1,17 +1,18 @@
 package com.flowerhop.movielibrary.domain.usecase
 
 import android.util.Log
+import com.flowerhop.movielibrary.data.dto.toMovieDetail
 import com.flowerhop.movielibrary.domain.model.MovieDetail
 import com.flowerhop.movielibrary.domain.repository.TMDBRepository
 
 class GetMovieDetailUseCase(
     private val tmdbRepository: TMDBRepository
 ) {
-    suspend operator fun invoke(id: Int): MovieDetail {
+    suspend operator fun invoke(id: Int): MovieDetail? {
         val response = tmdbRepository.getMovieById(id)
         try {
             if (response.isSuccessful)
-                return response.body()!!
+                return response.body()?.toMovieDetail()
             else
                 TODO("Throw exception")
         } catch (e: Exception) {

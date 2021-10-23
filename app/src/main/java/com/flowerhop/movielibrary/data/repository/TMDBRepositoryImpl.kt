@@ -1,5 +1,7 @@
 package com.flowerhop.movielibrary.data.repository
 
+import com.flowerhop.movielibrary.data.dto.MovieDetailDto
+import com.flowerhop.movielibrary.data.dto.MoviePageDto
 import com.flowerhop.movielibrary.data.remote.TMDBApi
 import com.flowerhop.movielibrary.domain.model.MovieDetail
 import com.flowerhop.movielibrary.domain.model.MoviePage
@@ -17,13 +19,13 @@ class TMDBRepositoryImpl(
         const val API_KEY = "a56648c829ad25080106ba1c138c3e0b"
     }
 
-    override suspend fun getMovieById(id: Int): Response<MovieDetail> {
+    override suspend fun getMovieById(id: Int): Response<MovieDetailDto> {
         return api.getMovieById(
             id = id,
             apiKey = API_KEY)
     }
 
-    override suspend fun getCategoryListAtPage(category: MovieCategory, pageIndex: Int): Response<MoviePage> {
+    override suspend fun getCategoryListAtPage(category: MovieCategory, pageIndex: Int): Response<MoviePageDto> {
         return api.getCategoryList(
             category = category.path,
             pageIndex = pageIndex,

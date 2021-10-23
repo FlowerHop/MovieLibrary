@@ -55,7 +55,6 @@ class MoviePageFragment : Fragment(R.layout.fragment_movie_page) {
         val moviePageRecyclerViewAdapter = MoviePageRecyclerViewAdapter()
 
         movieCategoryViewModel.movies.observe(viewLifecycleOwner) { movies ->
-            Log.e(TAG, "onViewCreated: $movies" )
             moviePageRecyclerViewAdapter.submitList(movies.toMutableList())
         }
 

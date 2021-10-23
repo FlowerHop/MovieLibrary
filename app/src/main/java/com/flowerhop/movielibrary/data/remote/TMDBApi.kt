@@ -1,7 +1,7 @@
 package com.flowerhop.movielibrary.data.remote
 
-import com.flowerhop.movielibrary.domain.model.MovieDetail
-import com.flowerhop.movielibrary.domain.model.MoviePage
+import com.flowerhop.movielibrary.data.dto.MovieDetailDto
+import com.flowerhop.movielibrary.data.dto.MoviePageDto
 import retrofit2.Response
 import retrofit2.http.GET
 import retrofit2.http.Path
@@ -18,11 +18,11 @@ interface TMDBApi {
 
     @GET("movie/{$PATH_MOVIE_ID}")
     suspend fun getMovieById(@Path(PATH_MOVIE_ID) id: Int,
-                         @Query(API_KEY) apiKey: String, @Query(LANGUAGE) language: String = "en-US"): Response<MovieDetail>
+                         @Query(API_KEY) apiKey: String, @Query(LANGUAGE) language: String = "en-US"): Response<MovieDetailDto>
 
     @GET("movie/{$PATH_CATEGORY}")
     suspend fun getCategoryList(@Path(PATH_CATEGORY) category: String,
                                 @Query(API_KEY) apiKey: String,
                                 @Query(PAGE) pageIndex: Int,
-                                @Query(LANGUAGE) language: String = "en-US"): Response<MoviePage>
+                                @Query(LANGUAGE) language: String = "en-US"): Response<MoviePageDto>
 }

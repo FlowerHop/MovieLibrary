@@ -1,7 +1,7 @@
 package com.flowerhop.movielibrary.domain.usecase
 
-import android.accounts.NetworkErrorException
 import android.util.Log
+import com.flowerhop.movielibrary.data.dto.toMoviePage
 import com.flowerhop.movielibrary.domain.model.MoviePage
 import com.flowerhop.movielibrary.domain.repository.TMDBRepository
 import com.flowerhop.movielibrary.view.MovieCategory
@@ -9,7 +9,7 @@ import com.flowerhop.movielibrary.view.MovieCategory
 class GetCategoryListUseCase(
     private val tmdbRepository: TMDBRepository
 ) {
-    suspend operator fun invoke(pageIndex: Int, category: MovieCategory): MoviePage {
+    suspend operator fun invoke(pageIndex: Int, category: MovieCategory): MoviePage? {
         val response = tmdbRepository.getCategoryListAtPage(
             pageIndex = pageIndex,
             category = category
@@ -17,7 +17,7 @@ class GetCategoryListUseCase(
 
         try {
             if (response.isSuccessful)
-                return response.body()!!
+                return response.body()?.toMoviePage()
             else
                 throw Exception(response.message())
         } catch (e: Exception) {

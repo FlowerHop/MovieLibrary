@@ -1,10 +1,8 @@
 package com.flowerhop.movielibrary.domain.model
 
-import com.google.gson.annotations.SerializedName
-
 data class Movie(
     val adult: Boolean,
-    val backdropPath: String,
+    val backdropPath: String?,
     val genreIds: List<Int>,
     val id: Int,
     val originalLanguage: String,
@@ -15,6 +13,6 @@ data class Movie(
     val releaseDate: String,
     val title: String,
     val video: Boolean,
-    val voteAverage: Int,
+    val voteAverage: Float,
     val voteCount: Int
 )
