@@ -39,6 +39,8 @@ class MoviesViewModelTest {
         moviesViewModel.refresh()
         moviesViewModel.nowPlayingList.observeForever(observer)
         Thread.sleep(2000)
+
+        // Assert
         Assert.assertTrue(changed)
         moviesViewModel.nowPlayingList.removeObserver(observer)
     }
