@@ -8,9 +8,9 @@ import androidx.appcompat.widget.AppCompatTextView
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import com.bumptech.glide.Glide
+import com.flowerhop.movielibrary.comman.Constants
 import com.flowerhop.movielibrary.databinding.MovieItemInPageBinding
 import com.flowerhop.movielibrary.domain.model.Movie
-import com.flowerhop.movielibrary.network.APIClient
 
 class MovieCategoryAdapter: ListAdapter<Movie, MovieCategoryAdapter.ViewHolder>(object : DiffUtil.ItemCallback<Movie>() {
     override fun areItemsTheSame(oldItem: Movie, newItem: Movie): Boolean {
@@ -39,7 +39,7 @@ class MovieCategoryAdapter: ListAdapter<Movie, MovieCategoryAdapter.ViewHolder>(
         private val overviewView: AppCompatTextView = binding.overview
 
         fun bind(movie: Movie) {
-            Glide.with(thumbnailView).load("${APIClient.IMAGE_BASE_URL}${movie.posterPath}").into(thumbnailView)
+            Glide.with(thumbnailView).load("${Constants.IMAGE_BASE_URL}${movie.posterPath}").into(thumbnailView)
             titleView.text = movie.title
             releaseDateView.text = movie.releaseDate
             overviewView.text = movie.overview

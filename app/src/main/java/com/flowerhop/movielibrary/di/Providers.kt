@@ -3,12 +3,12 @@ package com.flowerhop.movielibrary.di
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelStoreOwner
 import com.flowerhop.movielibrary.AnyViewModelFactory
+import com.flowerhop.movielibrary.comman.Constants
 import com.flowerhop.movielibrary.data.remote.TMDBApi
 import com.flowerhop.movielibrary.data.repository.TMDBRepositoryImpl
 import com.flowerhop.movielibrary.domain.repository.TMDBRepository
 import com.flowerhop.movielibrary.domain.usecase.GetCategoryListUseCase
 import com.flowerhop.movielibrary.domain.usecase.GetMovieDetailUseCase
-import com.flowerhop.movielibrary.network.APIClient
 import com.flowerhop.movielibrary.presentation.MoviesViewModel
 import com.flowerhop.movielibrary.presentation.categorylist.MovieCategoryViewModel
 import com.flowerhop.movielibrary.presentation.moviedetail.MovieDetailViewModel
@@ -25,7 +25,7 @@ object Providers {
         }).build()
 
         val retrofit = Retrofit.Builder()
-            .baseUrl(APIClient.BASE_URL)
+            .baseUrl(Constants.BASE_URL)
             .client(okHttp)
             .addConverterFactory(GsonConverterFactory.create())
             .build()

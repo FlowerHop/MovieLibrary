@@ -9,9 +9,9 @@ import androidx.core.os.bundleOf
 import androidx.fragment.app.FragmentManager
 import com.bumptech.glide.Glide
 import com.flowerhop.movielibrary.R
+import com.flowerhop.movielibrary.comman.Constants
 import com.flowerhop.movielibrary.databinding.MovieBottomSheetBinding
 import com.flowerhop.movielibrary.domain.model.Movie
-import com.flowerhop.movielibrary.network.APIClient
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import java.text.SimpleDateFormat
 import java.util.*
@@ -47,7 +47,7 @@ class MovieBottomSheetDialog(private val movie: Movie): BottomSheetDialogFragmen
             val binding = MovieBottomSheetBinding.inflate(LayoutInflater.from(context))
             setContentView(binding.root)
 
-            Glide.with(binding.root).load("${APIClient.IMAGE_BASE_URL}${movie.posterPath}").into(binding.thumbnail)
+            Glide.with(binding.root).load("${Constants.IMAGE_BASE_URL}${movie.posterPath}").into(binding.thumbnail)
             binding.title.text = movie.title
             binding.releaseDate.text = toReleaseYear(movie.releaseDate, getCurrentLocale(resources.configuration)).toString()
             binding.overview.text = movie.overview
