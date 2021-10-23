@@ -11,6 +11,7 @@ import com.flowerhop.movielibrary.AnyViewModelFactory
 import com.flowerhop.movielibrary.R
 import com.flowerhop.movielibrary.data.remote.TMDBApi
 import com.flowerhop.movielibrary.data.repository.TMDBRepositoryImpl
+import com.flowerhop.movielibrary.di.Providers
 import com.flowerhop.movielibrary.domain.repository.TMDBRepository
 import com.flowerhop.movielibrary.domain.usecase.GetCategoryListUseCase
 import com.flowerhop.movielibrary.network.APIClient
@@ -32,25 +33,7 @@ class MoviePageFragment : Fragment(R.layout.fragment_movie_page) {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        val movieCategoryFactory = AnyViewModelFactory {
-            val okHttp = OkHttpClient.Builder().addInterceptor(HttpLoggingInterceptor().apply {
-                level = HttpLoggingInterceptor.Level.BODY
-            }).build()
-            val retrofit = Retrofit.Builder()
-                .baseUrl(APIClient.BASE_URL)
-                .client(okHttp)
-                .addConverterFactory(GsonConverterFactory.create())
-                .build()
-            val tmdbApi = retrofit.create(TMDBApi::class.java)
-
-            val tmdbRepository: TMDBRepository = TMDBRepositoryImpl(tmdbApi)
-            MovieCategoryViewModel(
-                MovieCategory.NowPlaying,
-                GetCategoryListUseCase(tmdbRepository)
-            )
-        }
-
-        val movieCategoryViewModel: MovieCategoryViewModel = ViewModelProvider(this, movieCategoryFactory).get(MovieCategoryViewModel::class.java)
+        val movieCategoryViewModel: MovieCategoryViewModel = Providers.provideMovieCategoryViewModel(this, MovieCategory.NowPlaying)
         val moviePageRecyclerViewAdapter = MoviePageRecyclerViewAdapter()
 
         movieCategoryViewModel.movies.observe(viewLifecycleOwner) { movies ->
