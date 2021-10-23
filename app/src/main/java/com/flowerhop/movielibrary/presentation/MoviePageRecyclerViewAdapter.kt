@@ -29,7 +29,7 @@ class MoviePageRecyclerViewAdapter: ListAdapter<Movie, MoviePageRecyclerViewAdap
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        holder.bind(this.getItem(position))
+        holder.bind(getItem(position))
     }
 
     inner class ViewHolder(binding: MovieItemInPageBinding) : RecyclerView.ViewHolder(binding.root) {

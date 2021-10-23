@@ -1,12 +1,14 @@
 package com.flowerhop.movielibrary.presentation.categorylist
 
 import android.util.Log
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.flowerhop.movielibrary.domain.model.Movie
 import com.flowerhop.movielibrary.domain.usecase.GetCategoryListUseCase
 import com.flowerhop.movielibrary.view.MovieCategory
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
 class MovieCategoryViewModel(
@@ -15,13 +17,15 @@ class MovieCategoryViewModel(
 ): ViewModel() {
     private var loadedPage = 0
 
-    var movies = MutableLiveData<MutableList<Movie>>(mutableListOf()).apply {
+    private val _movies = MutableLiveData<MutableList<Movie>>(mutableListOf()).apply {
         loadPage(1)
     }
 
-    fun loadMoreIfNeed(position: Int) {
-        movies.value?.let {
-            if (position < it.size - 15) return
+    var movies: LiveData<MutableList<Movie>> = _movies
+
+    fun loadMoreIfNeed(lastVisiblePosition: Int) {
+        _movies.value?.let {
+            if (!needLoadMore(it.size, lastVisiblePosition)) return
             loadPage(loadedPage + 1)
         }
     }
@@ -30,13 +34,13 @@ class MovieCategoryViewModel(
         logMsg("loadPage", "pageIndex = $pageIndex")
         if (pageIndex <= loadedPage) return
         loadedPage++
-        viewModelScope.launch {
+        viewModelScope.launch(Dispatchers.IO) {
             useCase(
                 pageIndex = pageIndex,
                 category = category
             )?.apply {
-                movies.value?.addAll(results)
-                movies.postValue(movies.value)
+                _movies.value?.addAll(results)
+                _movies.postValue(_movies.value)
             }
         }
     }
@@ -47,6 +51,10 @@ class MovieCategoryViewModel(
         private fun logMsg(scope: String, msg: String) {
             if (!DEBUG) return
             Log.d(TAG, "[$scope] - $msg")
+        }
+
+        private fun needLoadMore(totalSize: Int, lastVisiblePosition: Int): Boolean {
+            return lastVisiblePosition >= totalSize - 15
         }
     }
 }

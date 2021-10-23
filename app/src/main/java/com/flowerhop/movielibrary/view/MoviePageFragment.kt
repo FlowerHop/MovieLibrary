@@ -33,7 +33,6 @@ class MoviePageFragment : Fragment(R.layout.fragment_movie_page) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         val movieCategoryFactory = AnyViewModelFactory {
-//            MoviePageViewModel(MovieRepository())
             val okHttp = OkHttpClient.Builder().addInterceptor(HttpLoggingInterceptor().apply {
                 level = HttpLoggingInterceptor.Level.BODY
             }).build()
