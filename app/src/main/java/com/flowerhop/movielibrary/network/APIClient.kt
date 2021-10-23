@@ -3,7 +3,7 @@ package com.flowerhop.movielibrary.network
 import android.util.Log
 import com.flowerhop.movielibrary.network.entity.MovieDetail
 import com.flowerhop.movielibrary.network.entity.MoviePage
-import com.flowerhop.movielibrary.view.MovieCategory
+import com.flowerhop.movielibrary.domain.model.MovieCategory
 import okhttp3.Call
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor

@@ -7,7 +7,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.flowerhop.movielibrary.domain.model.Movie
 import com.flowerhop.movielibrary.domain.usecase.GetCategoryListUseCase
-import com.flowerhop.movielibrary.view.MovieCategory
+import com.flowerhop.movielibrary.domain.model.MovieCategory
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 

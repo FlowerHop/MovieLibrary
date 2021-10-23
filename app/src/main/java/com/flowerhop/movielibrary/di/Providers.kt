@@ -5,15 +5,14 @@ import androidx.lifecycle.ViewModelStoreOwner
 import com.flowerhop.movielibrary.AnyViewModelFactory
 import com.flowerhop.movielibrary.data.remote.TMDBApi
 import com.flowerhop.movielibrary.data.repository.TMDBRepositoryImpl
-import com.flowerhop.movielibrary.domain.model.Movie
-import com.flowerhop.movielibrary.domain.model.MovieDetail
 import com.flowerhop.movielibrary.domain.repository.TMDBRepository
 import com.flowerhop.movielibrary.domain.usecase.GetCategoryListUseCase
 import com.flowerhop.movielibrary.domain.usecase.GetMovieDetailUseCase
 import com.flowerhop.movielibrary.network.APIClient
+import com.flowerhop.movielibrary.presentation.MoviesViewModel
 import com.flowerhop.movielibrary.presentation.categorylist.MovieCategoryViewModel
-import com.flowerhop.movielibrary.view.MovieCategory
 import com.flowerhop.movielibrary.presentation.moviedetail.MovieDetailViewModel
+import com.flowerhop.movielibrary.domain.model.MovieCategory
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
@@ -71,5 +70,18 @@ object Providers {
         }
 
         return ViewModelProvider(viewModelStoreOwner, viewModelFactory).get(MovieDetailViewModel::class.java)
+    }
+
+    fun provideMoviesViewModel(viewModelStoreOwner: ViewModelStoreOwner): MoviesViewModel {
+        val tmdbApi = provideTMDBApi()
+        val tmdbRepository: TMDBRepository = provideTMDBRepository(tmdbApi)
+        val useCase = provideGetCategoryListUseCase(tmdbRepository)
+        val viewModelFactory = AnyViewModelFactory {
+            MoviesViewModel(
+                useCase = useCase
+            )
+        }
+
+        return ViewModelProvider(viewModelStoreOwner, viewModelFactory).get(MoviesViewModel::class.java)
     }
 }

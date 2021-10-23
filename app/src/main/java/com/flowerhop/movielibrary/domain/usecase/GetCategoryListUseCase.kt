@@ -4,7 +4,7 @@ import android.util.Log
 import com.flowerhop.movielibrary.data.dto.toMoviePage
 import com.flowerhop.movielibrary.domain.model.MoviePage
 import com.flowerhop.movielibrary.domain.repository.TMDBRepository
-import com.flowerhop.movielibrary.view.MovieCategory
+import com.flowerhop.movielibrary.domain.model.MovieCategory
 
 class GetCategoryListUseCase(
     private val tmdbRepository: TMDBRepository

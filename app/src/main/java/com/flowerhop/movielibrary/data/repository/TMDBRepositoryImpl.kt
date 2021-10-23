@@ -3,10 +3,8 @@ package com.flowerhop.movielibrary.data.repository
 import com.flowerhop.movielibrary.data.dto.MovieDetailDto
 import com.flowerhop.movielibrary.data.dto.MoviePageDto
 import com.flowerhop.movielibrary.data.remote.TMDBApi
-import com.flowerhop.movielibrary.domain.model.MovieDetail
-import com.flowerhop.movielibrary.domain.model.MoviePage
 import com.flowerhop.movielibrary.domain.repository.TMDBRepository
-import com.flowerhop.movielibrary.view.MovieCategory
+import com.flowerhop.movielibrary.domain.model.MovieCategory
 import retrofit2.Response
 
 class TMDBRepositoryImpl(

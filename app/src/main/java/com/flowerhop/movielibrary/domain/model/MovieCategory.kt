@@ -1,4 +1,4 @@
-package com.flowerhop.movielibrary.view
+package com.flowerhop.movielibrary.domain.model
 
 enum class MovieCategory(name: String, val path: String) {
     NowPlaying("Now Playing", "now_playing"),

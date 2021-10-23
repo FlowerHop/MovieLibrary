@@ -7,6 +7,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.flowerhop.movielibrary.R
 import com.flowerhop.movielibrary.di.Providers
+import com.flowerhop.movielibrary.domain.model.MovieCategory
 import com.flowerhop.movielibrary.presentation.MovieCategoryAdapter
 import com.flowerhop.movielibrary.presentation.categorylist.MovieCategoryViewModel
 import kotlinx.android.synthetic.main.fragment_movie_page.*

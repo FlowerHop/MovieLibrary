@@ -1,22 +1,24 @@
 package com.flowerhop.movielibrary.presentation
 
 import android.view.ViewGroup
-import androidx.recyclerview.widget.RecyclerView
-import com.flowerhop.movielibrary.network.entity.Movie
+import androidx.recyclerview.widget.DiffUtil
+import androidx.recyclerview.widget.ListAdapter
+import com.flowerhop.movielibrary.domain.model.Movie
 
-class MoviesAdapter(): RecyclerView.Adapter<MovieViewHolder>() {
-    private var movies: List<Movie> = listOf()
+class MoviesAdapter: ListAdapter<Movie, MovieViewHolder>(object : DiffUtil.ItemCallback<Movie>() {
+    override fun areItemsTheSame(oldItem: Movie, newItem: Movie): Boolean {
+        return oldItem.id == newItem.id
+    }
+
+    override fun areContentsTheSame(oldItem: Movie, newItem: Movie): Boolean {
+        return oldItem == newItem
+    }
+}) {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MovieViewHolder {
         return MovieViewHolder(parent)
     }
 
     override fun onBindViewHolder(holder: MovieViewHolder, position: Int) {
-        holder.bind(movies[position])
-    }
-
-    override fun getItemCount(): Int = movies.size
-    fun submit(movies: List<Movie>) {
-        this.movies = movies
-        notifyDataSetChanged()
+        holder.bind(getItem(position))
     }
 }

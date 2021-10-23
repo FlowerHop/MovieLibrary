@@ -2,10 +2,11 @@ package com.flowerhop.movielibrary.viewmodel
 
 import androidx.lifecycle.*
 import com.flowerhop.movielibrary.repository.MovieRepository
-import com.flowerhop.movielibrary.view.MovieCategory
+import com.flowerhop.movielibrary.domain.model.MovieCategory
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
+@Deprecated("Unused")
 class MoviesViewModel(private val repo: MovieRepository): ViewModel() {
     private val listMap: MutableMap<MovieCategory, MovieList> = mutableMapOf()
     val refreshing = MediatorLiveData<Boolean>()

@@ -3,7 +3,7 @@ package com.flowerhop.movielibrary.repository
 import com.flowerhop.movielibrary.network.APIClient
 import com.flowerhop.movielibrary.network.entity.MovieDetail
 import com.flowerhop.movielibrary.network.entity.MoviePage
-import com.flowerhop.movielibrary.view.MovieCategory
+import com.flowerhop.movielibrary.domain.model.MovieCategory
 
 @Deprecated("Unused")
 class MovieRepository {

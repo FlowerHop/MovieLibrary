@@ -10,8 +10,8 @@ import androidx.fragment.app.FragmentManager
 import com.bumptech.glide.Glide
 import com.flowerhop.movielibrary.R
 import com.flowerhop.movielibrary.databinding.MovieBottomSheetBinding
+import com.flowerhop.movielibrary.domain.model.Movie
 import com.flowerhop.movielibrary.network.APIClient
-import com.flowerhop.movielibrary.network.entity.Movie
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import java.text.SimpleDateFormat
 import java.util.*

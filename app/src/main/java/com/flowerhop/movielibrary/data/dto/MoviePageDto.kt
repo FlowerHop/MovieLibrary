@@ -6,7 +6,7 @@ import com.google.gson.annotations.SerializedName
 
 data class MoviePageDto(
     @SerializedName("dates")
-    val dates: Dates,
+    val dates: Dates?,
     @SerializedName("page")
     val page: Int,
     @SerializedName("results")
@@ -19,7 +19,7 @@ data class MoviePageDto(
 
 fun MoviePageDto.toMoviePage(): MoviePage {
     return MoviePage(
-        dates = dates.copy(),
+        dates = dates?.copy(),
         page = page,
         results = results.map { it.toMovie() },
         totalPages = totalPages,

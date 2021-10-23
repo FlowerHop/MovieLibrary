@@ -6,8 +6,8 @@ import androidx.fragment.app.FragmentActivity
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.flowerhop.movielibrary.R
+import com.flowerhop.movielibrary.domain.model.Movie
 import com.flowerhop.movielibrary.network.APIClient
-import com.flowerhop.movielibrary.network.entity.Movie
 import com.flowerhop.movielibrary.view.MovieBottomSheetDialog
 import kotlinx.android.synthetic.main.item_movie.view.thumbnail
 
