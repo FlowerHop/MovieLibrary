@@ -12,7 +12,7 @@ import com.flowerhop.movielibrary.databinding.MovieItemInPageBinding
 import com.flowerhop.movielibrary.domain.model.Movie
 import com.flowerhop.movielibrary.network.APIClient
 
-class MoviePageRecyclerViewAdapter: ListAdapter<Movie, MoviePageRecyclerViewAdapter.ViewHolder>(object : DiffUtil.ItemCallback<Movie>() {
+class MovieCategoryAdapter: ListAdapter<Movie, MovieCategoryAdapter.ViewHolder>(object : DiffUtil.ItemCallback<Movie>() {
     override fun areItemsTheSame(oldItem: Movie, newItem: Movie): Boolean {
         return oldItem.id == newItem.id
     }

@@ -1,21 +1,13 @@
 package com.flowerhop.movielibrary.view
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import androidx.fragment.app.FragmentActivity
-import androidx.lifecycle.ViewModelProvider
+import androidx.fragment.app.Fragment
 import com.bumptech.glide.Glide
-import com.flowerhop.movielibrary.AnyViewModelFactory
 import com.flowerhop.movielibrary.R
+import com.flowerhop.movielibrary.di.Providers
 import com.flowerhop.movielibrary.network.APIClient
-import com.flowerhop.movielibrary.repository.MovieRepository
-import com.flowerhop.movielibrary.viewmodel.MovieDetailViewModel
-import com.flowerhop.movielibrary.viewmodel.MoviesViewModel
 import kotlinx.android.synthetic.main.fragment_movie_detail.*
 
 /**
@@ -40,10 +32,7 @@ class MovieDetailFragment : Fragment(R.layout.fragment_movie_detail) {
             movieID = it.getInt(KEY_ID)
         }
 
-        val detailMovieViewModelFactory = AnyViewModelFactory {
-            MovieDetailViewModel(movieID, MovieRepository())
-        }
-        val movieDetailViewModel = ViewModelProvider(this, detailMovieViewModelFactory).get(MovieDetailViewModel::class.java)
+        val movieDetailViewModel = Providers.provideMovieDetailViewModel(this, movieID)
 
         movieDetailViewModel.movieDetail.observe(viewLifecycleOwner) {
             Glide.with(thumbnail).load("${APIClient.IMAGE_BASE_URL}${it.posterPath}").into(thumbnail)
