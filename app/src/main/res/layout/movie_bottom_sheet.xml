@@ -21,7 +21,7 @@
         app:layout_constraintStart_toEndOf="@id/verticalGuideline"
         app:layout_constraintEnd_toStartOf="@id/cancel"
         app:layout_constraintTop_toTopOf="parent"
-        android:layout_marginLeft="12dp"
+        android:layout_marginStart="12dp"
         android:textAppearance="?attr/textAppearanceHeadline6"
         tools:text="Movie Title"/>
 
@@ -40,8 +40,7 @@
         app:layout_constraintStart_toStartOf="@id/title"
         app:layout_constraintTop_toBottomOf="@id/title"
         app:layout_constraintEnd_toEndOf="@id/title"
-        android:textSize="12dp"
-        android:text="Publish Date: 2021/08/12" />
+        tools:text="Publish Date: 2021/08/12" />
 
 
     <com.google.android.material.textview.MaterialTextView
@@ -67,7 +66,7 @@
         app:layout_constraintTop_toBottomOf="@id/thumbnail"
         app:layout_constraintBottom_toBottomOf="parent"
         android:textAppearance="?attr/textAppearanceButton"
-        android:text="Detail"/>
+        android:text="@string/button_detail_text"/>
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/verticalGuideline"

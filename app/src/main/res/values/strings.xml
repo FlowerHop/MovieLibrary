@@ -1,4 +1,6 @@
 <resources>
     <string name="app_name">MovieLibrary</string>
+    <string name="view_all">View All</string>
+    <string name="button_detail_text">Detail</string>
     <string name="reviewers">%s reviewers</string>
 </resources>

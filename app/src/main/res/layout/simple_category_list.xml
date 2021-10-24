@@ -1,10 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<merge
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
+<merge xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
     tools:parentTag="androidx.constraintlayout.widget.ConstraintLayout">
 
     <com.google.android.material.textview.MaterialTextView
@@ -14,7 +13,7 @@
         app:layout_constraintStart_toStartOf="@id/leftGuideline"
         app:layout_constraintTop_toTopOf="parent"
         android:textAppearance="?attr/textAppearanceSubtitle1"
-        android:text="Title"/>
+        tools:text="Title"/>
 
     <com.google.android.material.textview.MaterialTextView
         android:id="@+id/more"
@@ -23,7 +22,7 @@
         app:layout_constraintEnd_toEndOf="@id/rightGuideline"
         app:layout_constraintTop_toTopOf="parent"
         android:textAppearance="?attr/textAppearanceButton"
-        android:text="View All"/>
+        android:text="@string/view_all"/>
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/list"
@@ -36,8 +35,7 @@
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
         app:reverseLayout="false"
         android:orientation="horizontal"
-        tools:listitem="@layout/item_movie_rounded"
-        />
+        tools:listitem="@layout/item_movie_rounded" />
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/leftGuideline"
