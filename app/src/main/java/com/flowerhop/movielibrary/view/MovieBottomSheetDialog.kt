@@ -60,7 +60,7 @@ class MovieBottomSheetDialog(private val movie: Movie): BottomSheetDialogFragmen
 
     private fun gotoMovieDetail(id: Int) {
         requireActivity().supportFragmentManager.beginTransaction().apply {
-            replace(R.id.fragmentContainer, MovieDetailFragment::class.java,
+            add(R.id.fragmentContainer, MovieDetailFragment::class.java,
                 bundleOf(MovieDetailFragment.KEY_ID to id),
                 MovieDetailFragment.TAG)
             addToBackStack(null)

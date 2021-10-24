@@ -3,6 +3,7 @@ package com.flowerhop.movielibrary.view
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.View
+import androidx.core.os.bundleOf
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.flowerhop.movielibrary.R
@@ -29,7 +30,17 @@ class MovieCategoryFragment : Fragment(R.layout.fragment_movie_page) {
             Providers.provideMovieCategoryViewModel(this@MovieCategoryFragment, category)
         } ?: Providers.provideMovieCategoryViewModel(this, MovieCategory.NowPlaying)
 
-        val moviePageRecyclerViewAdapter = MovieCategoryAdapter()
+        val moviePageRecyclerViewAdapter = MovieCategoryAdapter {
+            val movieId = movieCategoryViewModel.movies.value?.get(it)?.id ?: return@MovieCategoryAdapter
+
+            requireActivity().supportFragmentManager.beginTransaction().apply {
+                add(R.id.fragmentContainer, MovieDetailFragment::class.java,
+                    bundleOf(MovieDetailFragment.KEY_ID to movieId),
+                    MovieDetailFragment.TAG)
+                addToBackStack(null)
+                commit()
+            }
+        }
 
         movieCategoryViewModel.movies.observe(viewLifecycleOwner) { movies ->
             moviePageRecyclerViewAdapter.submitList(movies.toMutableList())
