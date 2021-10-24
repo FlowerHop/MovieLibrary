@@ -1,5 +1,6 @@
 package com.flowerhop.movielibrary.view
 
+import android.annotation.SuppressLint
 import android.os.Bundle
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
@@ -19,6 +20,19 @@ class MovieDetailFragment : Fragment(R.layout.fragment_movie_detail) {
     companion object {
         const val TAG = "MovieDetailFragment"
         const val KEY_ID = "KEY_ID"
+        private fun formatVoteCounts(count: Int): String {
+            if (count < 1000) return "$count"
+            return "${count/1000}.${count%1000}k"
+        }
+
+        private fun formatRuntime(timeInMinute: Int): String {
+            val hour = timeInMinute/60
+            val minute = timeInMinute%60
+            if (hour == 0)
+                return "${minute}m"
+
+            return "${hour}h ${minute}m"
+        }
     }
 
     private var movieID: Int = 0
@@ -37,7 +51,10 @@ class MovieDetailFragment : Fragment(R.layout.fragment_movie_detail) {
         movieDetailViewModel.movieDetail.observe(viewLifecycleOwner) {
             Glide.with(thumbnail).load("${Constants.IMAGE_BASE_URL}${it.posterPath}").into(thumbnail)
             title.text = it.title
-            releaseDate.text = "${MovieBottomSheetDialog.toReleaseYear(it.releaseDate, MovieBottomSheetDialog.getCurrentLocale(resources.configuration))}"
+            ratingBar.rating = (it.voteAverage*0.5f).toFloat()
+            reviews.text = resources.getString(R.string.reviewers, formatVoteCounts(it.voteCount))
+            releaseDate.text = it.releaseDate.replace("-", "/")
+            duration.text = formatRuntime(it.runtime)
             overview.text = it.overview
         }
     }

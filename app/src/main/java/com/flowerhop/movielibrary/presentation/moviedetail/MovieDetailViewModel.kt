@@ -10,7 +10,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
 class MovieDetailViewModel(id: Int, useCase: GetMovieDetailUseCase): ViewModel() {
-    val _movieDetail = MutableLiveData<MovieDetail>().apply {
+    private val _movieDetail = MutableLiveData<MovieDetail>().apply {
         viewModelScope.launch(Dispatchers.IO) {
             postValue(useCase(id))
         }
