@@ -15,14 +15,20 @@ import kotlinx.android.synthetic.main.fragment_movie_page.*
 /**
  * A fragment representing a list of Items.
  */
-class MoviePageFragment : Fragment(R.layout.fragment_movie_page) {
+class MovieCategoryFragment : Fragment(R.layout.fragment_movie_page) {
     companion object {
-        const val TAG = "MoviePageFragment"
+        const val TAG = "MovieCategoryFragment"
+        const val KEY_CATEGORY = "KEY_CATEGORY"
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        val movieCategoryViewModel: MovieCategoryViewModel = Providers.provideMovieCategoryViewModel(this, MovieCategory.NowPlaying)
+        val movieCategoryViewModel: MovieCategoryViewModel = arguments?.run {
+            val ordinal = getInt(KEY_CATEGORY)
+            val category = MovieCategory.values()[ordinal]
+            Providers.provideMovieCategoryViewModel(this@MovieCategoryFragment, category)
+        } ?: Providers.provideMovieCategoryViewModel(this, MovieCategory.NowPlaying)
+
         val moviePageRecyclerViewAdapter = MovieCategoryAdapter()
 
         movieCategoryViewModel.movies.observe(viewLifecycleOwner) { movies ->

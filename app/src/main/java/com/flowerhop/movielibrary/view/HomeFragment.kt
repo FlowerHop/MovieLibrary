@@ -2,6 +2,7 @@ package com.flowerhop.movielibrary.view
 
 import android.os.Bundle
 import android.view.View
+import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import com.flowerhop.movielibrary.R
 import com.flowerhop.movielibrary.di.Providers
@@ -85,9 +86,12 @@ class HomeFragment: Fragment(R.layout.fragment_home) {
     }
 
     private fun toViewAll(category: MovieCategory) {
-        // TODO: show fragment for the category
         requireActivity().supportFragmentManager.beginTransaction().apply {
-            add(R.id.fragmentContainer, MoviePageFragment::class.java, null, TAG)
+            add(
+                R.id.fragmentContainer,
+                MovieCategoryFragment::class.java,
+                bundleOf(MovieCategoryFragment.KEY_CATEGORY to category.ordinal),
+                TAG)
             addToBackStack(null)
             commit()
         }
