@@ -14,7 +14,7 @@
         app:layout_constraintStart_toStartOf="@id/leftGuideline"
         app:layout_constraintTop_toTopOf="parent"
         android:textAppearance="?attr/textAppearanceSubtitle1"
-        android:text="Now Playing"/>
+        android:text="Title"/>
 
     <com.google.android.material.textview.MaterialTextView
         android:id="@+id/more"
@@ -32,7 +32,12 @@
         android:layout_marginTop="10dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/title" />
+        app:layout_constraintTop_toBottomOf="@id/title"
+        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+        app:reverseLayout="false"
+        android:orientation="horizontal"
+        tools:listitem="@layout/item_movie_rounded"
+        />
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/leftGuideline"

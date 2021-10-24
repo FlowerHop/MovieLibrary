@@ -13,7 +13,7 @@ class SimpleCategoryList @JvmOverloads constructor(
     context: Context,
     attrs: AttributeSet? = null,
     defStyleAttr: Int = 0
-) : ConstraintLayout(context, attrs, defStyleAttr) {
+): ConstraintLayout(context, attrs, defStyleAttr) {
     interface OnEventListener {
         fun onViewAll()
     }
@@ -25,8 +25,6 @@ class SimpleCategoryList @JvmOverloads constructor(
         val inflater = LayoutInflater.from(context)
         binding = SimpleCategoryListBinding.inflate(inflater, this).apply {
             more.setOnClickListener { onEventListener?.onViewAll() }
-            val linearLayoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
-            list.layoutManager = linearLayoutManager
         }
     }
 }
