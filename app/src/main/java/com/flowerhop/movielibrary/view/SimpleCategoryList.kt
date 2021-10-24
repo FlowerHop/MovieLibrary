@@ -17,14 +17,11 @@ class SimpleCategoryList @JvmOverloads constructor(
     interface OnEventListener {
         fun onViewAll()
     }
-
-    private val binding: SimpleCategoryListBinding
     var onEventListener: OnEventListener? = null
 
     init {
         val inflater = LayoutInflater.from(context)
-        binding = SimpleCategoryListBinding.inflate(inflater, this).apply {
-            more.setOnClickListener { onEventListener?.onViewAll() }
-        }
+        SimpleCategoryListBinding.inflate(inflater, this)
+        more.setOnClickListener { onEventListener?.onViewAll() }
     }
 }

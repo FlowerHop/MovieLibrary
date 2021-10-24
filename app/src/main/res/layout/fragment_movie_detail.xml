@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".view.MovieDetailFragment">
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -34,66 +34,14 @@
             android:orientation="vertical"
             app:layout_constraintGuide_end="12dp"/>
 
-        <com.google.android.material.textview.MaterialTextView
-            android:id="@+id/title"
+        <com.flowerhop.movielibrary.view.MovieInfoView
+            android:id="@+id/movieInfo"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="12dp"
             app:layout_constraintStart_toStartOf="@id/leftGuideline"
-            app:layout_constraintEnd_toStartOf="@id/rightGuideline"
+            app:layout_constraintEnd_toEndOf="@id/rightGuideline"
             app:layout_constraintTop_toBottomOf="@id/thumbnail"
-            android:textAppearance="?attr/textAppearanceHeadline6"
-            tools:text="Movie Title" />
-
-        <androidx.appcompat.widget.AppCompatRatingBar
-            android:id="@+id/ratingBar"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            app:layout_constraintTop_toBottomOf="@id/title"
-            app:layout_constraintStart_toStartOf="@id/leftGuideline"
-            app:layout_constraintBottom_toBottomOf="@id/reviews"
-            style="@style/Widget.AppCompat.RatingBar.Small"
-            android:progressTint="@color/secondary"
-            android:layout_marginTop="12dp"
-            android:numStars="5"
-            />
-
-        <com.google.android.material.textview.MaterialTextView
-            android:id="@+id/reviews"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            app:layout_constraintTop_toBottomOf="@id/title"
-            app:layout_constraintStart_toEndOf="@id/ratingBar"
-            app:layout_constraintEnd_toStartOf="@id/rightGuideline"
-            android:textAppearance="?attr/textAppearanceSubtitle2"
-            android:layout_marginTop="12dp"
-            android:layout_marginStart="16dp"
-            tools:text="1.5k reviewers"
-            />
-
-        <com.google.android.material.textview.MaterialTextView
-            android:id="@+id/duration"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            app:layout_constraintStart_toStartOf="@id/leftGuideline"
-            app:layout_constraintEnd_toEndOf="@id/rightGuideline"
-            app:layout_constraintTop_toBottomOf="@id/reviews"
-            android:layout_marginTop="6dp"
-            style="@style/icon_caption_text"
-            app:drawableStartCompat="@drawable/icon_time"
-            tools:text="2h 14m"/>
-
-        <com.google.android.material.textview.MaterialTextView
-            android:id="@+id/releaseDate"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            app:layout_constraintStart_toStartOf="@id/leftGuideline"
-            app:layout_constraintEnd_toEndOf="@id/rightGuideline"
-            app:layout_constraintTop_toBottomOf="@id/duration"
-            android:layout_marginTop="6dp"
-            style="@style/icon_caption_text"
-            app:drawableStartCompat="@drawable/icon_date"
-            tools:text="2021"/>
+            android:layout_marginTop="12dp" />
 
         <com.google.android.material.textview.MaterialTextView
             android:id="@+id/overview"
@@ -101,7 +49,7 @@
             android:layout_height="wrap_content"
             app:layout_constraintStart_toStartOf="@id/leftGuideline"
             app:layout_constraintEnd_toEndOf="@id/rightGuideline"
-            app:layout_constraintTop_toBottomOf="@id/releaseDate"
+            app:layout_constraintTop_toBottomOf="@id/movieInfo"
             android:textAppearance="?attr/textAppearanceBody1"
             android:layout_marginTop="6dp"
             tools:text="A card shark and his unwillingly-enlisted friends need to make a lot of cash quick after losing a sketchy poker match. To do this they decide to pull a heist on a small-time gang who happen to be operating out of the flat next door."/>
