@@ -11,6 +11,8 @@ import com.bumptech.glide.Glide
 import com.flowerhop.movielibrary.comman.Constants
 import com.flowerhop.movielibrary.databinding.MovieItemInPageBinding
 import com.flowerhop.movielibrary.domain.model.Movie
+import com.flowerhop.movielibrary.view.MovieInfoView
+import com.google.android.material.imageview.ShapeableImageView
 
 class MovieCategoryAdapter: ListAdapter<Movie, MovieCategoryAdapter.ViewHolder>(object : DiffUtil.ItemCallback<Movie>() {
     override fun areItemsTheSame(oldItem: Movie, newItem: Movie): Boolean {
@@ -33,16 +35,12 @@ class MovieCategoryAdapter: ListAdapter<Movie, MovieCategoryAdapter.ViewHolder>(
     }
 
     inner class ViewHolder(binding: MovieItemInPageBinding) : RecyclerView.ViewHolder(binding.root) {
-        private val thumbnailView: AppCompatImageView = binding.thumbnail
-        private val titleView: AppCompatTextView = binding.title
-        private val releaseDateView: AppCompatTextView = binding.releaseDate
-        private val overviewView: AppCompatTextView = binding.overview
+        private val thumbnailView: ShapeableImageView = binding.thumbnail
+        private val movieInfoView: MovieInfoView = binding.movieInfoView
 
         fun bind(movie: Movie) {
             Glide.with(thumbnailView).load("${Constants.IMAGE_BASE_URL}${movie.posterPath}").into(thumbnailView)
-            titleView.text = movie.title
-            releaseDateView.text = movie.releaseDate
-            overviewView.text = movie.overview
+            movieInfoView.setMovie(movie)
         }
     }
 }

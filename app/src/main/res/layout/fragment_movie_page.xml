@@ -6,8 +6,7 @@
     android:name="com.flowerhop.movielibrary.view.MoviePageFragment"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:paddingHorizontal="16dp"
-    android:background="@color/black"
+    android:background="@color/surface"
     app:layoutManager="LinearLayoutManager"
-    tools:context=".view.MoviePageFragment"
+    tools:context=".view.MovieCategoryFragment"
     tools:listitem="@layout/movie_item_in_page" />

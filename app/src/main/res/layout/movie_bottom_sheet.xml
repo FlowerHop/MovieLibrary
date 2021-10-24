@@ -9,12 +9,10 @@
 
     <com.google.android.material.imageview.ShapeableImageView
         android:id="@+id/thumbnail"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
+        style="@style/small_movie_thumbnail"
         app:layout_constraintEnd_toEndOf="@id/verticalGuideline"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:shapeAppearanceOverlay="@style/roundedCorner"/>
+        app:layout_constraintTop_toTopOf="parent"/>
 
     <com.google.android.material.textview.MaterialTextView
         android:id="@+id/title"

@@ -26,4 +26,10 @@
         <item name="android:textAppearance">?attr/textAppearanceCaption</item>
         <item name="android:drawablePadding">6dp</item>
     </style>
+
+    <style name="small_movie_thumbnail">
+        <item name="android:layout_width">90dp</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="shapeAppearance">@style/roundedCorner</item>
+    </style>
 </resources>
