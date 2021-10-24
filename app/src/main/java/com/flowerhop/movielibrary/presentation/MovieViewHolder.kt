@@ -9,7 +9,7 @@ import com.flowerhop.movielibrary.R
 import com.flowerhop.movielibrary.comman.Constants
 import com.flowerhop.movielibrary.domain.model.Movie
 import com.flowerhop.movielibrary.view.MovieBottomSheetDialog
-import kotlinx.android.synthetic.main.item_movie.view.thumbnail
+import kotlinx.android.synthetic.main.item_movie_rounded.view.*
 
 class MovieViewHolder(parent: ViewGroup): RecyclerView.ViewHolder(
     LayoutInflater.from(parent.context).inflate(R.layout.item_movie_rounded, parent, false)

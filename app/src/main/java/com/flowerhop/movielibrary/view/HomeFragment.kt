@@ -44,7 +44,7 @@ class HomeFragment: Fragment(R.layout.fragment_home) {
             nowPlayingAdapter.submitList(it.data.toMutableList())
         }
 
-        nowPlayingList.title.text = "Now Playing"
+        nowPlayingList.title.text = resources.getText(R.string.now_playing)
         nowPlayingList.list.adapter = nowPlayingAdapter
         nowPlayingList.onEventListener = object : SimpleCategoryList.OnEventListener {
             override fun onViewAll() {
@@ -60,7 +60,7 @@ class HomeFragment: Fragment(R.layout.fragment_home) {
             popularAdapter.submitList(it.data.toMutableList())
         }
 
-        popularList.title.text = "Popular"
+        popularList.title.text = resources.getText(R.string.popular)
         popularList.list.adapter = popularAdapter
         popularList.onEventListener = object : SimpleCategoryList.OnEventListener {
             override fun onViewAll() {
@@ -76,7 +76,7 @@ class HomeFragment: Fragment(R.layout.fragment_home) {
             topRatedAdapter.submitList(it.data.toMutableList())
         }
 
-        topRatedList.title.text = "Top Rated"
+        topRatedList.title.text = resources.getText(R.string.top_rated)
         topRatedList.list.adapter = topRatedAdapter
         topRatedList.onEventListener = object : SimpleCategoryList.OnEventListener {
             override fun onViewAll() {
