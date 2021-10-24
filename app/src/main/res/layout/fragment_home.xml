@@ -13,33 +13,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:paddingTop="20dp">
-<!--            <com.google.android.material.textview.MaterialTextView-->
-<!--                android:id="@+id/nowPlayingTitle"-->
-<!--                android:layout_width="0dp"-->
-<!--                android:layout_height="wrap_content"-->
-<!--                app:layout_constraintStart_toStartOf="@id/leftGuideline"-->
-<!--                app:layout_constraintEnd_toEndOf="@id/rightGuideline"-->
-<!--                app:layout_constraintTop_toTopOf="parent"-->
-<!--                android:textAppearance="?attr/textAppearanceSubtitle1"-->
-<!--                android:text="Now Playing"/>-->
 
-<!--            <com.google.android.material.textview.MaterialTextView-->
-<!--                android:id="@+id/nowPlayingMore"-->
-<!--                android:layout_width="0dp"-->
-<!--                android:layout_height="wrap_content"-->
-<!--                app:layout_constraintEnd_toEndOf="@id/rightGuideline"-->
-<!--                app:layout_constraintTop_toTopOf="parent"-->
-<!--                android:textAppearance="?attr/textAppearanceButton"-->
-<!--                android:text="View All"/>-->
-
-<!--            <androidx.recyclerview.widget.RecyclerView-->
-<!--                android:id="@+id/nowPlayingList"-->
-<!--                android:layout_width="0dp"-->
-<!--                android:layout_height="wrap_content"-->
-<!--                android:layout_marginTop="10dp"-->
-<!--                app:layout_constraintEnd_toEndOf="parent"-->
-<!--                app:layout_constraintStart_toStartOf="parent"-->
-<!--                app:layout_constraintTop_toBottomOf="@id/nowPlayingTitle" />-->
             <com.flowerhop.movielibrary.view.SimpleCategoryList
                 android:id="@+id/nowPlayingList"
                 android:layout_width="0dp"
@@ -48,63 +22,23 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"/>
 
-            <com.google.android.material.textview.MaterialTextView
-                android:id="@+id/popularTitle"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
-                app:layout_constraintStart_toStartOf="@id/leftGuideline"
-                app:layout_constraintEnd_toEndOf="@id/rightGuideline"
-                app:layout_constraintTop_toBottomOf="@id/nowPlayingList"
-                android:textAppearance="?attr/textAppearanceSubtitle1"
-                android:text="Popular"/>
-
-            <androidx.recyclerview.widget.RecyclerView
+            <com.flowerhop.movielibrary.view.SimpleCategoryList
                 android:id="@+id/popularList"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
+                android:layout_marginTop="16dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/popularTitle" />
+                app:layout_constraintTop_toBottomOf="@id/nowPlayingList"/>
 
-            <com.google.android.material.textview.MaterialTextView
-                android:id="@+id/topRatedTitle"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
-                app:layout_constraintStart_toStartOf="@id/leftGuideline"
-                app:layout_constraintEnd_toEndOf="@id/rightGuideline"
-                app:layout_constraintTop_toBottomOf="@id/popularList"
-                android:textAppearance="?attr/textAppearanceSubtitle1"
-                android:text="Top Rated"/>
-
-            <androidx.recyclerview.widget.RecyclerView
+            <com.flowerhop.movielibrary.view.SimpleCategoryList
                 android:id="@+id/topRatedList"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
+                android:layout_marginTop="16dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/topRatedTitle" />
-
-            <androidx.constraintlayout.widget.Guideline
-                android:id="@+id/leftGuideline"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="20dp"
-                android:orientation="vertical"
-                app:layout_constraintGuide_begin="24dp"
-                app:layout_constraintStart_toStartOf="parent" />
-
-            <androidx.constraintlayout.widget.Guideline
-                android:id="@+id/rightGuideline"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="20dp"
-                android:orientation="vertical"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintGuide_end="24dp" />
+                app:layout_constraintTop_toBottomOf="@id/popularList"/>
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.core.widget.NestedScrollView>
 </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
