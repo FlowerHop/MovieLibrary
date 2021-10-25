@@ -5,6 +5,7 @@ import com.flowerhop.movielibrary.domain.model.Movie
 import com.flowerhop.movielibrary.domain.usecase.GetCategoryListUseCase
 import com.flowerhop.movielibrary.domain.model.MovieCategory
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
 class MoviesViewModel(

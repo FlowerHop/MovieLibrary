@@ -24,10 +24,15 @@ class HomeFragment: Fragment(R.layout.fragment_home) {
 
         moviesViewModel = Providers.provideMoviesViewModel(this)
         moviesViewModel.refreshing.observe(viewLifecycleOwner, {
-            refreshLayout.isRefreshing = it
+            refreshLayout.isRefreshing = false
+            shimmerLists.visibility = if (it) View.VISIBLE else View.GONE
+            nowPlayingList.visibility = if (it) View.GONE else View.VISIBLE
+            popularList.visibility = if (it) View.GONE else View.VISIBLE
+            topRatedList.visibility = if (it) View.GONE else View.VISIBLE
         })
 
         refreshLayout.setOnRefreshListener {
+            refreshLayout.isRefreshing = false
             moviesViewModel.refresh()
         }
 
@@ -40,7 +45,6 @@ class HomeFragment: Fragment(R.layout.fragment_home) {
     private fun initNowPlaying() {
         val nowPlayingAdapter = MoviesAdapter()
         moviesViewModel.nowPlayingList.observe(viewLifecycleOwner) {
-            nowPlayingList.title.visibility = if (it.isLoading) View.GONE else View.VISIBLE
             nowPlayingAdapter.submitList(it.data.toMutableList())
         }
 
@@ -56,7 +60,6 @@ class HomeFragment: Fragment(R.layout.fragment_home) {
     private fun initPopular() {
         val popularAdapter = MoviesAdapter()
         moviesViewModel.popularList.observe(viewLifecycleOwner) {
-            popularList.title.visibility = if (it.isLoading) View.GONE else View.VISIBLE
             popularAdapter.submitList(it.data.toMutableList())
         }
 
@@ -72,7 +75,6 @@ class HomeFragment: Fragment(R.layout.fragment_home) {
     private fun initTopRated() {
         val topRatedAdapter = MoviesAdapter()
         moviesViewModel.topRatedList.observe(viewLifecycleOwner) {
-            topRatedList.title.visibility = if (it.isLoading) View.GONE else View.VISIBLE
             topRatedAdapter.submitList(it.data.toMutableList())
         }
 
