@@ -32,4 +32,9 @@
         <item name="android:layout_height">wrap_content</item>
         <item name="shapeAppearance">@style/roundedCorner</item>
     </style>
+
+    <style name="chip_movie_genre">
+        <item name="chipBackgroundColor">@color/primary</item>
+        <item name="android:textColor">@color/on_primary</item>
+    </style>
 </resources>
