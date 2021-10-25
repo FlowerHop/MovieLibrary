@@ -7,6 +7,7 @@ import androidx.lifecycle.viewModelScope
 import com.flowerhop.movielibrary.domain.model.MovieDetail
 import com.flowerhop.movielibrary.domain.usecase.GetMovieDetailUseCase
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
 class MovieDetailViewModel(id: Int, useCase: GetMovieDetailUseCase): ViewModel() {

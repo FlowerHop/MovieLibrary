@@ -32,13 +32,16 @@ class MovieDetailFragment : Fragment(R.layout.fragment_movie_detail) {
         arguments?.let {
             movieID = it.getInt(KEY_ID)
         }
-
+        shimmerHolder.startShimmer()
         val movieDetailViewModel = Providers.provideMovieDetailViewModel(this, movieID)
 
         movieDetailViewModel.movieDetail.observe(viewLifecycleOwner) {
             Glide.with(thumbnail).load("${Constants.IMAGE_BASE_URL}${it.posterPath}").into(thumbnail)
             movieInfo.setMovie(it)
+            movieInfo.visibility = View.VISIBLE
             overview.text = it.overview
+            shimmerHolder.stopShimmer()
+            shimmerHolder.visibility = View.GONE
         }
     }
 

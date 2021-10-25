@@ -42,7 +42,8 @@
             app:layout_constraintStart_toStartOf="@id/leftGuideline"
             app:layout_constraintEnd_toEndOf="@id/rightGuideline"
             app:layout_constraintTop_toBottomOf="@id/thumbnail"
-            android:layout_marginTop="12dp" />
+            android:layout_marginTop="12dp"
+            android:visibility="gone" />
 
         <com.google.android.material.textview.MaterialTextView
             android:id="@+id/overview"
@@ -54,5 +55,18 @@
             android:textAppearance="?attr/textAppearanceBody1"
             android:layout_marginTop="6dp"
             tools:text="A card shark and his unwillingly-enlisted friends need to make a lot of cash quick after losing a sketchy poker match. To do this they decide to pull a heist on a small-time gang who happen to be operating out of the flat next door."/>
+
+        <com.facebook.shimmer.ShimmerFrameLayout
+            android:id="@+id/shimmerHolder"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            android:background="@color/surface" >
+
+            <include
+                layout="@layout/movie_detail_holder"/>
+        </com.facebook.shimmer.ShimmerFrameLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>
 </ScrollView>
