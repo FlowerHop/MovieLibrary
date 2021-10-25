@@ -41,7 +41,7 @@ class MovieDetailFragment : Fragment(R.layout.fragment_movie_detail) {
         val movieDetailViewModel = Providers.provideMovieDetailViewModel(this, movieID)
 
         movieDetailViewModel.movieDetail.observe(viewLifecycleOwner) {
-            Glide.with(thumbnail).load("${Constants.IMAGE_BASE_URL}${it.posterPath}").listener(object : RequestListener<Drawable> {
+            Glide.with(thumbnail).load("${Constants.IMAGE_BASE_URL}${it.backdropPath}").listener(object : RequestListener<Drawable> {
                 override fun onResourceReady(
                     resource: Drawable?,
                     model: Any?,

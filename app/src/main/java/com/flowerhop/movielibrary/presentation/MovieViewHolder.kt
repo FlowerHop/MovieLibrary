@@ -15,8 +15,6 @@ class MovieViewHolder(parent: ViewGroup): RecyclerView.ViewHolder(
     LayoutInflater.from(parent.context).inflate(R.layout.item_movie_rounded, parent, false)
 ) {
     fun bind(movie: Movie) {
-//        itemView.title.text = movie.title
-//        itemView.overview.text = movie.overview
         Glide.with(this.itemView).load("${Constants.IMAGE_BASE_URL}${movie.posterPath}").into(itemView.thumbnail)
         itemView.setOnClickListener {
             MovieBottomSheetDialog.show(
