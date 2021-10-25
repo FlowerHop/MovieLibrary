@@ -1,11 +1,16 @@
 package com.flowerhop.movielibrary.view
 
 import android.annotation.SuppressLint
+import android.graphics.drawable.Drawable
 import android.os.Bundle
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import com.bumptech.glide.Glide
+import com.bumptech.glide.load.DataSource
+import com.bumptech.glide.load.engine.GlideException
+import com.bumptech.glide.request.RequestListener
+import com.bumptech.glide.request.target.Target
 import com.flowerhop.movielibrary.R
 import com.flowerhop.movielibrary.comman.Constants
 import com.flowerhop.movielibrary.di.Providers
@@ -36,12 +41,35 @@ class MovieDetailFragment : Fragment(R.layout.fragment_movie_detail) {
         val movieDetailViewModel = Providers.provideMovieDetailViewModel(this, movieID)
 
         movieDetailViewModel.movieDetail.observe(viewLifecycleOwner) {
-            Glide.with(thumbnail).load("${Constants.IMAGE_BASE_URL}${it.posterPath}").into(thumbnail)
+            Glide.with(thumbnail).load("${Constants.IMAGE_BASE_URL}${it.posterPath}").listener(object : RequestListener<Drawable> {
+                override fun onResourceReady(
+                    resource: Drawable?,
+                    model: Any?,
+                    target: Target<Drawable>?,
+                    dataSource: DataSource?,
+                    isFirstResource: Boolean
+                ): Boolean {
+                    shimmerHolder.visibility = View.GONE
+                    movieInfo.visibility = View.VISIBLE
+                    overview.text = it.overview
+                    shimmerHolder.stopShimmer()
+                    return false
+                }
+
+                override fun onLoadFailed(
+                    e: GlideException?,
+                    model: Any?,
+                    target: Target<Drawable>?,
+                    isFirstResource: Boolean
+                ): Boolean {
+                    shimmerHolder.visibility = View.GONE
+                    movieInfo.visibility = View.VISIBLE
+                    overview.text = it.overview
+                    shimmerHolder.stopShimmer()
+                    return false
+                }
+            }).into(thumbnail)
             movieInfo.setMovie(it)
-            movieInfo.visibility = View.VISIBLE
-            overview.text = it.overview
-            shimmerHolder.stopShimmer()
-            shimmerHolder.visibility = View.GONE
         }
     }
 
