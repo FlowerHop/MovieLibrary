@@ -13,6 +13,7 @@ import com.flowerhop.movielibrary.presentation.MoviesViewModel
 import com.flowerhop.movielibrary.presentation.categorylist.MovieCategoryViewModel
 import com.flowerhop.movielibrary.presentation.moviedetail.MovieDetailViewModel
 import com.flowerhop.movielibrary.domain.model.MovieCategory
+import com.flowerhop.movielibrary.domain.usecase.SearchAtPageUseCase
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
@@ -42,6 +43,10 @@ object Providers {
 
     fun provideGetMovieDetailUseCase(tmdbRepository: TMDBRepository): GetMovieDetailUseCase {
         return GetMovieDetailUseCase(tmdbRepository)
+    }
+
+    fun provideSearchAtPageUseCase(tmdbRepository: TMDBRepository): SearchAtPageUseCase {
+        return SearchAtPageUseCase(tmdbRepository)
     }
 
     fun provideMovieCategoryViewModel(viewModelStoreOwner: ViewModelStoreOwner, category: MovieCategory): MovieCategoryViewModel {
