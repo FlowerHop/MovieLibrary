@@ -25,6 +25,15 @@ class TMDBRepositoryImpl(
         return api.getCategoryList(
             category = category.path,
             pageIndex = pageIndex,
-            apiKey = Constants.API_KEY)
+            apiKey = Constants.API_KEY
+        )
+    }
+
+    override suspend fun searchAtPage(query: String, pageIndex: Int): Response<MoviePageDto> {
+        return api.searchMovies(
+            query = query,
+            pageIndex = pageIndex,
+            apiKey = Constants.API_KEY
+        )
     }
 }

@@ -8,4 +8,5 @@ import retrofit2.Response
 interface TMDBRepository {
     suspend fun getMovieById(id: Int): Response<MovieDetailDto>
     suspend fun getCategoryListAtPage(category: MovieCategory, pageIndex: Int): Response<MoviePageDto>
+    suspend fun searchAtPage(query: String, pageIndex: Int): Response<MoviePageDto>
 }

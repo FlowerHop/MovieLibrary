@@ -70,4 +70,21 @@ class TMDBApiTest {
 
         Assert.assertEquals(expected, moviePage?.page)
     }
+
+    @Test
+    fun `Search spider movies should get something`() {
+        val expectedSuccessful = true
+        var isSuccess = false
+        runBlocking {
+            val result = api.searchMovies(
+                apiKey = Constants.API_KEY,
+                query = "spider",
+                pageIndex = 1
+            )
+
+            isSuccess = result.isSuccessful
+        }
+
+        Assert.assertEquals(expectedSuccessful, isSuccess)
+    }
 }
