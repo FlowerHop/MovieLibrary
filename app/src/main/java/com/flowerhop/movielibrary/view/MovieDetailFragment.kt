@@ -1,13 +1,10 @@
 package com.flowerhop.movielibrary.view
 
-import android.annotation.SuppressLint
-import android.content.res.ColorStateList
+import android.content.Context
 import android.graphics.drawable.Drawable
 import android.os.Bundle
-import android.view.ContextThemeWrapper
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.DataSource
@@ -15,12 +12,8 @@ import com.bumptech.glide.load.engine.GlideException
 import com.bumptech.glide.request.RequestListener
 import com.bumptech.glide.request.target.Target
 import com.flowerhop.movielibrary.R
-import com.flowerhop.movielibrary.R.color.on_primary
-import com.flowerhop.movielibrary.R.color.primary
 import com.flowerhop.movielibrary.comman.Constants
-import com.flowerhop.movielibrary.data.dto.Genre
 import com.flowerhop.movielibrary.di.Providers
-import com.google.android.material.chip.Chip
 import kotlinx.android.synthetic.main.fragment_movie_detail.*
 
 /**
@@ -82,16 +75,9 @@ class MovieDetailFragment : Fragment(R.layout.fragment_movie_detail) {
             }).into(thumbnail)
             movieInfo.setMovie(it)
             it.genres.map { genre ->
+                val ctx: Context = context ?: return@map
                 genreChips.addView(
-                    Chip(
-                        context,
-                        null,
-                        R.style.chip_movie_genre // TODO can't I just apply a style?
-                    ).apply {
-                        text = genre.name
-                        setTextColor(ContextCompat.getColor(context, on_primary))
-                        chipBackgroundColor = ColorStateList.valueOf(ContextCompat.getColor(context, primary))
-                    }
+                    UiUtil.createGenreChip(ctx, genre.name)
                 )
             }
         }
