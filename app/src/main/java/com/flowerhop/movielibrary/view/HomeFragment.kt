@@ -24,17 +24,11 @@ class HomeFragment: Fragment(R.layout.fragment_home) {
 
         moviesViewModel = Providers.provideMoviesViewModel(this)
         moviesViewModel.refreshing.observe(viewLifecycleOwner, {
-            refreshLayout.isRefreshing = false
             shimmerLists.visibility = if (it) View.VISIBLE else View.GONE
             nowPlayingList.visibility = if (it) View.GONE else View.VISIBLE
             popularList.visibility = if (it) View.GONE else View.VISIBLE
             topRatedList.visibility = if (it) View.GONE else View.VISIBLE
         })
-
-        refreshLayout.setOnRefreshListener {
-            refreshLayout.isRefreshing = false
-            moviesViewModel.refresh()
-        }
 
         moviesViewModel.refresh()
         initNowPlaying()

@@ -1,6 +1,7 @@
 package com.flowerhop.movielibrary.view
 
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.View
 import androidx.core.os.bundleOf
@@ -50,7 +51,6 @@ class MovieCategoryFragment : Fragment(R.layout.fragment_movie_page) {
             val layoutMgr = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
             layoutManager = layoutMgr
             adapter = moviePageRecyclerViewAdapter
-
             addOnScrollListener(object : RecyclerView.OnScrollListener() {
                 override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
                     super.onScrollStateChanged(recyclerView, newState)
