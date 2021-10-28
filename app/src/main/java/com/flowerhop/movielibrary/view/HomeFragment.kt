@@ -44,6 +44,7 @@ class HomeFragment: Fragment(R.layout.fragment_home) {
 
         nowPlayingList.title.text = resources.getText(R.string.now_playing)
         nowPlayingList.list.adapter = nowPlayingAdapter
+        nowPlayingList.list.isNestedScrollingEnabled = false
         nowPlayingList.onEventListener = object : SimpleCategoryList.OnEventListener {
             override fun onViewAll() {
                 toViewAll(MovieCategory.NowPlaying)
@@ -59,6 +60,7 @@ class HomeFragment: Fragment(R.layout.fragment_home) {
 
         popularList.title.text = resources.getText(R.string.popular)
         popularList.list.adapter = popularAdapter
+        popularList.list.isNestedScrollingEnabled = false
         popularList.onEventListener = object : SimpleCategoryList.OnEventListener {
             override fun onViewAll() {
                 toViewAll(MovieCategory.Popular)
@@ -74,6 +76,7 @@ class HomeFragment: Fragment(R.layout.fragment_home) {
 
         topRatedList.title.text = resources.getText(R.string.top_rated)
         topRatedList.list.adapter = topRatedAdapter
+        topRatedList.list.isNestedScrollingEnabled = false
         topRatedList.onEventListener = object : SimpleCategoryList.OnEventListener {
             override fun onViewAll() {
                 toViewAll(MovieCategory.TopRated)
