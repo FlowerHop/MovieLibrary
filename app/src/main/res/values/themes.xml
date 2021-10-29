@@ -22,4 +22,8 @@
     <style name="MovieBottomSheetDialog" parent="Theme.MovieLibrary">
         <item name="android:background">?attr/colorSurface</item>
     </style>
+
+    <style name="MovieToolBar" parent="ThemeOverlay.AppCompat.Dark.ActionBar">
+        <item name="android:background">@color/primary</item>
+    </style>
 </resources>

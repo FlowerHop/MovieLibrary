@@ -1,10 +1,12 @@
 package com.flowerhop.movielibrary.view
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.View
-import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
+import com.flowerhop.movielibrary.CategoryActivity
 import com.flowerhop.movielibrary.R
+import com.flowerhop.movielibrary.comman.Constants.BUNDLE_KEY_CATEGORY
 import com.flowerhop.movielibrary.di.Providers
 import com.flowerhop.movielibrary.domain.model.MovieCategory
 import com.flowerhop.movielibrary.presentation.MoviesAdapter
@@ -85,14 +87,11 @@ class HomeFragment: Fragment(R.layout.fragment_home) {
     }
 
     private fun toViewAll(category: MovieCategory) {
-        requireActivity().supportFragmentManager.beginTransaction().apply {
-            add(
-                R.id.fragmentContainer,
-                MovieCategoryFragment::class.java,
-                bundleOf(MovieCategoryFragment.KEY_CATEGORY to category.ordinal),
-                TAG)
-            addToBackStack(null)
-            commit()
-        }
+        requireActivity().startActivity(
+            Intent().apply {
+                setClass(requireContext(), CategoryActivity::class.java)
+                putExtra(BUNDLE_KEY_CATEGORY, category.ordinal)
+            }
+        )
     }
 }

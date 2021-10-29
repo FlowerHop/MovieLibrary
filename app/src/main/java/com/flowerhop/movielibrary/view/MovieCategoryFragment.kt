@@ -2,12 +2,15 @@ package com.flowerhop.movielibrary.view
 
 import android.os.Bundle
 import android.util.Log
-import androidx.fragment.app.Fragment
 import android.view.View
+import androidx.appcompat.app.AppCompatActivity
 import androidx.core.os.bundleOf
+import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.flowerhop.movielibrary.R
+import com.flowerhop.movielibrary.comman.Constants.BUNDLE_KEY_CATEGORY
+import com.flowerhop.movielibrary.comman.Constants.BUNDLE_KEY_MOVIE_ID
 import com.flowerhop.movielibrary.di.Providers
 import com.flowerhop.movielibrary.domain.model.MovieCategory
 import com.flowerhop.movielibrary.presentation.MovieCategoryAdapter
@@ -20,23 +23,25 @@ import kotlinx.android.synthetic.main.fragment_movie_page.*
 class MovieCategoryFragment : Fragment(R.layout.fragment_movie_page) {
     companion object {
         const val TAG = "MovieCategoryFragment"
-        const val KEY_CATEGORY = "KEY_CATEGORY"
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         val movieCategoryViewModel: MovieCategoryViewModel = arguments?.run {
-            val ordinal = getInt(KEY_CATEGORY)
+            val ordinal = getInt(BUNDLE_KEY_CATEGORY)
             val category = MovieCategory.values()[ordinal]
+            setToolBarTitle(category)
             Providers.provideMovieCategoryViewModel(this@MovieCategoryFragment, category)
-        } ?: Providers.provideMovieCategoryViewModel(this, MovieCategory.NowPlaying)
+        } ?: Providers.provideMovieCategoryViewModel(this, MovieCategory.NowPlaying).also {
+            setToolBarTitle(MovieCategory.NowPlaying)
+        }
 
         val moviePageRecyclerViewAdapter = MovieCategoryAdapter {
             val movieId = movieCategoryViewModel.movies.value?.get(it)?.id ?: return@MovieCategoryAdapter
 
             requireActivity().supportFragmentManager.beginTransaction().apply {
                 add(R.id.fragmentContainer, MovieDetailFragment::class.java,
-                    bundleOf(MovieDetailFragment.KEY_ID to movieId),
+                    bundleOf(BUNDLE_KEY_MOVIE_ID to movieId),
                     MovieDetailFragment.TAG)
                 addToBackStack(null)
                 commit()
@@ -60,5 +65,9 @@ class MovieCategoryFragment : Fragment(R.layout.fragment_movie_page) {
                 }
             })
         }
+    }
+
+    private fun setToolBarTitle(category: MovieCategory) {
+        (requireActivity() as? AppCompatActivity)?.supportActionBar?.title = category.name
     }
 }

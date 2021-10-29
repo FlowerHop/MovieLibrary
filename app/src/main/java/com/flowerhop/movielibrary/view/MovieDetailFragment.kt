@@ -4,7 +4,6 @@ import android.content.Context
 import android.graphics.drawable.Drawable
 import android.os.Bundle
 import android.view.View
-import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.DataSource
@@ -13,6 +12,7 @@ import com.bumptech.glide.request.RequestListener
 import com.bumptech.glide.request.target.Target
 import com.flowerhop.movielibrary.R
 import com.flowerhop.movielibrary.comman.Constants
+import com.flowerhop.movielibrary.comman.Constants.BUNDLE_KEY_MOVIE_ID
 import com.flowerhop.movielibrary.di.Providers
 import kotlinx.android.synthetic.main.fragment_movie_detail.*
 
@@ -24,18 +24,14 @@ import kotlinx.android.synthetic.main.fragment_movie_detail.*
 class MovieDetailFragment : Fragment(R.layout.fragment_movie_detail) {
     companion object {
         const val TAG = "MovieDetailFragment"
-        const val KEY_ID = "KEY_ID"
     }
 
     private var movieID: Int = 0
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
-        enableBackOnActionBar(true)
-
         arguments?.let {
-            movieID = it.getInt(KEY_ID)
+            movieID = it.getInt(BUNDLE_KEY_MOVIE_ID)
         }
         shimmerHolder.startShimmer()
         val movieDetailViewModel = Providers.provideMovieDetailViewModel(this, movieID)
@@ -80,18 +76,6 @@ class MovieDetailFragment : Fragment(R.layout.fragment_movie_detail) {
                     UiUtil.createGenreChip(ctx, genre.name)
                 )
             }
-        }
-    }
-
-    override fun onDestroyView() {
-        enableBackOnActionBar(false)
-        super.onDestroyView()
-    }
-
-    private fun enableBackOnActionBar(enable: Boolean) {
-        (requireActivity() as AppCompatActivity).supportActionBar?.apply {
-            setDisplayHomeAsUpEnabled(enable)
-            setDisplayShowHomeEnabled(enable)
         }
     }
 }
