@@ -90,5 +90,15 @@
             <include
                 layout="@layout/movie_detail_holder"/>
         </com.facebook.shimmer.ShimmerFrameLayout>
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/btnBack"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:src="@drawable/icon_back"
+            android:layout_marginTop="12dp"
+            android:layout_marginStart="12dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"/>
     </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.core.widget.NestedScrollView>

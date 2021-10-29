@@ -4,6 +4,7 @@ import android.content.Context
 import android.graphics.drawable.Drawable
 import android.os.Bundle
 import android.view.View
+import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.DataSource
@@ -30,6 +31,8 @@ class MovieDetailFragment : Fragment(R.layout.fragment_movie_detail) {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        (requireActivity() as? AppCompatActivity)?.supportActionBar?.hide()
+
         arguments?.let {
             movieID = it.getInt(BUNDLE_KEY_MOVIE_ID)
         }
@@ -77,5 +80,12 @@ class MovieDetailFragment : Fragment(R.layout.fragment_movie_detail) {
                 )
             }
         }
+
+        btnBack.setOnClickListener { requireActivity().onBackPressed() }
+    }
+
+    override fun onDestroyView() {
+        (requireActivity() as? AppCompatActivity)?.supportActionBar?.show()
+        super.onDestroyView()
     }
 }

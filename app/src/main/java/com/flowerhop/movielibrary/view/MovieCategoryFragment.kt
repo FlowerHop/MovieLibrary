@@ -15,6 +15,7 @@ import com.flowerhop.movielibrary.di.Providers
 import com.flowerhop.movielibrary.domain.model.MovieCategory
 import com.flowerhop.movielibrary.presentation.MovieCategoryAdapter
 import com.flowerhop.movielibrary.presentation.categorylist.MovieCategoryViewModel
+import kotlinx.android.synthetic.main.activity_category.*
 import kotlinx.android.synthetic.main.fragment_movie_page.*
 
 /**
@@ -30,10 +31,10 @@ class MovieCategoryFragment : Fragment(R.layout.fragment_movie_page) {
         val movieCategoryViewModel: MovieCategoryViewModel = arguments?.run {
             val ordinal = getInt(BUNDLE_KEY_CATEGORY)
             val category = MovieCategory.values()[ordinal]
-            setToolBarTitle(category)
+            setupToolBar(category)
             Providers.provideMovieCategoryViewModel(this@MovieCategoryFragment, category)
         } ?: Providers.provideMovieCategoryViewModel(this, MovieCategory.NowPlaying).also {
-            setToolBarTitle(MovieCategory.NowPlaying)
+            setupToolBar(MovieCategory.NowPlaying)
         }
 
         val moviePageRecyclerViewAdapter = MovieCategoryAdapter {
@@ -67,7 +68,7 @@ class MovieCategoryFragment : Fragment(R.layout.fragment_movie_page) {
         }
     }
 
-    private fun setToolBarTitle(category: MovieCategory) {
+    private fun setupToolBar(category: MovieCategory) {
         (requireActivity() as? AppCompatActivity)?.supportActionBar?.title = category.name
     }
 }
