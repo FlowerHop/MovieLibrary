@@ -6,7 +6,7 @@ import android.view.View
 import androidx.fragment.app.Fragment
 import com.flowerhop.movielibrary.CategoryActivity
 import com.flowerhop.movielibrary.R
-import com.flowerhop.movielibrary.comman.Constants.BUNDLE_KEY_CATEGORY
+import com.flowerhop.movielibrary.view.BundleKey.CATEGORY
 import com.flowerhop.movielibrary.di.Providers
 import com.flowerhop.movielibrary.domain.model.MovieCategory
 import com.flowerhop.movielibrary.presentation.MoviesAdapter
@@ -90,7 +90,7 @@ class HomeFragment: Fragment(R.layout.fragment_home) {
         requireActivity().startActivity(
             Intent().apply {
                 setClass(requireContext(), CategoryActivity::class.java)
-                putExtra(BUNDLE_KEY_CATEGORY, category.ordinal)
+                putExtra(CATEGORY, category.ordinal)
             }
         )
     }

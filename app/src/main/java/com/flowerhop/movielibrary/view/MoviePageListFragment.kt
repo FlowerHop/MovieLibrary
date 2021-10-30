@@ -8,15 +8,14 @@ import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.flowerhop.movielibrary.R
-import com.flowerhop.movielibrary.comman.Constants.BUNDLE_KEY_CATEGORY
-import com.flowerhop.movielibrary.comman.Constants.BUNDLE_KEY_GENRE_ID
-import com.flowerhop.movielibrary.comman.Constants.BUNDLE_KEY_GENRE_NAME
-import com.flowerhop.movielibrary.comman.Constants.BUNDLE_KEY_MOVIE_ID
+import com.flowerhop.movielibrary.view.BundleKey.CATEGORY
+import com.flowerhop.movielibrary.view.BundleKey.GENRE_ID
+import com.flowerhop.movielibrary.view.BundleKey.GENRE_NAME
+import com.flowerhop.movielibrary.view.BundleKey.MOVIE_ID
 import com.flowerhop.movielibrary.data.dto.Genre
 import com.flowerhop.movielibrary.di.Providers
 import com.flowerhop.movielibrary.domain.model.MovieCategory
 import com.flowerhop.movielibrary.presentation.MovieCategoryAdapter
-import com.flowerhop.movielibrary.presentation.pagelist.MovieCategoryViewModel
 import kotlinx.android.synthetic.main.activity_category.*
 import kotlinx.android.synthetic.main.fragment_movie_page.*
 
@@ -31,13 +30,13 @@ class MoviePageListFragment : Fragment(R.layout.fragment_movie_page) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         arguments?.run {
-            if (containsKey(BUNDLE_KEY_CATEGORY)) {
-                val ordinal = getInt(BUNDLE_KEY_CATEGORY)
+            if (containsKey(CATEGORY)) {
+                val ordinal = getInt(CATEGORY)
                 val category = MovieCategory.values()[ordinal]
                 initWithCategory(category)
-            } else if (containsKey((BUNDLE_KEY_GENRE_ID))) {
-                val genreName = getString(BUNDLE_KEY_GENRE_NAME) ?: ""
-                val genreId = getInt(BUNDLE_KEY_GENRE_ID)
+            } else if (containsKey((GENRE_ID))) {
+                val genreName = getString(GENRE_NAME) ?: ""
+                val genreId = getInt(GENRE_ID)
                 initWithGenre(Genre(genreId, genreName))
             }
         }
@@ -53,7 +52,7 @@ class MoviePageListFragment : Fragment(R.layout.fragment_movie_page) {
 
             requireActivity().supportFragmentManager.beginTransaction().apply {
                 add(R.id.fragmentContainer, MovieDetailFragment::class.java,
-                    bundleOf(BUNDLE_KEY_MOVIE_ID to movieId),
+                    bundleOf(MOVIE_ID to movieId),
                     MovieDetailFragment.TAG)
                 addToBackStack(null)
                 commit()
@@ -88,7 +87,7 @@ class MoviePageListFragment : Fragment(R.layout.fragment_movie_page) {
 
             requireActivity().supportFragmentManager.beginTransaction().apply {
                 add(R.id.fragmentContainer, MovieDetailFragment::class.java,
-                    bundleOf(BUNDLE_KEY_MOVIE_ID to movieId),
+                    bundleOf(MOVIE_ID to movieId),
                     MovieDetailFragment.TAG)
                 addToBackStack(null)
                 commit()

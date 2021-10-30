@@ -13,10 +13,10 @@ import com.bumptech.glide.load.engine.GlideException
 import com.bumptech.glide.request.RequestListener
 import com.bumptech.glide.request.target.Target
 import com.flowerhop.movielibrary.R
+import com.flowerhop.movielibrary.view.BundleKey.GENRE_ID
+import com.flowerhop.movielibrary.view.BundleKey.GENRE_NAME
+import com.flowerhop.movielibrary.view.BundleKey.MOVIE_ID
 import com.flowerhop.movielibrary.comman.Constants
-import com.flowerhop.movielibrary.comman.Constants.BUNDLE_KEY_GENRE_ID
-import com.flowerhop.movielibrary.comman.Constants.BUNDLE_KEY_GENRE_NAME
-import com.flowerhop.movielibrary.comman.Constants.BUNDLE_KEY_MOVIE_ID
 import com.flowerhop.movielibrary.data.dto.Genre
 import com.flowerhop.movielibrary.di.Providers
 import kotlinx.android.synthetic.main.fragment_movie_detail.*
@@ -38,7 +38,7 @@ class MovieDetailFragment : Fragment(R.layout.fragment_movie_detail) {
         (requireActivity() as? AppCompatActivity)?.supportActionBar?.hide()
 
         arguments?.let {
-            movieID = it.getInt(BUNDLE_KEY_MOVIE_ID)
+            movieID = it.getInt(MOVIE_ID)
         }
         shimmerHolder.startShimmer()
         val movieDetailViewModel = Providers.provideMovieDetailViewModel(this, movieID)
@@ -100,8 +100,8 @@ class MovieDetailFragment : Fragment(R.layout.fragment_movie_detail) {
             add(
                 R.id.fragmentContainer,
                 MoviePageListFragment::class.java, bundleOf(
-                    BUNDLE_KEY_GENRE_ID to genre.id,
-                    BUNDLE_KEY_GENRE_NAME to genre.name
+                    GENRE_ID to genre.id,
+                    GENRE_NAME to genre.name
                 )
             )
             addToBackStack(null)
