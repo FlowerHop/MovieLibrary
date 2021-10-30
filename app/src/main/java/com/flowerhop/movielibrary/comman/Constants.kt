@@ -6,5 +6,7 @@ object Constants {
     const val API_KEY = "a56648c829ad25080106ba1c138c3e0b"
 
     const val BUNDLE_KEY_CATEGORY = "BUNDLE_KEY_CATEGORY"
+    const val BUNDLE_KEY_GENRE_ID = "BUNDLE_KEY_GENRE_ID"
+    const val BUNDLE_KEY_GENRE_NAME = "BUNDLE_KEY_GENRE_NAME"
     const val BUNDLE_KEY_MOVIE_ID = "BUNDLE_KEY_MOVIE_ID"
 }

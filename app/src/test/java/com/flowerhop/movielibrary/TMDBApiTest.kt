@@ -87,4 +87,21 @@ class TMDBApiTest {
 
         Assert.assertEquals(expectedSuccessful, isSuccess)
     }
+
+    @Test
+    fun `Discover movies with a genre(id = 18)`() {
+        val expectedSuccessful = true
+        var isSuccess = false
+        runBlocking {
+            val result = api.discoverMovies(
+                apiKey = Constants.API_KEY,
+                withGenres = listOf("18").joinToString(),
+                pageIndex = 1
+            )
+print(result.body())
+            isSuccess = result.isSuccessful
+        }
+
+        Assert.assertEquals(expectedSuccessful, isSuccess)
+    }
 }

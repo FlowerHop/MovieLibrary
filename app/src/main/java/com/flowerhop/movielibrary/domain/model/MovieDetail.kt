@@ -3,8 +3,6 @@ package com.flowerhop.movielibrary.domain.model
 import com.flowerhop.movielibrary.data.dto.Genre
 import com.flowerhop.movielibrary.data.dto.ProductionCompany
 import com.flowerhop.movielibrary.data.dto.ProductionCountry
-import com.flowerhop.movielibrary.data.dto.SpokenLanguage
-import com.google.gson.annotations.SerializedName
 
 data class MovieDetail(
     val adult: Boolean,

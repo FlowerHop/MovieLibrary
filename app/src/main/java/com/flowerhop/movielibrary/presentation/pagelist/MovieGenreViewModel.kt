@@ -1,27 +1,27 @@
-package com.flowerhop.movielibrary.presentation.categorylist
+package com.flowerhop.movielibrary.presentation.pagelist
 
 import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.flowerhop.movielibrary.data.dto.Genre
 import com.flowerhop.movielibrary.domain.model.Movie
-import com.flowerhop.movielibrary.domain.usecase.GetCategoryListUseCase
-import com.flowerhop.movielibrary.domain.model.MovieCategory
+import com.flowerhop.movielibrary.domain.usecase.DiscoverMoviesWithGenres
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
-class MovieCategoryViewModel(
-    private val category: MovieCategory,
-    private val useCase: GetCategoryListUseCase
+class MovieGenreViewModel(
+    private val genre: Genre,
+    private val useCase: DiscoverMoviesWithGenres
 ): ViewModel() {
     private var loadedPage = 0
 
-    private val _movies = MutableLiveData<MutableList<Movie>>(mutableListOf()).apply {
+    private val _movies: MutableLiveData<MutableList<Movie>> = MutableLiveData(mutableListOf<Movie>()).apply {
         loadPage(1)
     }
 
-    var movies: LiveData<MutableList<Movie>> = _movies
+    val movies: LiveData<MutableList<Movie>> = _movies
 
     fun loadMoreIfNeed(lastVisiblePosition: Int) {
         _movies.value?.let {
@@ -37,7 +37,7 @@ class MovieCategoryViewModel(
         viewModelScope.launch(Dispatchers.IO) {
             useCase(
                 pageIndex = pageIndex,
-                category = category
+                genres = listOf(genre)
             )?.apply {
                 _movies.value?.addAll(results)
                 _movies.postValue(_movies.value)
@@ -47,7 +47,7 @@ class MovieCategoryViewModel(
 
     companion object {
         private const val DEBUG = true
-        private const val TAG = "MovieCategoryVM"
+        private const val TAG = "MovieGenreViewModel"
         private fun logMsg(scope: String, msg: String) {
             if (!DEBUG) return
             Log.d(TAG, "[$scope] - $msg")

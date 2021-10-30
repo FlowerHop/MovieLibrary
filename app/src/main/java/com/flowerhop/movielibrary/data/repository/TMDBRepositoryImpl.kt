@@ -1,6 +1,7 @@
 package com.flowerhop.movielibrary.data.repository
 
 import com.flowerhop.movielibrary.comman.Constants
+import com.flowerhop.movielibrary.data.dto.Genre
 import com.flowerhop.movielibrary.data.dto.MovieDetailDto
 import com.flowerhop.movielibrary.data.dto.MoviePageDto
 import com.flowerhop.movielibrary.data.remote.TMDBApi
@@ -32,6 +33,14 @@ class TMDBRepositoryImpl(
     override suspend fun searchAtPage(query: String, pageIndex: Int): Response<MoviePageDto> {
         return api.searchMovies(
             query = query,
+            pageIndex = pageIndex,
+            apiKey = Constants.API_KEY
+        )
+    }
+
+    override suspend fun discoverGenresAtPage(genres: List<Genre>, pageIndex: Int): Response<MoviePageDto> {
+        return api.discoverMovies(
+            withGenres = genres.joinToString { it.id.toString() },
             pageIndex = pageIndex,
             apiKey = Constants.API_KEY
         )

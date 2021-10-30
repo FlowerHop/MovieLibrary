@@ -6,7 +6,7 @@ import androidx.core.os.bundleOf
 import com.flowerhop.movielibrary.comman.Constants.BUNDLE_KEY_CATEGORY
 import com.flowerhop.movielibrary.comman.Constants.BUNDLE_KEY_MOVIE_ID
 import com.flowerhop.movielibrary.databinding.ActivityCategoryBinding
-import com.flowerhop.movielibrary.view.MovieCategoryFragment
+import com.flowerhop.movielibrary.view.MoviePageListFragment
 import com.flowerhop.movielibrary.view.MovieDetailFragment
 import kotlinx.android.synthetic.main.activity_category.*
 
@@ -35,9 +35,9 @@ class CategoryActivity : AppCompatActivity() {
             supportFragmentManager.beginTransaction().apply {
                 add(
                     R.id.fragmentContainer,
-                    MovieCategoryFragment::class.java,
+                    MoviePageListFragment::class.java,
                     bundleOf(BUNDLE_KEY_CATEGORY to it),
-                    MovieCategoryFragment.TAG
+                    MoviePageListFragment.TAG
                 )
 
                 commit()

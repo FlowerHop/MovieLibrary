@@ -8,5 +8,5 @@
     android:layout_height="match_parent"
     android:background="@color/surface"
     app:layoutManager="LinearLayoutManager"
-    tools:context=".view.MovieCategoryFragment"
+    tools:context=".view.MoviePageListFragment"
     tools:listitem="@layout/movie_item_in_page" />

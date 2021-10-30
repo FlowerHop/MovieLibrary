@@ -5,6 +5,7 @@ import android.graphics.drawable.Drawable
 import android.os.Bundle
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.DataSource
@@ -13,7 +14,10 @@ import com.bumptech.glide.request.RequestListener
 import com.bumptech.glide.request.target.Target
 import com.flowerhop.movielibrary.R
 import com.flowerhop.movielibrary.comman.Constants
+import com.flowerhop.movielibrary.comman.Constants.BUNDLE_KEY_GENRE_ID
+import com.flowerhop.movielibrary.comman.Constants.BUNDLE_KEY_GENRE_NAME
 import com.flowerhop.movielibrary.comman.Constants.BUNDLE_KEY_MOVIE_ID
+import com.flowerhop.movielibrary.data.dto.Genre
 import com.flowerhop.movielibrary.di.Providers
 import kotlinx.android.synthetic.main.fragment_movie_detail.*
 
@@ -76,7 +80,9 @@ class MovieDetailFragment : Fragment(R.layout.fragment_movie_detail) {
             it.genres.map { genre ->
                 val ctx: Context = context ?: return@map
                 genreChips.addView(
-                    UiUtil.createGenreChip(ctx, genre.name)
+                    UiUtil.createGenreChip(ctx, genre.name).apply {
+                        setOnClickListener { navigateToPageListFragment(genre) }
+                    }
                 )
             }
         }
@@ -87,5 +93,19 @@ class MovieDetailFragment : Fragment(R.layout.fragment_movie_detail) {
     override fun onDestroyView() {
         (requireActivity() as? AppCompatActivity)?.supportActionBar?.show()
         super.onDestroyView()
+    }
+
+    private fun navigateToPageListFragment(genre: Genre) {
+        requireActivity().supportFragmentManager.beginTransaction().apply {
+            add(
+                R.id.fragmentContainer,
+                MoviePageListFragment::class.java, bundleOf(
+                    BUNDLE_KEY_GENRE_ID to genre.id,
+                    BUNDLE_KEY_GENRE_NAME to genre.name
+                )
+            )
+            addToBackStack(null)
+            commit()
+        }
     }
 }

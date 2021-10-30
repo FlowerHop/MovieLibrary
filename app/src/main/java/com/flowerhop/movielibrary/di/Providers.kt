@@ -4,16 +4,19 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelStoreOwner
 import com.flowerhop.movielibrary.AnyViewModelFactory
 import com.flowerhop.movielibrary.comman.Constants
+import com.flowerhop.movielibrary.data.dto.Genre
 import com.flowerhop.movielibrary.data.remote.TMDBApi
 import com.flowerhop.movielibrary.data.repository.TMDBRepositoryImpl
 import com.flowerhop.movielibrary.domain.repository.TMDBRepository
 import com.flowerhop.movielibrary.domain.usecase.GetCategoryListUseCase
 import com.flowerhop.movielibrary.domain.usecase.GetMovieDetailUseCase
 import com.flowerhop.movielibrary.presentation.MoviesViewModel
-import com.flowerhop.movielibrary.presentation.categorylist.MovieCategoryViewModel
+import com.flowerhop.movielibrary.presentation.pagelist.MovieCategoryViewModel
 import com.flowerhop.movielibrary.presentation.moviedetail.MovieDetailViewModel
 import com.flowerhop.movielibrary.domain.model.MovieCategory
+import com.flowerhop.movielibrary.domain.usecase.DiscoverMoviesWithGenres
 import com.flowerhop.movielibrary.domain.usecase.SearchAtPageUseCase
+import com.flowerhop.movielibrary.presentation.pagelist.MovieGenreViewModel
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
@@ -49,6 +52,10 @@ object Providers {
         return SearchAtPageUseCase(tmdbRepository)
     }
 
+    fun provideDiscoverMoviesWithGenresUseCase(tmdbRepository: TMDBRepository): DiscoverMoviesWithGenres {
+        return DiscoverMoviesWithGenres(tmdbRepository)
+    }
+
     fun provideMovieCategoryViewModel(viewModelStoreOwner: ViewModelStoreOwner, category: MovieCategory): MovieCategoryViewModel {
         val tmdbApi = provideTMDBApi()
         val tmdbRepository: TMDBRepository = provideTMDBRepository(tmdbApi)
@@ -61,6 +68,20 @@ object Providers {
         }
 
         return ViewModelProvider(viewModelStoreOwner, viewModelFactory).get(MovieCategoryViewModel::class.java)
+    }
+
+    fun provideMovieGenreViewModel(viewModelStoreOwner: ViewModelStoreOwner, genre: Genre): MovieGenreViewModel {
+        val tmdbApi = provideTMDBApi()
+        val tmdbRepository: TMDBRepository = provideTMDBRepository(tmdbApi)
+        val useCase = provideDiscoverMoviesWithGenresUseCase(tmdbRepository)
+        val viewModelFactory = AnyViewModelFactory {
+            MovieGenreViewModel(
+                genre = genre,
+                useCase = useCase
+            )
+        }
+
+        return ViewModelProvider(viewModelStoreOwner, viewModelFactory).get(MovieGenreViewModel::class.java)
     }
 
     fun provideMovieDetailViewModel(viewModelStoreOwner: ViewModelStoreOwner, movieId: Int): MovieDetailViewModel{
