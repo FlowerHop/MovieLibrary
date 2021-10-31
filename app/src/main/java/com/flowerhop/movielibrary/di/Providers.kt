@@ -115,10 +115,12 @@ object Providers {
     fun provideMovieSearchingViewModel(viewModelStoreOwner: ViewModelStoreOwner): MovieSearchingViewModel {
         val tmdbApi = provideTMDBApi()
         val tmdbRepository: TMDBRepository = provideTMDBRepository(tmdbApi)
-        val useCase = provideSearchAtPageUseCase(tmdbRepository)
+        val searchAtPageUseCase = provideSearchAtPageUseCase(tmdbRepository)
+        val getCategoryListUseCase = provideGetCategoryListUseCase(tmdbRepository)
         val viewModelFactory = AnyViewModelFactory {
             MovieSearchingViewModel(
-                useCase = useCase
+                searchAtPageUseCase = searchAtPageUseCase,
+                getCategoryListUseCase = getCategoryListUseCase
             )
         }
 

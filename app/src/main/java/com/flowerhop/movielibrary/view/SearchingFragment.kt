@@ -7,12 +7,16 @@ import android.view.View
 import android.view.inputmethod.EditorInfo
 import android.view.inputmethod.InputMethodManager
 import android.widget.TextView
+import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.flowerhop.movielibrary.R
 import com.flowerhop.movielibrary.di.Providers
+import com.flowerhop.movielibrary.domain.model.Movie
+import com.flowerhop.movielibrary.presentation.MovieCategoryAdapter
 import com.flowerhop.movielibrary.presentation.MoviesAdapter
+import com.flowerhop.movielibrary.presentation.pagelist.MovieSearchingViewModel
 import kotlinx.android.synthetic.main.fragment_searching.*
 
 class SearchingFragment: Fragment(R.layout.fragment_searching) {
@@ -23,11 +27,31 @@ class SearchingFragment: Fragment(R.layout.fragment_searching) {
             searchEditText.text?.clear()
         }
 
+        defaultCategory.text = MovieSearchingViewModel.DEFAULT_CATEGORY.name
         val adapter = MoviesAdapter()
-        val movieSearchingViewModel = Providers.provideMovieSearchingViewModel(this).apply {
-            movies.observe(viewLifecycleOwner) {
-                adapter.submitList(it.toMutableList())
-            }
+        val movieSearchingViewModel = Providers.provideMovieSearchingViewModel(this)
+
+        val defaultAdapter = MovieCategoryAdapter() {
+            val movie = movieSearchingViewModel.defaultMovies.value?.get(it) ?: return@MovieCategoryAdapter
+            navigateToMovieDetail(movie)
+        }
+
+        movieSearchingViewModel.movies.observe(viewLifecycleOwner) {
+            val result = it.toMutableList()
+            adapter.submitList(result)
+
+            val noResult = result.isEmpty()
+            list.visibility = if (noResult) View.GONE else View.VISIBLE
+            defaultCategory.visibility = if (noResult) View.VISIBLE else View.GONE
+            defaultList.visibility = if (noResult) View.VISIBLE else View.GONE
+            val searchText = searchEditText.text.toString()
+
+            invalidMessage.text = resources.getString(R.string.no_results_message, searchText)
+            invalidMessage.visibility = if (searchText.isEmpty() || !noResult) View.GONE else View.VISIBLE
+            divider.visibility = invalidMessage.visibility
+        }
+        movieSearchingViewModel.defaultMovies.observe(viewLifecycleOwner) {
+            defaultAdapter.submitList(it.toMutableList())
         }
 
         list.apply {
@@ -43,15 +67,14 @@ class SearchingFragment: Fragment(R.layout.fragment_searching) {
             })
         }
 
+        defaultList.adapter = defaultAdapter
+
         searchEditText.setOnEditorActionListener(object : TextView.OnEditorActionListener {
             override fun onEditorAction(v: TextView?, actionId: Int, event: KeyEvent?): Boolean {
                 if (actionId == EditorInfo.IME_ACTION_DONE) {
                     v?.let {
                         movieSearchingViewModel.search(it.text.trim().toString())
-
-                        val inputMethodManager: InputMethodManager = requireContext().getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
-                        inputMethodManager.hideSoftInputFromWindow(it.windowToken, 0)
-                        it.clearFocus()
+                        leaveInputSession()
                     }
                     return true
                 }
@@ -59,6 +82,29 @@ class SearchingFragment: Fragment(R.layout.fragment_searching) {
                 return false
             }
         })
+
+        movieSearchingViewModel.search("")
+    }
+
+    private fun navigateToMovieDetail(movie: Movie) {
+        leaveInputSession()
+        requireActivity().supportFragmentManager.beginTransaction().apply {
+            add(R.id.fragmentContainer, MovieDetailFragment::class.java,
+                bundleOf(BundleKey.MOVIE_ID to movie.id),
+                MovieDetailFragment.TAG)
+            addToBackStack(null)
+            commit()
+        }
+    }
+
+    private fun leaveInputSession() {
+        searchEditText.clearFocus()
+        hideKeyBoard()
+    }
+
+    private fun hideKeyBoard() {
+        val inputMethodManager = requireContext().getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+        inputMethodManager.hideSoftInputFromWindow(searchEditText.windowToken, 0)
     }
 
     companion object {

@@ -6,26 +6,42 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.flowerhop.movielibrary.domain.model.Movie
+import com.flowerhop.movielibrary.domain.model.MovieCategory.NowPlaying
+import com.flowerhop.movielibrary.domain.usecase.GetCategoryListUseCase
 import com.flowerhop.movielibrary.domain.usecase.SearchAtPageUseCase
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
 class MovieSearchingViewModel(
-    private val useCase: SearchAtPageUseCase
+    private val searchAtPageUseCase: SearchAtPageUseCase,
+    private val getCategoryListUseCase: GetCategoryListUseCase
 ): ViewModel() {
     private var loadedPage = 0
     private var searchString: String = ""
 
     private val _movies: MutableLiveData<MutableList<Movie>> = MutableLiveData(mutableListOf())
+    private val _defaultMovies: MutableLiveData<MutableList<Movie>> = MutableLiveData(mutableListOf<Movie>()).apply {
+        viewModelScope.launch(Dispatchers.IO) {
+            getCategoryListUseCase(1, DEFAULT_CATEGORY)?.let {
+                postValue(it.results.toMutableList())
+            }
+        }
+    }
 
     val movies: LiveData<MutableList<Movie>> = _movies
+    val defaultMovies: LiveData<MutableList<Movie>> = _defaultMovies
 
     fun search(searchString: String) {
         loadedPage = 0
         this.searchString = searchString
 
+        if (loadDefaultPage()) {
+            _movies.value = mutableListOf()
+            return
+        }
+
         viewModelScope.launch(Dispatchers.IO) {
-            useCase(
+            searchAtPageUseCase(
                 pageIndex = ++loadedPage,
                 query = searchString
             )?.apply {
@@ -39,6 +55,7 @@ class MovieSearchingViewModel(
     }
 
     fun loadMoreIfNeed(lastVisiblePosition: Int) {
+        if (loadDefaultPage()) return
         _movies.value?.let {
             if (!needLoadMore(it.size, lastVisiblePosition)) return
             loadPage(loadedPage + 1)
@@ -50,7 +67,7 @@ class MovieSearchingViewModel(
         if (pageIndex <= loadedPage) return
         loadedPage = pageIndex
         viewModelScope.launch(Dispatchers.IO) {
-            useCase(
+            searchAtPageUseCase(
                 pageIndex = pageIndex,
                 query = searchString
             )?.apply {
@@ -60,9 +77,12 @@ class MovieSearchingViewModel(
         }
     }
 
+    private fun loadDefaultPage(): Boolean = searchString.isEmpty()
+
     companion object {
         private const val DEBUG = true
         private const val TAG = "MovieSearchingViewModel"
+        val DEFAULT_CATEGORY = NowPlaying
         private fun logMsg(scope: String, msg: String) {
             if (!DEBUG) return
             Log.d(TAG, "[$scope] - $msg")

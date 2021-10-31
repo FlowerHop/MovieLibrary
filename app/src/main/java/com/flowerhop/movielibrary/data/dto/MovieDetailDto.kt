@@ -8,7 +8,7 @@ data class MovieDetailDto(
     @SerializedName("adult")
     val adult: Boolean,
     @SerializedName("backdrop_path")
-    val backdropPath: String,
+    val backdropPath: String?,
     @SerializedName("belongs_to_collection")
     val belongsToCollection: Any,
     @SerializedName("budget")
@@ -20,7 +20,7 @@ data class MovieDetailDto(
     @SerializedName("id")
     val id: Int,
     @SerializedName("imdb_id")
-    val imdbId: String,
+    val imdbId: String?,
     @SerializedName("original_language")
     val originalLanguage: String,
     @SerializedName("original_title")

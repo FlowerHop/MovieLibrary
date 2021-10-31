@@ -7,4 +7,5 @@
     <string name="button_detail_text">Detail</string>
     <string name="reviewers">%s reviewers</string>
     <string name="search">Search</string>
+    <string name="no_results_message">No results for \"%s\"</string>
 </resources>
