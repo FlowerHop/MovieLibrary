@@ -1,7 +1,6 @@
 package com.flowerhop.movielibrary.data.dto
 
 
-import android.util.Log
 import com.flowerhop.movielibrary.domain.model.Movie
 import com.google.gson.annotations.SerializedName
 
@@ -23,7 +22,7 @@ data class Result(
     @SerializedName("popularity")
     val popularity: Double,
     @SerializedName("poster_path")
-    val posterPath: String,
+    val posterPath: String?,
     @SerializedName("release_date")
     val releaseDate: String,
     @SerializedName("title")

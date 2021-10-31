@@ -1,5 +1,6 @@
 package com.flowerhop.movielibrary
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
@@ -18,6 +19,10 @@ class MainActivity : AppCompatActivity() {
         supportFragmentManager.beginTransaction().apply {
             add(R.id.fragmentContainer, HomeFragment::class.java, null, HomeFragment.TAG)
             commit()
+        }
+
+        iconSearch.setOnClickListener {
+            startActivity(Intent(this, SearchingActivity::class.java))
         }
     }
 }

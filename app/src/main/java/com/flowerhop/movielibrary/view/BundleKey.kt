@@ -5,4 +5,5 @@ object BundleKey {
     const val GENRE_ID = "BUNDLE_KEY_GENRE_ID"
     const val GENRE_NAME = "BUNDLE_KEY_GENRE_NAME"
     const val MOVIE_ID = "BUNDLE_KEY_MOVIE_ID"
+    const val SEARCH_TEXT = "BUNDLE_KEY_SEARCH_TEXT"
 }

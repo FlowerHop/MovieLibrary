@@ -17,6 +17,7 @@ import com.flowerhop.movielibrary.domain.model.MovieCategory
 import com.flowerhop.movielibrary.domain.usecase.DiscoverMoviesWithGenres
 import com.flowerhop.movielibrary.domain.usecase.SearchAtPageUseCase
 import com.flowerhop.movielibrary.presentation.pagelist.MovieGenreViewModel
+import com.flowerhop.movielibrary.presentation.pagelist.MovieSearchingViewModel
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
@@ -109,5 +110,18 @@ object Providers {
         }
 
         return ViewModelProvider(viewModelStoreOwner, viewModelFactory).get(MoviesViewModel::class.java)
+    }
+
+    fun provideMovieSearchingViewModel(viewModelStoreOwner: ViewModelStoreOwner): MovieSearchingViewModel {
+        val tmdbApi = provideTMDBApi()
+        val tmdbRepository: TMDBRepository = provideTMDBRepository(tmdbApi)
+        val useCase = provideSearchAtPageUseCase(tmdbRepository)
+        val viewModelFactory = AnyViewModelFactory {
+            MovieSearchingViewModel(
+                useCase = useCase
+            )
+        }
+
+        return ViewModelProvider(viewModelStoreOwner, viewModelFactory).get(MovieSearchingViewModel::class.java)
     }
 }
