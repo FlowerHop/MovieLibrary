@@ -7,6 +7,7 @@ import android.view.View
 import android.view.inputmethod.EditorInfo
 import android.view.inputmethod.InputMethodManager
 import android.widget.TextView
+import androidx.appcompat.app.AppCompatActivity
 import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.GridLayoutManager
@@ -22,6 +23,11 @@ import kotlinx.android.synthetic.main.fragment_searching.*
 class SearchingFragment: Fragment(R.layout.fragment_searching) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        (requireActivity() as? AppCompatActivity)?.supportActionBar?.apply {
+            show()
+            setDisplayShowTitleEnabled(false)
+        }
+
         searchEditText.requestFocus()
         searchEditTextLayout.setEndIconOnClickListener {
             searchEditText.text?.clear()
@@ -89,7 +95,7 @@ class SearchingFragment: Fragment(R.layout.fragment_searching) {
     private fun navigateToMovieDetail(movie: Movie) {
         leaveInputSession()
         requireActivity().supportFragmentManager.beginTransaction().apply {
-            add(R.id.fragmentContainer, MovieDetailFragment::class.java,
+            replace(R.id.fragmentContainer, MovieDetailFragment::class.java,
                 bundleOf(BundleKey.MOVIE_ID to movie.id),
                 MovieDetailFragment.TAG)
             addToBackStack(null)

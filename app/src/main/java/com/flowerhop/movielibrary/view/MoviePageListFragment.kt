@@ -46,7 +46,7 @@ class MoviePageListFragment : Fragment(R.layout.fragment_movie_page) {
 
     private fun initWithCategory(movieCategory: MovieCategory) {
         val movieCategoryViewModel = Providers.provideMovieCategoryViewModel(this@MoviePageListFragment, movieCategory)
-        setupToolBar(movieCategory)
+        setupToolBar(movieCategory.name)
 
         val moviePageRecyclerViewAdapter = MovieCategoryAdapter {
             val movieId = movieCategoryViewModel.movies.value?.get(it)?.id ?: return@MovieCategoryAdapter
@@ -88,7 +88,7 @@ class MoviePageListFragment : Fragment(R.layout.fragment_movie_page) {
 
     private fun initWithGenre(genre: Genre) {
         val movieGenreViewModel = Providers.provideMovieGenreViewModel(this@MoviePageListFragment, genre)
-        setupToolBar(genre)
+        setupToolBar(genre.name)
 
         val moviePageRecyclerViewAdapter = MovieCategoryAdapter {
             val movieId = movieGenreViewModel.movies.value?.get(it)?.id ?: return@MovieCategoryAdapter
@@ -121,14 +121,11 @@ class MoviePageListFragment : Fragment(R.layout.fragment_movie_page) {
         }
     }
 
-    private fun setupToolBar(category: MovieCategory) {
-        (requireActivity() as? AppCompatActivity)?.supportActionBar?.title = category.name
-    }
-
-    private fun setupToolBar(genre: Genre) {
-        (requireActivity() as? AppCompatActivity)?.supportActionBar?.let {
-            it.show()
-            it.title = genre.name
+    private fun setupToolBar(title: String) {
+        (requireActivity() as? AppCompatActivity)?.supportActionBar?.apply {
+            show()
+            this.title = title
+            setDisplayShowTitleEnabled(true)
         }
     }
 
