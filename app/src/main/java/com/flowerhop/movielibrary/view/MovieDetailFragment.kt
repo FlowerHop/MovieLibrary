@@ -90,14 +90,9 @@ class MovieDetailFragment : Fragment(R.layout.fragment_movie_detail) {
         btnBack.setOnClickListener { requireActivity().onBackPressed() }
     }
 
-    override fun onDestroyView() {
-        (requireActivity() as? AppCompatActivity)?.supportActionBar?.show()
-        super.onDestroyView()
-    }
-
     private fun navigateToPageListFragment(genre: Genre) {
         requireActivity().supportFragmentManager.beginTransaction().apply {
-            add(
+            replace(
                 R.id.fragmentContainer,
                 MoviePageListFragment::class.java, bundleOf(
                     GENRE_ID to genre.id,

@@ -1,6 +1,7 @@
 package com.flowerhop.movielibrary.view
 
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.os.bundleOf
@@ -17,6 +18,7 @@ import com.flowerhop.movielibrary.di.Providers
 import com.flowerhop.movielibrary.domain.model.MovieCategory
 import com.flowerhop.movielibrary.presentation.MovieCategoryAdapter
 import kotlinx.android.synthetic.main.fragment_movie_page.*
+import kotlin.math.log
 
 /**
  * A fragment representing a list of Items.
@@ -50,7 +52,7 @@ class MoviePageListFragment : Fragment(R.layout.fragment_movie_page) {
             val movieId = movieCategoryViewModel.movies.value?.get(it)?.id ?: return@MovieCategoryAdapter
 
             requireActivity().supportFragmentManager.beginTransaction().apply {
-                add(R.id.fragmentContainer, MovieDetailFragment::class.java,
+                replace(R.id.fragmentContainer, MovieDetailFragment::class.java,
                     bundleOf(MOVIE_ID to movieId),
                     MovieDetailFragment.TAG)
                 addToBackStack(null)
@@ -77,6 +79,13 @@ class MoviePageListFragment : Fragment(R.layout.fragment_movie_page) {
         }
     }
 
+    override fun onResume() {
+        super.onResume()
+        (requireActivity() as? AppCompatActivity)?.supportActionBar?.let {
+            it.show()
+        }
+    }
+
     private fun initWithGenre(genre: Genre) {
         val movieGenreViewModel = Providers.provideMovieGenreViewModel(this@MoviePageListFragment, genre)
         setupToolBar(genre)
@@ -85,7 +94,7 @@ class MoviePageListFragment : Fragment(R.layout.fragment_movie_page) {
             val movieId = movieGenreViewModel.movies.value?.get(it)?.id ?: return@MovieCategoryAdapter
 
             requireActivity().supportFragmentManager.beginTransaction().apply {
-                add(R.id.fragmentContainer, MovieDetailFragment::class.java,
+                replace(R.id.fragmentContainer, MovieDetailFragment::class.java,
                     bundleOf(MOVIE_ID to movieId),
                     MovieDetailFragment.TAG)
                 addToBackStack(null)
