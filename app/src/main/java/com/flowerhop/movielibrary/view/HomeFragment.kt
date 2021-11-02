@@ -4,7 +4,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.Fragment
-import com.flowerhop.movielibrary.CategoryActivity
+import com.flowerhop.movielibrary.ToolBarActivity
 import com.flowerhop.movielibrary.R
 import com.flowerhop.movielibrary.view.BundleKey.CATEGORY
 import com.flowerhop.movielibrary.di.Providers
@@ -89,7 +89,7 @@ class HomeFragment: Fragment(R.layout.fragment_home) {
     private fun toViewAll(category: MovieCategory) {
         requireActivity().startActivity(
             Intent().apply {
-                setClass(requireContext(), CategoryActivity::class.java)
+                setClass(requireContext(), ToolBarActivity::class.java)
                 putExtra(CATEGORY, category.ordinal)
             }
         )

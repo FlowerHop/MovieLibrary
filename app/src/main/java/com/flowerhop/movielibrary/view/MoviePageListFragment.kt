@@ -16,7 +16,6 @@ import com.flowerhop.movielibrary.data.dto.Genre
 import com.flowerhop.movielibrary.di.Providers
 import com.flowerhop.movielibrary.domain.model.MovieCategory
 import com.flowerhop.movielibrary.presentation.MovieCategoryAdapter
-import kotlinx.android.synthetic.main.activity_category.*
 import kotlinx.android.synthetic.main.fragment_movie_page.*
 
 /**

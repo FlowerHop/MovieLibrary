@@ -3,9 +3,6 @@ package com.flowerhop.movielibrary
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
-import android.view.Menu
-import androidx.appcompat.widget.AppCompatImageView
 import com.flowerhop.movielibrary.databinding.ActivityMainBinding
 import com.flowerhop.movielibrary.view.HomeFragment
 import kotlinx.android.synthetic.main.activity_main.*
@@ -22,7 +19,7 @@ class MainActivity : AppCompatActivity() {
         }
 
         iconSearch.setOnClickListener {
-            startActivity(Intent(this, SearchingActivity::class.java))
+            startActivity(Intent(this, ToolBarActivity::class.java))
         }
     }
 }
