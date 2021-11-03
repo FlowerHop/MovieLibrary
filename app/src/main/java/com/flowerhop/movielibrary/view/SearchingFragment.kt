@@ -8,11 +8,11 @@ import android.view.inputmethod.EditorInfo
 import android.view.inputmethod.InputMethodManager
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.flowerhop.movielibrary.R
+import com.flowerhop.movielibrary.comman.Navigation
 import com.flowerhop.movielibrary.di.Providers
 import com.flowerhop.movielibrary.domain.model.Movie
 import com.flowerhop.movielibrary.presentation.MovieCategoryAdapter
@@ -95,13 +95,7 @@ class SearchingFragment: Fragment(R.layout.fragment_searching) {
 
     private fun navigateToMovieDetail(movie: Movie) {
         leaveInputSession()
-        requireActivity().supportFragmentManager.beginTransaction().apply {
-            replace(R.id.fragmentContainer, MovieDetailFragment::class.java,
-                bundleOf(BundleKey.MOVIE_ID to movie.id),
-                MovieDetailFragment.TAG)
-            addToBackStack(null)
-            commit()
-        }
+        Navigation.toMovieDetailByReplacing(requireActivity().supportFragmentManager, R.id.fragmentContainer, movie.id)
     }
 
     private fun leaveInputSession() {

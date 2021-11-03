@@ -61,6 +61,7 @@ class MovieBottomSheetDialog(private val movie: Movie): BottomSheetDialogFragmen
     }
 
     private fun gotoMovieDetail(id: Int) {
+        // TODO make sure only one ToolBarActivity
         startActivity(Intent().apply {
             setClass(requireContext(), ToolBarActivity::class.java)
             putExtra(MOVIE_ID, id)

@@ -3,6 +3,7 @@ package com.flowerhop.movielibrary
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.os.bundleOf
+import com.flowerhop.movielibrary.comman.Navigation
 import com.flowerhop.movielibrary.databinding.ActivityToolBarBinding
 import com.flowerhop.movielibrary.view.BundleKey.CATEGORY
 import com.flowerhop.movielibrary.view.BundleKey.MOVIE_ID
@@ -33,38 +34,15 @@ class ToolBarActivity : AppCompatActivity() {
     }
 
     private fun navigateToMovieDetail(movieId: Int) {
-        supportFragmentManager.beginTransaction().apply {
-            add(R.id.fragmentContainer,
-                MovieDetailFragment::class.java,
-                bundleOf(MOVIE_ID to movieId),
-                MovieDetailFragment.TAG)
-            commit()
-        }
+        Navigation.toMovieDetailByAdding(supportFragmentManager, R.id.fragmentContainer, movieId)
     }
 
     private fun navigateToMoviePage(categoryInt: Int) {
-        supportFragmentManager.beginTransaction().apply {
-            add(
-                R.id.fragmentContainer,
-                MoviePageListFragment::class.java,
-                bundleOf(CATEGORY to categoryInt),
-                MoviePageListFragment.TAG
-            )
-
-            commit()
-        }
+        Navigation.toMoviePageByAdding(supportFragmentManager, R.id.fragmentContainer, categoryInt)
     }
 
     private fun navigateToSearching() {
-        supportFragmentManager.beginTransaction().apply {
-            add(
-                R.id.fragmentContainer,
-                SearchingFragment::class.java,
-                null,
-                SearchingFragment.TAG
-            )
-            commit()
-        }
+        Navigation.toSearch(supportFragmentManager, R.id.fragmentContainer)
     }
 
     override fun onSupportNavigateUp(): Boolean {
