@@ -35,7 +35,10 @@ class MovieDetailFragment : Fragment(R.layout.fragment_movie_detail) {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        (requireActivity() as? AppCompatActivity)?.supportActionBar?.hide()
+        (requireActivity() as? AppCompatActivity)?.supportActionBar?.apply {
+            setDisplayHomeAsUpEnabled(true)
+            hide()
+        }
 
         arguments?.let {
             movieID = it.getInt(MOVIE_ID)

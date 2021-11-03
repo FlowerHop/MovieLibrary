@@ -33,11 +33,6 @@ class ToolBarActivity : AppCompatActivity() {
     }
 
     private fun navigateToMovieDetail(movieId: Int) {
-        supportActionBar?.apply {
-            setDisplayHomeAsUpEnabled(true)
-            setDisplayShowHomeEnabled(true)
-        }
-
         supportFragmentManager.beginTransaction().apply {
             add(R.id.fragmentContainer,
                 MovieDetailFragment::class.java,
@@ -48,11 +43,6 @@ class ToolBarActivity : AppCompatActivity() {
     }
 
     private fun navigateToMoviePage(categoryInt: Int) {
-        supportActionBar?.apply {
-            setDisplayHomeAsUpEnabled(true)
-            setDisplayShowHomeEnabled(true)
-        }
-
         supportFragmentManager.beginTransaction().apply {
             add(
                 R.id.fragmentContainer,
@@ -66,11 +56,6 @@ class ToolBarActivity : AppCompatActivity() {
     }
 
     private fun navigateToSearching() {
-        supportActionBar?.apply {
-            setDisplayHomeAsUpEnabled(true)
-            setDisplayShowHomeEnabled(false)
-        }
-
         supportFragmentManager.beginTransaction().apply {
             add(
                 R.id.fragmentContainer,

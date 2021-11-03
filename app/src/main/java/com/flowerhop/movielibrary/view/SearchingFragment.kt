@@ -25,6 +25,7 @@ class SearchingFragment: Fragment(R.layout.fragment_searching) {
         super.onViewCreated(view, savedInstanceState)
         (requireActivity() as? AppCompatActivity)?.supportActionBar?.apply {
             show()
+            setDisplayHomeAsUpEnabled(true)
             setDisplayShowTitleEnabled(false)
         }
 

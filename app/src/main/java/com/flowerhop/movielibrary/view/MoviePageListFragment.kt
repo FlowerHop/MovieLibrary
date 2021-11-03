@@ -126,6 +126,8 @@ class MoviePageListFragment : Fragment(R.layout.fragment_movie_page) {
             show()
             this.title = title
             setDisplayShowTitleEnabled(true)
+            setDisplayHomeAsUpEnabled(true)
+            setDisplayShowHomeEnabled(true)
         }
     }
 
