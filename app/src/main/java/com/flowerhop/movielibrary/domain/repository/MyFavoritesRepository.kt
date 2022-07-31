@@ -6,4 +6,5 @@ interface MyFavoritesRepository {
     suspend fun add(movieId: Int)
     suspend fun remove(movieId: Int)
     suspend fun getList(): List<MovieDetailDto>
+    fun contains(movieId: Int): Boolean
 }

@@ -22,9 +22,7 @@ class MoviesViewModelTest {
         // Arrange
         var changed = false
         var firstObserve = true
-        val tmdbApi = Providers.provideTMDBApi()
-        val tmdbRepository = Providers.provideTMDBRepository(tmdbApi)
-        val useCase = Providers.provideGetCategoryListUseCase(tmdbRepository)
+        val useCase = Providers.provideGetCategoryListUseCase()
         val moviesViewModel = MoviesViewModel(useCase)
         val observer = Observer<StatefulData<MutableList<Movie>>> {
             if (firstObserve) {

@@ -35,7 +35,7 @@ data class Result(
     val voteCount: Int
 )
 
-fun Result.toMovie(): Movie {
+fun Result.toMovie(myFavorite: Boolean = false): Movie {
     return Movie(
         adult = adult,
         backdropPath = backdropPath,
@@ -50,6 +50,7 @@ fun Result.toMovie(): Movie {
         title = title,
         video = video,
         voteAverage = voteAverage,
-        voteCount = voteCount
+        voteCount = voteCount,
+        myFavorite = myFavorite
     )
 }

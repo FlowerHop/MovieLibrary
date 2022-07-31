@@ -8,6 +8,7 @@ import kotlinx.coroutines.async
 import kotlinx.coroutines.withContext
 import java.util.concurrent.CopyOnWriteArraySet
 
+// The data will only stored locally, but now just stored in memory
 class MyFavoritesRepositoryImpl(
     private val api: TMDBRepository
 ): MyFavoritesRepository {
@@ -32,5 +33,13 @@ class MyFavoritesRepositoryImpl(
         }.mapNotNull {
             it.await().body()
         }
+    }
+
+    override fun contains(movieId: Int): Boolean = idList.contains(movieId)
+
+    private suspend fun writeToDisk() = withContext(Dispatchers.IO) {
+        // TODO write to disk
+        // write id?
+
     }
 }

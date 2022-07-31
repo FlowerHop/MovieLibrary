@@ -17,11 +17,13 @@ data class MoviePageDto(
     val totalResults: Int
 )
 
-fun MoviePageDto.toMoviePage(): MoviePage {
+fun MoviePageDto.toMoviePage(
+    favoriteChecker: ((Int) -> Boolean) = { false }
+): MoviePage {
     return MoviePage(
         dates = dates?.copy(),
         page = page,
-        results = results.map { it.toMovie() },
+        results = results.map { it.toMovie(favoriteChecker(it.id)) },
         totalPages = totalPages,
         totalResults = totalResults
     )

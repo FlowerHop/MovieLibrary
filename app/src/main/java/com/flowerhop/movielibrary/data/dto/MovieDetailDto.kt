@@ -57,7 +57,7 @@ data class MovieDetailDto(
     val voteCount: Int
 )
 
-fun MovieDetailDto.toMovieDetail(): MovieDetail {
+fun MovieDetailDto.toMovieDetail(myFavorite: Boolean = false): MovieDetail {
     return MovieDetail(
         adult = adult,
         backdropPath = backdropPath,
@@ -80,5 +80,7 @@ fun MovieDetailDto.toMovieDetail(): MovieDetail {
         title = title,
         video = video,
         voteAverage = voteAverage,
-        voteCount = voteCount)
+        voteCount = voteCount,
+        myFavorite
+    )
 }
