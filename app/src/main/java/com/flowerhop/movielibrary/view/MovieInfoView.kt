@@ -23,7 +23,10 @@ class MovieInfoView @JvmOverloads constructor(
     init {
         val inflater = LayoutInflater.from(context)
         MovieInfoViewBinding.inflate(inflater, this)
+        iconFavorite.setOnClickListener { onFavoriteListener?.invoke() }
     }
+
+    var onFavoriteListener: (() -> Unit)? = null
 
     fun setMovie(movie: Movie) {
         title.text = movie.title
@@ -34,6 +37,7 @@ class MovieInfoView @JvmOverloads constructor(
         )
         releaseDate.text = formatReleaseDate(movie.releaseDate)
         duration.visibility = View.GONE
+        iconFavorite.setChecked(movie.myFavorite)
     }
 
     fun setMovie(movieDetail: MovieDetail) {
@@ -46,5 +50,6 @@ class MovieInfoView @JvmOverloads constructor(
         releaseDate.text = formatReleaseDate(movieDetail.releaseDate)
         duration.visibility = View.VISIBLE
         duration.text = formatRuntime(movieDetail.runtime)
+        iconFavorite.setChecked(movieDetail.myFavorite)
     }
 }

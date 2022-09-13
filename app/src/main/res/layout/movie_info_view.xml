@@ -11,10 +11,18 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/iconFavorite"
         app:layout_constraintTop_toTopOf="parent"
         android:textAppearance="?attr/textAppearanceHeadline6"
         tools:text="Movie Title" />
+
+    <com.flowerhop.movielibrary.comman.ToggleImageView
+        android:id="@+id/iconFavorite"
+        android:layout_width="24dp"
+        android:layout_height="24dp"
+        app:layout_constraintTop_toTopOf="@id/title"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:src="@drawable/icon_favorite_selector"/>
 
     <androidx.appcompat.widget.AppCompatRatingBar
         android:id="@+id/ratingBar"

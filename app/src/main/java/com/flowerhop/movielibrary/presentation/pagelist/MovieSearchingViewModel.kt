@@ -1,12 +1,10 @@
 package com.flowerhop.movielibrary.presentation.pagelist
 
 import android.util.Log
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
+import androidx.lifecycle.*
 import com.flowerhop.movielibrary.domain.model.Movie
 import com.flowerhop.movielibrary.domain.model.MovieCategory.NowPlaying
+import com.flowerhop.movielibrary.domain.repository.MyFavoritesRepository
 import com.flowerhop.movielibrary.domain.usecase.GetCategoryListUseCase
 import com.flowerhop.movielibrary.domain.usecase.SearchAtPageUseCase
 import kotlinx.coroutines.Dispatchers
@@ -14,17 +12,40 @@ import kotlinx.coroutines.launch
 
 class MovieSearchingViewModel(
     private val searchAtPageUseCase: SearchAtPageUseCase,
-    private val getCategoryListUseCase: GetCategoryListUseCase
+    private val getCategoryListUseCase: GetCategoryListUseCase,
+    private val myFavoritesRepository: MyFavoritesRepository
 ): ViewModel() {
     private var loadedPage = 0
     private var searchString: String = ""
 
-    private val _movies: MutableLiveData<MutableList<Movie>> = MutableLiveData(mutableListOf())
-    private val _defaultMovies: MutableLiveData<MutableList<Movie>> = MutableLiveData(mutableListOf<Movie>()).apply {
+    private val _movies: MutableLiveData<MutableList<Movie>> = MediatorLiveData<MutableList<Movie>>().apply {
+        value = mutableListOf()
+        addSource(myFavoritesRepository.getIdListLiveData()) { idList ->
+            val newList = value?.map { movie ->
+                movie.copy(
+                    myFavorite = idList.contains(movie.id)
+                )
+            }?.toMutableList()
+
+            value = newList
+        }
+    }
+    private val _defaultMovies: MutableLiveData<MutableList<Movie>> = MediatorLiveData<MutableList<Movie>>().apply {
+        value = mutableListOf()
         viewModelScope.launch(Dispatchers.IO) {
             getCategoryListUseCase(1, DEFAULT_CATEGORY)?.let {
                 postValue(it.results.toMutableList())
             }
+        }
+
+        addSource(myFavoritesRepository.getIdListLiveData()) { idList ->
+            val newList = value?.map { movie ->
+                movie.copy(
+                    myFavorite = idList.contains(movie.id)
+                )
+            }?.toMutableList()
+
+            value = newList
         }
     }
 
@@ -60,6 +81,14 @@ class MovieSearchingViewModel(
             if (!needLoadMore(it.size, lastVisiblePosition)) return
             loadPage(loadedPage + 1)
         }
+    }
+
+    fun addFavorite(id: Int) {
+        myFavoritesRepository.add(id)
+    }
+
+    fun removeFavorite(id: Int) {
+        myFavoritesRepository.remove(id)
     }
 
     private fun loadPage(pageIndex: Int) {

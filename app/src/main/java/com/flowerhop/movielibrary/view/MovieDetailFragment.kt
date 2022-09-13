@@ -15,6 +15,7 @@ import com.flowerhop.movielibrary.R
 import com.flowerhop.movielibrary.comman.Constants
 import com.flowerhop.movielibrary.comman.Navigation
 import com.flowerhop.movielibrary.di.Providers
+import com.flowerhop.movielibrary.domain.model.MovieDetail
 import com.flowerhop.movielibrary.view.BundleKey.MOVIE_ID
 import kotlinx.android.synthetic.main.fragment_movie_detail.*
 
@@ -44,6 +45,7 @@ class MovieDetailFragment : Fragment(R.layout.fragment_movie_detail) {
         val movieDetailViewModel = Providers.provideMovieDetailViewModel(this, movieID)
 
         movieDetailViewModel.movieDetail.observe(viewLifecycleOwner) {
+            if (it == null) return@observe
             Glide.with(thumbnail).load("${Constants.IMAGE_BASE_URL}${it.backdropPath}").listener(object : RequestListener<Drawable> {
                 override fun onResourceReady(
                     resource: Drawable?,
@@ -79,11 +81,22 @@ class MovieDetailFragment : Fragment(R.layout.fragment_movie_detail) {
             movieInfo.setMovie(it)
             it.genres.map { genre ->
                 val ctx: Context = context ?: return@map
+                genreChips.removeAllViews()
                 genreChips.addView(
                     UiUtil.createGenreChip(ctx, genre.name).apply {
                         setOnClickListener { Navigation.toMoviePageByReplacing(requireActivity().supportFragmentManager, R.id.fragmentContainer, genre) }
                     }
                 )
+            }
+        }
+
+        movieInfo.onFavoriteListener = {
+            movieDetailViewModel.movieDetail.value?.let { movieDetail ->
+                if (movieDetail.myFavorite) {
+                    movieDetailViewModel.removeFavorite()
+                } else {
+                    movieDetailViewModel.addFavorite()
+                }
             }
         }
 

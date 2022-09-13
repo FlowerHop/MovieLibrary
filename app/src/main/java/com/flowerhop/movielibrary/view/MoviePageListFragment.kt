@@ -44,10 +44,19 @@ class MoviePageListFragment : Fragment(R.layout.fragment_movie_page) {
         val movieCategoryViewModel = Providers.provideMovieCategoryViewModel(this@MoviePageListFragment, movieCategory)
         setupToolBar(movieCategory.name)
 
-        val moviePageRecyclerViewAdapter = MovieCategoryAdapter {
-            val movieId = movieCategoryViewModel.movies.value?.get(it)?.id ?: return@MovieCategoryAdapter
-            Navigation.toMovieDetailByReplacing(requireActivity().supportFragmentManager, R.id.fragmentContainer, movieId)
-        }
+        val moviePageRecyclerViewAdapter = MovieCategoryAdapter(
+            onClickListener = {
+                val movieId = movieCategoryViewModel.movies.value?.get(it)?.id ?: return@MovieCategoryAdapter
+                Navigation.toMovieDetailByReplacing(requireActivity().supportFragmentManager, R.id.fragmentContainer, movieId)
+            },
+            onFavoriteListener = { id, add ->
+                if (add) {
+                    movieCategoryViewModel.addFavorite(id)
+                } else {
+                    movieCategoryViewModel.removeFavorite(id)
+                }
+            }
+        )
 
         movieCategoryViewModel.movies.observe(viewLifecycleOwner) { movies ->
             moviePageRecyclerViewAdapter.submitList(movies.toMutableList())
@@ -72,10 +81,19 @@ class MoviePageListFragment : Fragment(R.layout.fragment_movie_page) {
         val movieGenreViewModel = Providers.provideMovieGenreViewModel(this@MoviePageListFragment, genre)
         setupToolBar(genre.name)
 
-        val moviePageRecyclerViewAdapter = MovieCategoryAdapter {
-            val movieId = movieGenreViewModel.movies.value?.get(it)?.id ?: return@MovieCategoryAdapter
-            Navigation.toMovieDetailByReplacing(requireActivity().supportFragmentManager, R.id.fragmentContainer, movieId)
-        }
+        val moviePageRecyclerViewAdapter = MovieCategoryAdapter(
+            onClickListener = {
+                val movieId = movieGenreViewModel.movies.value?.get(it)?.id ?: return@MovieCategoryAdapter
+                Navigation.toMovieDetailByReplacing(requireActivity().supportFragmentManager, R.id.fragmentContainer, movieId)
+            },
+            onFavoriteListener = { id, add ->
+                if (add) {
+                    movieGenreViewModel.addFavorite(id)
+                } else {
+                    movieGenreViewModel.removeFavorite(id)
+                }
+            }
+        )
 
         movieGenreViewModel.movies.observe(viewLifecycleOwner) { movies ->
             moviePageRecyclerViewAdapter.submitList(movies.toMutableList())

@@ -20,7 +20,7 @@ import com.flowerhop.movielibrary.presentation.MoviesAdapter
 import com.flowerhop.movielibrary.presentation.pagelist.MovieSearchingViewModel
 import kotlinx.android.synthetic.main.fragment_searching.*
 
-class SearchingFragment: Fragment(R.layout.fragment_searching) {
+class SearchingFragment : Fragment(R.layout.fragment_searching) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         (requireActivity() as? AppCompatActivity)?.supportActionBar?.apply {
@@ -38,10 +38,17 @@ class SearchingFragment: Fragment(R.layout.fragment_searching) {
         val adapter = MoviesAdapter()
         val movieSearchingViewModel = Providers.provideMovieSearchingViewModel(this)
 
-        val defaultAdapter = MovieCategoryAdapter() {
-            val movie = movieSearchingViewModel.defaultMovies.value?.get(it) ?: return@MovieCategoryAdapter
+        val defaultAdapter = MovieCategoryAdapter(onClickListener = {
+            val movie =
+                movieSearchingViewModel.defaultMovies.value?.get(it) ?: return@MovieCategoryAdapter
             navigateToMovieDetail(movie)
-        }
+        }, onFavoriteListener = { id, add ->
+            if (add) {
+                movieSearchingViewModel.addFavorite(id)
+            } else (
+                movieSearchingViewModel.removeFavorite(id)
+            )
+        })
 
         movieSearchingViewModel.movies.observe(viewLifecycleOwner) {
             val result = it.toMutableList()
@@ -54,7 +61,8 @@ class SearchingFragment: Fragment(R.layout.fragment_searching) {
             val searchText = searchEditText.text.toString()
 
             invalidMessage.text = resources.getString(R.string.no_results_message, searchText)
-            invalidMessage.visibility = if (searchText.isEmpty() || !noResult) View.GONE else View.VISIBLE
+            invalidMessage.visibility =
+                if (searchText.isEmpty() || !noResult) View.GONE else View.VISIBLE
             divider.visibility = invalidMessage.visibility
         }
         movieSearchingViewModel.defaultMovies.observe(viewLifecycleOwner) {
@@ -95,7 +103,11 @@ class SearchingFragment: Fragment(R.layout.fragment_searching) {
 
     private fun navigateToMovieDetail(movie: Movie) {
         leaveInputSession()
-        Navigation.toMovieDetailByReplacing(requireActivity().supportFragmentManager, R.id.fragmentContainer, movie.id)
+        Navigation.toMovieDetailByReplacing(
+            requireActivity().supportFragmentManager,
+            R.id.fragmentContainer,
+            movie.id
+        )
     }
 
     private fun leaveInputSession() {
@@ -104,7 +116,8 @@ class SearchingFragment: Fragment(R.layout.fragment_searching) {
     }
 
     private fun hideKeyBoard() {
-        val inputMethodManager = requireContext().getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+        val inputMethodManager =
+            requireContext().getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
         inputMethodManager.hideSoftInputFromWindow(searchEditText.windowToken, 0)
     }
 

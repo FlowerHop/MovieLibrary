@@ -1,24 +1,34 @@
 package com.flowerhop.movielibrary.presentation.pagelist
 
 import android.util.Log
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
+import androidx.lifecycle.*
 import com.flowerhop.movielibrary.data.dto.Genre
 import com.flowerhop.movielibrary.domain.model.Movie
+import com.flowerhop.movielibrary.domain.repository.MyFavoritesRepository
 import com.flowerhop.movielibrary.domain.usecase.DiscoverMoviesWithGenres
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
 class MovieGenreViewModel(
     private val genre: Genre,
-    private val useCase: DiscoverMoviesWithGenres
+    private val useCase: DiscoverMoviesWithGenres,
+    private val myFavoritesRepository: MyFavoritesRepository
 ): ViewModel() {
     private var loadedPage = 0
 
-    private val _movies: MutableLiveData<MutableList<Movie>> = MutableLiveData(mutableListOf<Movie>()).apply {
+    private val _movies = MediatorLiveData<MutableList<Movie>>().apply {
+        value = mutableListOf()
         loadPage(1)
+
+        addSource(myFavoritesRepository.getIdListLiveData()) { idList ->
+            val newList = value?.map { movie ->
+                movie.copy(
+                    myFavorite = idList.contains(movie.id)
+                )
+            }?.toMutableList()
+
+            value = newList
+        }
     }
 
     val movies: LiveData<MutableList<Movie>> = _movies
@@ -43,6 +53,14 @@ class MovieGenreViewModel(
                 _movies.postValue(_movies.value)
             }
         }
+    }
+
+    fun addFavorite(id: Int) {
+        myFavoritesRepository.add(id)
+    }
+
+    fun removeFavorite(id: Int) {
+        myFavoritesRepository.remove(id)
     }
 
     companion object {
