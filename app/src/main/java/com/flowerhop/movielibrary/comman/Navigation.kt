@@ -45,21 +45,6 @@ object Navigation {
         })
     }
 
-    fun toSearch(
-        supportFragmentManager: FragmentManager,
-        fragmentContainerId: Int
-    ) {
-        supportFragmentManager.beginTransaction().apply {
-            add(
-                fragmentContainerId,
-                SearchingFragment::class.java,
-                null,
-                SearchingFragment.TAG
-            )
-            commit()
-        }
-    }
-
     fun toSearch(activity: Activity) {
         val intent = Intent(activity, SearchActivity::class.java)
         activity.startActivity(intent)
