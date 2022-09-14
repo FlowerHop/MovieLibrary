@@ -33,11 +33,6 @@ class MovieDetailFragment : Fragment(R.layout.fragment_movie_detail) {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        (requireActivity() as? AppCompatActivity)?.supportActionBar?.apply {
-            setDisplayHomeAsUpEnabled(true)
-            hide()
-        }
-
         arguments?.let {
             movieID = it.getInt(MOVIE_ID)
         }
@@ -46,45 +41,51 @@ class MovieDetailFragment : Fragment(R.layout.fragment_movie_detail) {
 
         movieDetailViewModel.movieDetail.observe(viewLifecycleOwner) {
             if (it == null) return@observe
-            Glide.with(thumbnail).load("${Constants.IMAGE_BASE_URL}${it.backdropPath}").listener(object : RequestListener<Drawable> {
-                override fun onResourceReady(
-                    resource: Drawable?,
-                    model: Any?,
-                    target: Target<Drawable>?,
-                    dataSource: DataSource?,
-                    isFirstResource: Boolean
-                ): Boolean {
-                    shimmerHolder.visibility = View.GONE
-                    movieInfo.visibility = View.VISIBLE
-                    overview.text = it.overview
-                    divider.visibility = View.VISIBLE
-                    genreChips.visibility = View.VISIBLE
-                    shimmerHolder.stopShimmer()
-                    return false
-                }
+            Glide.with(thumbnail).load("${Constants.IMAGE_BASE_URL}${it.backdropPath}")
+                .listener(object : RequestListener<Drawable> {
+                    override fun onResourceReady(
+                        resource: Drawable?,
+                        model: Any?,
+                        target: Target<Drawable>?,
+                        dataSource: DataSource?,
+                        isFirstResource: Boolean
+                    ): Boolean {
+                        shimmerHolder.visibility = View.GONE
+                        movieInfo.visibility = View.VISIBLE
+                        overview.text = it.overview
+                        divider.visibility = View.VISIBLE
+                        genreChips.visibility = View.VISIBLE
+                        shimmerHolder.stopShimmer()
+                        return false
+                    }
 
-                override fun onLoadFailed(
-                    e: GlideException?,
-                    model: Any?,
-                    target: Target<Drawable>?,
-                    isFirstResource: Boolean
-                ): Boolean {
-                    shimmerHolder.visibility = View.GONE
-                    movieInfo.visibility = View.VISIBLE
-                    overview.text = it.overview
-                    divider.visibility = View.VISIBLE
-                    genreChips.visibility = View.VISIBLE
-                    shimmerHolder.stopShimmer()
-                    return false
-                }
-            }).into(thumbnail)
+                    override fun onLoadFailed(
+                        e: GlideException?,
+                        model: Any?,
+                        target: Target<Drawable>?,
+                        isFirstResource: Boolean
+                    ): Boolean {
+                        shimmerHolder.visibility = View.GONE
+                        movieInfo.visibility = View.VISIBLE
+                        overview.text = it.overview
+                        divider.visibility = View.VISIBLE
+                        genreChips.visibility = View.VISIBLE
+                        shimmerHolder.stopShimmer()
+                        return false
+                    }
+                }).into(thumbnail)
             movieInfo.setMovie(it)
             it.genres.map { genre ->
                 val ctx: Context = context ?: return@map
                 genreChips.removeAllViews()
                 genreChips.addView(
                     UiUtil.createGenreChip(ctx, genre.name).apply {
-                        setOnClickListener { Navigation.toMoviePageByReplacing(requireActivity().supportFragmentManager, R.id.fragmentContainer, genre) }
+                        setOnClickListener {
+                            Navigation.toMovieListActivity(
+                                activity = requireActivity(),
+                                genre = genre
+                            )
+                        }
                     }
                 )
             }

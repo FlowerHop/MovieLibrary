@@ -23,12 +23,6 @@ import kotlinx.android.synthetic.main.fragment_searching.*
 class SearchingFragment : Fragment(R.layout.fragment_searching) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        (requireActivity() as? AppCompatActivity)?.supportActionBar?.apply {
-            show()
-            setDisplayHomeAsUpEnabled(true)
-            setDisplayShowTitleEnabled(false)
-        }
-
         searchEditText.requestFocus()
         searchEditTextLayout.setEndIconOnClickListener {
             searchEditText.text?.clear()
@@ -103,10 +97,9 @@ class SearchingFragment : Fragment(R.layout.fragment_searching) {
 
     private fun navigateToMovieDetail(movie: Movie) {
         leaveInputSession()
-        Navigation.toMovieDetailByReplacing(
-            requireActivity().supportFragmentManager,
-            R.id.fragmentContainer,
-            movie.id
+        Navigation.toMovieDetailActivity(
+            activity = requireActivity(),
+            movieId = movie.id
         )
     }
 

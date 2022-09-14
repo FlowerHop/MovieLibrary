@@ -42,12 +42,14 @@ class MoviePageListFragment : Fragment(R.layout.fragment_movie_page) {
 
     private fun initWithCategory(movieCategory: MovieCategory) {
         val movieCategoryViewModel = Providers.provideMovieCategoryViewModel(this@MoviePageListFragment, movieCategory)
-        setupToolBar(movieCategory.name)
 
         val moviePageRecyclerViewAdapter = MovieCategoryAdapter(
             onClickListener = {
                 val movieId = movieCategoryViewModel.movies.value?.get(it)?.id ?: return@MovieCategoryAdapter
-                Navigation.toMovieDetailByReplacing(requireActivity().supportFragmentManager, R.id.fragmentContainer, movieId)
+                Navigation.toMovieDetailActivity(
+                    activity = requireActivity(),
+                    movieId = movieId
+                )
             },
             onFavoriteListener = { id, add ->
                 if (add) {
@@ -79,12 +81,14 @@ class MoviePageListFragment : Fragment(R.layout.fragment_movie_page) {
 
     private fun initWithGenre(genre: Genre) {
         val movieGenreViewModel = Providers.provideMovieGenreViewModel(this@MoviePageListFragment, genre)
-        setupToolBar(genre.name)
 
         val moviePageRecyclerViewAdapter = MovieCategoryAdapter(
             onClickListener = {
                 val movieId = movieGenreViewModel.movies.value?.get(it)?.id ?: return@MovieCategoryAdapter
-                Navigation.toMovieDetailByReplacing(requireActivity().supportFragmentManager, R.id.fragmentContainer, movieId)
+                Navigation.toMovieDetailActivity(
+                    activity = requireActivity(),
+                    movieId = movieId
+                )
             },
             onFavoriteListener = { id, add ->
                 if (add) {
@@ -111,16 +115,6 @@ class MoviePageListFragment : Fragment(R.layout.fragment_movie_page) {
                     movieGenreViewModel.loadMoreIfNeed(currentItemPosition)
                 }
             })
-        }
-    }
-
-    private fun setupToolBar(title: String) {
-        (requireActivity() as? AppCompatActivity)?.supportActionBar?.apply {
-            show()
-            this.title = title
-            setDisplayShowTitleEnabled(true)
-            setDisplayHomeAsUpEnabled(true)
-            setDisplayShowHomeEnabled(true)
         }
     }
 }

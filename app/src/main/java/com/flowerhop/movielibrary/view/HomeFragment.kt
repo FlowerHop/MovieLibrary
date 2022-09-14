@@ -1,12 +1,10 @@
 package com.flowerhop.movielibrary.view
 
-import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.Fragment
-import com.flowerhop.movielibrary.ToolBarActivity
 import com.flowerhop.movielibrary.R
-import com.flowerhop.movielibrary.view.BundleKey.CATEGORY
+import com.flowerhop.movielibrary.comman.Navigation
 import com.flowerhop.movielibrary.di.Providers
 import com.flowerhop.movielibrary.domain.model.MovieCategory
 import com.flowerhop.movielibrary.presentation.MoviesAdapter
@@ -25,12 +23,12 @@ class HomeFragment: Fragment(R.layout.fragment_home) {
         super.onViewCreated(view, savedInstanceState)
 
         moviesViewModel = Providers.provideMoviesViewModel(this)
-        moviesViewModel.refreshing.observe(viewLifecycleOwner, {
+        moviesViewModel.refreshing.observe(viewLifecycleOwner) {
             shimmerLists.visibility = if (it) View.VISIBLE else View.GONE
             nowPlayingList.visibility = if (it) View.GONE else View.VISIBLE
             popularList.visibility = if (it) View.GONE else View.VISIBLE
             topRatedList.visibility = if (it) View.GONE else View.VISIBLE
-        })
+        }
 
         moviesViewModel.refresh()
         initNowPlaying()
@@ -87,11 +85,6 @@ class HomeFragment: Fragment(R.layout.fragment_home) {
     }
 
     private fun toViewAll(category: MovieCategory) {
-        requireActivity().startActivity(
-            Intent().apply {
-                setClass(requireContext(), ToolBarActivity::class.java)
-                putExtra(CATEGORY, category.ordinal)
-            }
-        )
+        Navigation.toMovieListActivity(requireActivity(), category.ordinal)
     }
 }

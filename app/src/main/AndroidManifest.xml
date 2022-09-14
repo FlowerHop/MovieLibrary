@@ -19,9 +19,18 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
         <activity
-            android:name=".ToolBarActivity"
-            android:exported="true" />
+            android:name=".MovieDetailActivity"
+            android:exported="false" />
+
+        <activity
+            android:name=".MovieListActivity"
+            android:exported="false" />
+
+        <activity
+            android:name=".SearchActivity"
+            android:exported="false" />
     </application>
 
 </manifest>

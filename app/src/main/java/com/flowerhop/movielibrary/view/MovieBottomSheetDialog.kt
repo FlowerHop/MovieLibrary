@@ -8,7 +8,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import androidx.fragment.app.FragmentManager
 import com.bumptech.glide.Glide
-import com.flowerhop.movielibrary.ToolBarActivity
+import com.flowerhop.movielibrary.MovieDetailActivity
 import com.flowerhop.movielibrary.R
 import com.flowerhop.movielibrary.view.BundleKey.MOVIE_ID
 import com.flowerhop.movielibrary.comman.Constants
@@ -63,7 +63,7 @@ class MovieBottomSheetDialog(private val movie: Movie): BottomSheetDialogFragmen
     private fun gotoMovieDetail(id: Int) {
         // TODO make sure only one ToolBarActivity
         startActivity(Intent().apply {
-            setClass(requireContext(), ToolBarActivity::class.java)
+            setClass(requireContext(), MovieDetailActivity::class.java)
             putExtra(MOVIE_ID, id)
         })
         dismissAllowingStateLoss()

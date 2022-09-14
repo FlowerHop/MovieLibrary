@@ -1,11 +1,9 @@
 package com.flowerhop.movielibrary
 
-import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import com.flowerhop.movielibrary.comman.Navigation
 import com.flowerhop.movielibrary.databinding.ActivityMainBinding
-import com.flowerhop.movielibrary.view.HomeFragment
 import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppCompatActivity() {
@@ -18,7 +16,7 @@ class MainActivity : AppCompatActivity() {
         Navigation.toHome(supportFragmentManager, R.id.fragmentContainer)
 
         iconSearch.setOnClickListener {
-            startActivity(Intent(this, ToolBarActivity::class.java))
+            Navigation.toSearch(this@MainActivity)
         }
     }
 }
