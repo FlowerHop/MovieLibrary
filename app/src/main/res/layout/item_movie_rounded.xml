@@ -4,5 +4,6 @@
     android:id="@+id/thumbnail"
     style="@style/small_movie_thumbnail"
     android:layout_marginHorizontal="6dp"
+    android:foreground="?android:attr/selectableItemBackground"
     tools:src="@mipmap/ic_launcher">
 </com.google.android.material.imageview.ShapeableImageView>
