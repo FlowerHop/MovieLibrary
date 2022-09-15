@@ -11,6 +11,7 @@ import com.bumptech.glide.load.DataSource
 import com.bumptech.glide.load.engine.GlideException
 import com.bumptech.glide.request.RequestListener
 import com.bumptech.glide.request.target.Target
+import com.flowerhop.movielibrary.MovieListActivity
 import com.flowerhop.movielibrary.R
 import com.flowerhop.movielibrary.comman.Constants
 import com.flowerhop.movielibrary.comman.Navigation
@@ -81,7 +82,7 @@ class MovieDetailFragment : Fragment(R.layout.fragment_movie_detail) {
                 genreChips.addView(
                     UiUtil.createGenreChip(ctx, genre.name).apply {
                         setOnClickListener {
-                            Navigation.toMovieListActivity(
+                            MovieListActivity.startGenreMovieList(
                                 activity = requireActivity(),
                                 genre = genre
                             )

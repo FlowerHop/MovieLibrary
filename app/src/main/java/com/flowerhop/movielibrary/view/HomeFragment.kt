@@ -3,6 +3,7 @@ package com.flowerhop.movielibrary.view
 import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.Fragment
+import com.flowerhop.movielibrary.MovieListActivity
 import com.flowerhop.movielibrary.R
 import com.flowerhop.movielibrary.comman.Navigation
 import com.flowerhop.movielibrary.di.Providers
@@ -85,6 +86,6 @@ class HomeFragment: Fragment(R.layout.fragment_home) {
     }
 
     private fun toViewAll(category: MovieCategory) {
-        Navigation.toMovieListActivity(requireActivity(), category.ordinal)
+        MovieListActivity.startCategoryMovieList(requireActivity(), category.ordinal)
     }
 }

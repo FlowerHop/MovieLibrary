@@ -13,8 +13,6 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        Navigation.toHome(supportFragmentManager, R.id.fragmentContainer)
-
         iconSearch.setOnClickListener {
             Navigation.toSearch(this@MainActivity)
         }

@@ -14,44 +14,8 @@ import com.flowerhop.movielibrary.data.dto.Genre
 import com.flowerhop.movielibrary.view.*
 
 object Navigation {
-    fun toMovieListActivity(
-        activity: Activity,
-        categoryInt: Int
-    ) {
-        activity.startActivity(Intent().apply {
-            setClass(activity, MovieListActivity::class.java)
-            putExtra(BundleKey.CATEGORY, categoryInt)
-        })
-    }
-
-    fun toMovieListActivity(
-        activity: Activity,
-        genre: Genre
-    ) {
-        activity.startActivity(Intent().apply {
-            setClass(activity, MovieListActivity::class.java)
-            putExtra(BundleKey.GENRE_ID, genre.id)
-            putExtra(BundleKey.GENRE_NAME, genre.name)
-        })
-    }
-
     fun toSearch(activity: Activity) {
         val intent = Intent(activity, SearchActivity::class.java)
         activity.startActivity(intent)
-    }
-
-    fun toHome(
-        supportFragmentManager: FragmentManager,
-        fragmentContainerId: Int
-    ) {
-        supportFragmentManager.beginTransaction().apply {
-            add(
-                fragmentContainerId,
-                HomeFragment::class.java,
-                null,
-                HomeFragment.TAG
-            )
-            commit()
-        }
     }
 }

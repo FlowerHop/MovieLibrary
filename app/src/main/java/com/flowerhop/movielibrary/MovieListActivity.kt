@@ -1,14 +1,40 @@
 package com.flowerhop.movielibrary
 
+import android.app.Activity
+import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.os.bundleOf
+import com.flowerhop.movielibrary.data.dto.Genre
 import com.flowerhop.movielibrary.databinding.ActivityMovieListBinding
 import com.flowerhop.movielibrary.domain.model.MovieCategory
 import com.flowerhop.movielibrary.view.BundleKey
 import com.flowerhop.movielibrary.view.MoviePageListFragment
 
 class MovieListActivity : AppCompatActivity() {
+    companion object {
+        fun startCategoryMovieList(
+            activity: Activity,
+            categoryInt: Int
+        ) {
+            activity.startActivity(Intent().apply {
+                setClass(activity, MovieListActivity::class.java)
+                putExtra(BundleKey.CATEGORY, categoryInt)
+            })
+        }
+
+        fun startGenreMovieList(
+            activity: Activity,
+            genre: Genre
+        ) {
+            activity.startActivity(Intent().apply {
+                setClass(activity, MovieListActivity::class.java)
+                putExtra(BundleKey.GENRE_ID, genre.id)
+                putExtra(BundleKey.GENRE_NAME, genre.name)
+            })
+        }
+    }
+
     private lateinit var binding: ActivityMovieListBinding
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
