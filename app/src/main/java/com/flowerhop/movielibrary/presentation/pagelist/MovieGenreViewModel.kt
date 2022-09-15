@@ -4,15 +4,15 @@ import android.util.Log
 import androidx.lifecycle.*
 import com.flowerhop.movielibrary.data.dto.Genre
 import com.flowerhop.movielibrary.domain.model.Movie
-import com.flowerhop.movielibrary.domain.repository.MyFavoritesRepository
 import com.flowerhop.movielibrary.domain.usecase.DiscoverMoviesWithGenres
+import com.flowerhop.movielibrary.domain.usecase.FavoriteUseCase
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
 class MovieGenreViewModel(
     private val genre: Genre,
-    private val useCase: DiscoverMoviesWithGenres,
-    private val myFavoritesRepository: MyFavoritesRepository
+    private val discoverMoviesWithGenres: DiscoverMoviesWithGenres,
+    private val favoriteUseCase: FavoriteUseCase,
 ): ViewModel() {
     private var loadedPage = 0
 
@@ -20,7 +20,7 @@ class MovieGenreViewModel(
         value = mutableListOf()
         loadPage(1)
 
-        addSource(myFavoritesRepository.getIdListLiveData()) { idList ->
+        addSource(favoriteUseCase.favoriteMovieIdsLiveData) { idList ->
             val newList = value?.map { movie ->
                 movie.copy(
                     myFavorite = idList.contains(movie.id)
@@ -45,7 +45,7 @@ class MovieGenreViewModel(
         if (pageIndex <= loadedPage) return
         loadedPage++
         viewModelScope.launch(Dispatchers.IO) {
-            useCase(
+            discoverMoviesWithGenres(
                 pageIndex = pageIndex,
                 genres = listOf(genre)
             )?.apply {
@@ -56,11 +56,11 @@ class MovieGenreViewModel(
     }
 
     fun addFavorite(id: Int) {
-        myFavoritesRepository.add(id)
+        favoriteUseCase.add(id)
     }
 
     fun removeFavorite(id: Int) {
-        myFavoritesRepository.remove(id)
+        favoriteUseCase.remove(id)
     }
 
     companion object {

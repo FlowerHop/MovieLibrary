@@ -2,19 +2,22 @@ package com.flowerhop.movielibrary.presentation.moviedetail
 
 import androidx.lifecycle.*
 import com.flowerhop.movielibrary.domain.model.MovieDetail
-import com.flowerhop.movielibrary.domain.repository.MyFavoritesRepository
+import com.flowerhop.movielibrary.domain.usecase.FavoriteUseCase
 import com.flowerhop.movielibrary.domain.usecase.GetMovieDetailUseCase
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
-class MovieDetailViewModel(private val id: Int, useCase: GetMovieDetailUseCase, private val myFavoritesRepository: MyFavoritesRepository): ViewModel() {
+class MovieDetailViewModel(
+    private val id: Int,
+    getMovieDetailUseCase: GetMovieDetailUseCase,
+    private val favoriteUseCase: FavoriteUseCase,
+) : ViewModel() {
     private val _movieDetail = MediatorLiveData<MovieDetail>().apply {
         viewModelScope.launch(Dispatchers.IO) {
-            postValue(useCase(id))
+            postValue(getMovieDetailUseCase(id))
         }
 
-        addSource(myFavoritesRepository.getIdListLiveData()) {
+        addSource(favoriteUseCase.favoriteMovieIdsLiveData) {
             value = value?.copy(
                 myFavorite = it.contains(id)
             )
@@ -24,10 +27,10 @@ class MovieDetailViewModel(private val id: Int, useCase: GetMovieDetailUseCase, 
     val movieDetail: LiveData<MovieDetail?> = _movieDetail
 
     fun addFavorite() {
-        myFavoritesRepository.add(id)
+        favoriteUseCase.add(id)
     }
 
     fun removeFavorite() {
-        myFavoritesRepository.remove(id)
+        favoriteUseCase.remove(id)
     }
 }

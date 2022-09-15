@@ -10,15 +10,12 @@ import com.flowerhop.movielibrary.data.remote.TMDBApi
 import com.flowerhop.movielibrary.data.repository.MyFavoritesRepositoryImpl
 import com.flowerhop.movielibrary.data.repository.TMDBRepositoryImpl
 import com.flowerhop.movielibrary.domain.repository.TMDBRepository
-import com.flowerhop.movielibrary.domain.usecase.GetCategoryListUseCase
-import com.flowerhop.movielibrary.domain.usecase.GetMovieDetailUseCase
 import com.flowerhop.movielibrary.presentation.MoviesViewModel
 import com.flowerhop.movielibrary.presentation.pagelist.MovieCategoryViewModel
 import com.flowerhop.movielibrary.presentation.moviedetail.MovieDetailViewModel
 import com.flowerhop.movielibrary.domain.model.MovieCategory
 import com.flowerhop.movielibrary.domain.repository.MyFavoritesRepository
-import com.flowerhop.movielibrary.domain.usecase.DiscoverMoviesWithGenres
-import com.flowerhop.movielibrary.domain.usecase.SearchAtPageUseCase
+import com.flowerhop.movielibrary.domain.usecase.*
 import com.flowerhop.movielibrary.presentation.pagelist.MovieGenreViewModel
 import com.flowerhop.movielibrary.presentation.pagelist.MovieSearchingViewModel
 import okhttp3.OkHttpClient
@@ -69,6 +66,10 @@ object Providers {
         return GetMovieDetailUseCase(tmdbRepository, favoritesRepository)
     }
 
+    fun provideFavoriteUseCase(): FavoriteUseCase {
+        return FavoriteUseCase(favoritesRepository)
+    }
+
     fun provideSearchAtPageUseCase(): SearchAtPageUseCase {
         return SearchAtPageUseCase(tmdbRepository, favoritesRepository)
     }
@@ -78,12 +79,13 @@ object Providers {
     }
 
     fun provideMovieCategoryViewModel(viewModelStoreOwner: ViewModelStoreOwner, category: MovieCategory): MovieCategoryViewModel {
-        val useCase = provideGetCategoryListUseCase()
+        val getCategoryListUseCase = provideGetCategoryListUseCase()
+        val favoriteUseCase = provideFavoriteUseCase()
         val viewModelFactory = AnyViewModelFactory {
             MovieCategoryViewModel(
                 category = category,
-                useCase = useCase,
-                myFavoritesRepository = favoritesRepository
+                getCategoryListUseCase = getCategoryListUseCase,
+                favoriteUseCase = favoriteUseCase
             )
         }
 
@@ -91,12 +93,13 @@ object Providers {
     }
 
     fun provideMovieGenreViewModel(viewModelStoreOwner: ViewModelStoreOwner, genre: Genre): MovieGenreViewModel {
-        val useCase = provideDiscoverMoviesWithGenresUseCase()
+        val discoverMoviesWithGenres = provideDiscoverMoviesWithGenresUseCase()
+        val favoriteUseCase = provideFavoriteUseCase()
         val viewModelFactory = AnyViewModelFactory {
             MovieGenreViewModel(
                 genre = genre,
-                useCase = useCase,
-                myFavoritesRepository = favoritesRepository
+                discoverMoviesWithGenres = discoverMoviesWithGenres,
+                favoriteUseCase = favoriteUseCase
             )
         }
 
@@ -104,12 +107,13 @@ object Providers {
     }
 
     fun provideMovieDetailViewModel(viewModelStoreOwner: ViewModelStoreOwner, movieId: Int): MovieDetailViewModel{
-        val useCase = provideGetMovieDetailUseCase()
+        val getMovieDetailUseCase = provideGetMovieDetailUseCase()
+        val favoriteUseCase = provideFavoriteUseCase()
         val viewModelFactory = AnyViewModelFactory {
             MovieDetailViewModel(
                 id = movieId,
-                useCase = useCase,
-                myFavoritesRepository = favoritesRepository
+                getMovieDetailUseCase = getMovieDetailUseCase,
+                favoriteUseCase = favoriteUseCase
             )
         }
 
