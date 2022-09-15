@@ -6,6 +6,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.flowerhop.movielibrary.MovieDetailActivity
 import com.flowerhop.movielibrary.R
 import com.flowerhop.movielibrary.comman.Navigation
 import com.flowerhop.movielibrary.data.dto.Genre
@@ -46,7 +47,7 @@ class MoviePageListFragment : Fragment(R.layout.fragment_movie_page) {
         val moviePageRecyclerViewAdapter = MovieCategoryAdapter(
             onClickListener = {
                 val movieId = movieCategoryViewModel.movies.value?.get(it)?.id ?: return@MovieCategoryAdapter
-                Navigation.toMovieDetailActivity(
+                MovieDetailActivity.start(
                     activity = requireActivity(),
                     movieId = movieId
                 )
@@ -85,7 +86,7 @@ class MoviePageListFragment : Fragment(R.layout.fragment_movie_page) {
         val moviePageRecyclerViewAdapter = MovieCategoryAdapter(
             onClickListener = {
                 val movieId = movieGenreViewModel.movies.value?.get(it)?.id ?: return@MovieCategoryAdapter
-                Navigation.toMovieDetailActivity(
+                MovieDetailActivity.start(
                     activity = requireActivity(),
                     movieId = movieId
                 )

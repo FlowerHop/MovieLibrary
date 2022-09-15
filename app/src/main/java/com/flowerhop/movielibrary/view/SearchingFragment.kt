@@ -11,6 +11,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.flowerhop.movielibrary.MovieDetailActivity
 import com.flowerhop.movielibrary.R
 import com.flowerhop.movielibrary.comman.Navigation
 import com.flowerhop.movielibrary.di.Providers
@@ -97,7 +98,7 @@ class SearchingFragment : Fragment(R.layout.fragment_searching) {
 
     private fun navigateToMovieDetail(movie: Movie) {
         leaveInputSession()
-        Navigation.toMovieDetailActivity(
+        MovieDetailActivity.start(
             activity = requireActivity(),
             movieId = movie.id
         )

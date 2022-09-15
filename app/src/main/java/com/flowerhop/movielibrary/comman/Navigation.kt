@@ -14,16 +14,6 @@ import com.flowerhop.movielibrary.data.dto.Genre
 import com.flowerhop.movielibrary.view.*
 
 object Navigation {
-    fun toMovieDetailActivity(
-        activity: Activity,
-        movieId: Int
-    ) {
-        activity.startActivity(Intent().apply {
-            setClass(activity, MovieDetailActivity::class.java)
-            putExtra(BundleKey.MOVIE_ID, movieId)
-        })
-    }
-
     fun toMovieListActivity(
         activity: Activity,
         categoryInt: Int
